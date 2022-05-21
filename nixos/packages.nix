@@ -7,6 +7,10 @@ let
     export __VK_LAYER_NV_optimus=NVIDIA_only
     exec -a "$0" "$@"
   '';
+
+  retroarch = pkgs.retroarch.override {
+    cores = with pkgs.libretro; [ sameboy ];
+  };
 in
 {
   nixpkgs.config.allowUnfree = true;
@@ -15,22 +19,25 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
-    alacritty
+    arc-icon-theme
+    arc-kde-theme
+    arc-theme
+    caffeine-ng
     copyq
     discord
     firefox
-    gnome.gnome-tweaks
-    gnomeExtensions.appindicator
-    gnomeExtensions.blur-my-shell
-    gnomeExtensions.night-theme-switcher # FIXME: Pin this version to something that works
     googleearth-pro
+    jetbrains.clion
+    jetbrains.rider
     nvidia-offload
-    pinentry-gnome
+    kwalletcli
     powertop
-    qogir-icon-theme
-    qogir-theme
+    retroarch
+    unzip
+    virt-manager
     vlc
     wezterm
-    wl-clipboard
+    xclip
+    zoom-us
   ];
 }

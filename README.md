@@ -12,3 +12,6 @@ Configuration for NixOS, macOS, and Home Manager
 - [brian/dotfiles.nix](https://git.bytes.zone/brian/dotfiles.nix)
 - [NixOS rebuild was broken by Git CVE...](https://github.com/NixOS/nixpkgs/issues/169193)
 - [MacOS `defaults` documentation](https://macos-defaults.com/screenshots/location.html)
+- [Paranoid NixOS Setup](https://christine.website/blog/paranoid-nixos-2021-07-18)
+- [asimpson/dotfiles](https://github.com/asimpson/dotfiles/blob/master/nixos/t480s/configuration.nix)
+- [NixOS on ZFS](https://grahamc.com/blog/nixos-on-zfs)

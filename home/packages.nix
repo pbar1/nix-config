@@ -68,16 +68,18 @@ in
 
     # C/C++
     cmake
+    cmake-language-server
     vscode-extensions.vadimcn.vscode-lldb
 
     # Rust
-    (fenix.stable.withComponents [
-      "cargo"
-      "clippy"
-      "rust-src"
-      "rustc"
-      "rustfmt"
-    ])
+    rustup
+    /* (fenix.stable.withComponents [ */
+    /*   "cargo" */
+    /*   "clippy" */
+    /*   "rust-src" */
+    /*   "rustc" */
+    /*   "rustfmt" */
+    /* ]) */
     rust-analyzer
 
     # Go

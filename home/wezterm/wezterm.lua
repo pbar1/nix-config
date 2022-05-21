@@ -28,7 +28,7 @@ return {
 	default_prog = { "/run/current-system/sw/bin/fish", "--login" },
 
 	font = wezterm.font("Iosevka Nerd Font Mono"),
-	font_size = 16,
+	font_size = 14,
 
 	window_background_opacity = 1.0,
 	adjust_window_size_when_changing_font_size = false,

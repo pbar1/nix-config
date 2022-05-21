@@ -22,69 +22,104 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.plymouth.enable = true;
 
-  networking.hostName = "bobbery";
-
-  time.timeZone = "America/Los_Angeles";
-
-  networking.interfaces.wlo1.useDHCP = true; # TODO: Remove if default
+  # Create Btrfs-compatible swapfile
+  # https://github.com/NixOS/nixpkgs/issues/91986#issuecomment-787143060
+  systemd.services.create-swapfile = {
+    serviceConfig.Type = "oneshot";
+    wantedBy = [ "swap-swapfile.swap" ];
+    script = ''
+      ${pkgs.e2fsprogs}/bin/chattr +C /swap
+      ${pkgs.coreutils}/bin/truncate -s 0 /swap/swapfile
+      ${pkgs.btrfs-progs}/bin/btrfs property set /swap/swapfile compression none
+      ${pkgs.btrfs-progs}/bin/btrfs property set /swap/swapfile noautodefrag
+      ${pkgs.btrfs-progs}/bin/btrfs property set /swap/swapfile nodiscard
+    '';
+  };
 
   i18n.defaultLocale = "en_US.UTF-8";
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia.modesetting.enable = true; # Needed for Wayland
-  hardware.nvidia.prime = {
-    offload.enable = true;
-    intelBusId = "PCI:0:2:0";
-    nvidiaBusId = "PCI:57:0:0";
+  services.xserver = {
+    enable = true;
+    xkbOptions = "caps:escape";
+    autoRepeatDelay = 150;
+    autoRepeatInterval = 15;
+    libinput.enable = true;
+
+    displayManager = {
+      sddm.enable = true;
+      autoLogin.enable = true;
+      autoLogin.user = "pierce";
+    };
+
+    desktopManager.plasma5.enable = true;
   };
 
-  services.xserver.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "pierce";
-  services.xserver.xkbOptions = "caps:escape";
-  services.xserver.autoRepeatDelay = 150;
-  services.xserver.autoRepeatInterval = 15;
-  services.xserver.libinput.enable = true;
+  environment.sessionVariables = {
+    PLASMA_USE_QT_SCALING = "true";
+  };
 
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # Disable sound module as it conflicts with PipeWire
+  sound.enable = false;
+  hardware.pulseaudio.enable = false;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Enable PipeWire for sound
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  # Uncomment this line to allow AirPods to connect. After initial connection,
+  # it can be commented back out (ie, ControllerMode = "dual").
+  # See: https://github.com/tim-hilt/nixos/blob/main/config/desktop.nix
+  # hardware.bluetooth.settings = { General = { ControllerMode = "bredr"; }; };
+  hardware.bluetooth.enable = true;
+
+  networking.networkmanager.enable = true;
+
   users.users.pierce = {
     isNormalUser = true;
     shell = pkgs.fish;
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "docker" "libvirtd" ];
   };
   users.users.root.hashedPassword = "!"; # Disable root user
+
+  security.pam.services.kwallet = {
+    name = "kwallet";
+    enableKwallet = true;
+  };
 
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
   };
 
-  # For systray icons
-  services.udev.packages = with pkgs; [ gnome3.gnome-settings-daemon ];
-
   services.tailscale.enable = true;
 
-  # Create Btrfs-compatible swapfile
-  # https://github.com/NixOS/nixpkgs/issues/91986#issuecomment-787143060
-  # systemd.services = {
-  #   create-swapfile = {
-  #     serviceConfig.Type = "oneshot";
-  #     wantedBy = [ "swap-swapfile.swap" ];
-  #     script = ''
-  #       ${pkgs.coreutils}/bin/truncate -s 0 /swap/swapfile
-  #       ${pkgs.e2fsprogs}/bin/chattr +C /swap/swapfile
-  #       ${pkgs.btrfs-progs}/bin/btrfs property set /swap/swapfile compression none
-  #     '';
-  #   };
-  # };
+  virtualisation = {
+    # https://adamsimpson.net/writing/windows-11-as-kvm-guest
+    libvirtd.enable = true;
+    libvirtd.qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+      ovmf = {
+        enable = true;
+        package = pkgs.OVMFFull.override {
+          secureBoot = true;
+          tpmSupport = true;
+        };
+      };
+    };
 
-  virtualisation.docker.enable = true;
+    docker = {
+      enable = true;
+      autoPrune.enable = true;
+    };
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

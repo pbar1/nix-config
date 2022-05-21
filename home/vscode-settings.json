@@ -1,0 +1,133 @@
+{
+  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\wsl.exe",
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.colorTheme": "Gruvbox Dark Medium",
+  "editor.renderWhitespace": "none",
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "editor.fontLigatures": true,
+  "editor.fontFamily": "Iosevka",
+  "files.eol": "\n",
+  "launch": {
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Node JS",
+        "program": "${file}",
+        "cwd": "${workspaceRoot}",
+        "protocol": "inspector",
+        "env": {}
+      },
+      {
+        "name": "Node TS",
+        "type": "node",
+        "request": "launch",
+        "args": [
+          "${relativeFile}"
+        ],
+        "runtimeArgs": [
+          "--nolazy",
+          "-r",
+          "ts-node/register"
+        ],
+        "sourceMaps": true,
+        "cwd": "${workspaceRoot}",
+        "protocol": "inspector"
+      },
+      {
+        "name": "Go",
+        "type": "go",
+        "request": "launch",
+        "mode": "debug",
+        "remotePath": "",
+        "port": 2345,
+        "host": "127.0.0.1",
+        "program": "${fileDirname}",
+        "args": [],
+        "showLog": true
+      },
+      {
+        "name": "Cobra",
+        "type": "go",
+        "request": "launch",
+        "mode": "debug",
+        "remotePath": "",
+        "port": 2345,
+        "host": "127.0.0.1",
+        "program": "${workspaceRoot}/main.go",
+        "showLog": true
+      }
+    ]
+  },
+  "extensions.ignoreRecommendations": true,
+  "vim.disableExtension": true,
+  "editor.fontSize": 16,
+  "terminal.integrated.fontSize": 16,
+  "terminal.integrated.rightClickBehavior": "copyPaste",
+  "terminal.integrated.copyOnSelection": true,
+  "python.formatting.provider": "yapf",
+  "latex-workshop.view.pdf.viewer": "tab",
+  "window.titleBarStyle": "custom",
+  "editor.minimap.enabled": false,
+  "workbench.sideBar.location": "left",
+  "yaml.format.enable": true,
+  "[go]": {
+    "editor.insertSpaces": false,
+    "editor.formatOnSave": true
+  },
+  "[markdown]": {
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 80,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "go.useLanguageServer": true,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "themeswitch.toggleDefaultDark": false,
+  "workbench.preferredDarkColorTheme": "Solarized Dark",
+  "workbench.preferredLightColorTheme": "Solarized Light",
+  "window.autoDetectColorScheme": true,
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter.notebook.ipynb"
+  },
+  "python.defaultInterpreterPath": "/usr/local/bin/python3",
+  "python.pythonPath": "/usr/local/bin/python3",
+  "workbench.editor.untitled.hint": "hidden",
+  "go.toolsManagement.autoUpdate": true,
+  "editor.tabSize": 8,
+  "editor.cursorStyle": "line",
+  "editor.insertSpaces": false,
+  "editor.lineNumbers": "on",
+  "editor.wordSeparators": "/\\()\"':,.;<>~!@#$%^&*|+=[]{}`?-",
+  "editor.wordWrap": "off",
+  "Lua.telemetry.enable": true,
+  "editor.semanticHighlighting.enabled": true,
+  "redhat.telemetry.enabled": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "terraform.languageServer": {
+    "external": true,
+    "pathToBinary": "",
+    "args": [
+      "serve"
+    ],
+    "maxNumberOfProblems": 100,
+    "trace.server": "off"
+  },
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform",
+    "editor.formatOnSave": true
+}
+}

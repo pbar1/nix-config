@@ -12,10 +12,17 @@ tasks:
     cmds:
     - nix flake update
 
+  # Recent Git update broke `sudo nixos-rebuild`. Instead we now specify `--use-remote-sudo` instead
+  # https://github.com/NixOS/nixpkgs/issues/169193#issuecomment-1113003347
   nixos:
     desc: Compiles and activates new NixOS config.
     cmds:
-    - sudo nixos-rebuild switch --flake '.#default' {{.CLI_ARGS}}
+    - nixos-rebuild switch --use-remote-sudo --flake '.#default' {{.CLI_ARGS}}
+
+  nixos:build:
+    desc: Builds NixOS config.
+    cmds:
+    - nixos-rebuild build --use-remote-sudo --flake '.#default' {{.CLI_ARGS}}
 
   darwin:
     desc: Compiles and activates new macOS config.

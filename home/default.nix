@@ -14,8 +14,11 @@
   ];
 
   nixpkgs = {
-    config.allowUnfree = true;
     inherit overlays;
+    config.allowUnfree = true;
+
+    # TODO: https://github.com/nix-community/home-manager/issues/2942
+    config.allowUnfreePredicate = (pkg: true);
   };
 
   home.file.".gnupg/sshcontrol".text = ''
@@ -54,8 +57,11 @@
   '';
 
 
-  # https://github.com/nix-community/home-manager/tree/master/modules/programs
+  xdg.configFile."nvim/init.lua".source = ./nvim/init.lua;
+  xdg.configFile."nvim/lua".source = ./nvim/lua;
+
   programs.home-manager.enable = true;
+
   programs.zoxide.enable = true;
 
   programs.bat = {

@@ -22,7 +22,6 @@ in
     XZ_DEFAULTS = "--verbose --keep --threads=0";
     ZSTD_NBTHREADS = "0";
     FZF_DEFAULT_COMMAND = "fd --type=file --exclude=.git --hidden --follow";
-    # FZF_DEFAULT_OPTS = "--color=bg+:#302D41,bg:#1E1E2E,spinner:#F8BD96,hl:#F28FAD --color=fg:#D9E0EE,header:#F28FAD,info:#DDB6F2,pointer:#F8BD96 --color=marker:#F8BD96,fg+:#F2CDCD,prompt:#DDB6F2,hl+:#F28FAD";
     KDEHOME = "${configHome}/kde";
     GTK_RC_FILES = "${configHome}/gtk-1.0/gtkrc";
     GTK2_RC_FILES = "${configHome}/gtk-2.0/gtkrc";
