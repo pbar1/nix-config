@@ -60,4 +60,23 @@ return {
 		{ key = "k", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
 		{ key = "l", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
 	},
+
+	hyperlink_rules = {
+		{
+			-- Linkify things that look like URLs
+			-- This is actually the default if you don't specify any hyperlink_rules
+			regex = "\\b\\w+://(?:[\\w.-]+)\\.[a-z]{2,15}\\S*\\b",
+			format = "$0",
+		},
+		{
+			-- Make task, diff and paste numbers clickable
+			regex = "\\b([tTdDpP]\\d+)\\b",
+			format = "https://fburl.com/b/$1",
+		},
+	},
+
+	quick_select_patterns = {
+		-- Make task, diff and paste numbers quick-selectable
+		"\\b([tTdDpP]\\d+)\\b",
+	},
 }

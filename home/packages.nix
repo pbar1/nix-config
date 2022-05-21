@@ -9,11 +9,8 @@ in
 {
   home.packages = with pkgs; [
     # Editor
-    neovim-pbar
-    tree-sitter
     (nerdfonts.override { fonts = [ "FiraCode" "Iosevka" ]; })
     chafa
-    emacsNativeComp
 
     # Version control & project tools
     gnupg
@@ -22,10 +19,8 @@ in
     go-task
     direnv
     mdbook
-    /* hugo */
     ninja
     lazygit
-    pre-commit
 
     # Command line utils
     coreutils
@@ -43,22 +38,14 @@ in
     xz
     procs
     openssl
-    neofetch
+    yubikey-manager
 
     # Networking
     netcat
     socat
+    eternal-terminal
     hey
     jwt-cli
-
-    # DevOps
-    vault
-    awscli2
-    aws-iam-authenticator
-    google-cloud-sdk
-    sops
-    terraform-docs
-    terraform-ls
 
     # Containers & Kubernetes
     dive
@@ -67,7 +54,6 @@ in
     kubernetes-helm
     stern
     kind
-    fluxcd
 
     # Nix
     rnix-lsp
@@ -81,7 +67,6 @@ in
     nodePackages.bash-language-server
 
     # C/C++
-    /* gcc */
     cmake
     vscode-extensions.vadimcn.vscode-lldb
 
@@ -106,7 +91,7 @@ in
     black
     python3Packages.isort
     nodePackages.pyright
-    python3Packages.debugpy
+    #python3Packages.debugpy
 
     # JavaScript
     nodejs
@@ -116,13 +101,5 @@ in
     # Lua
     stylua
     sumneko-lua-language-server
-
-    # Java
-    jdk
-    maven
-
-    # .NET and C#
-    dotnet-sdk
-    omnisharp-roslyn
   ];
 }

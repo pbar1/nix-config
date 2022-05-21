@@ -4,11 +4,10 @@
   programs.fish = {
     enable = true;
 
-    # FIXME hardcode
     interactiveShellInit = ''
       fish_vi_key_bindings
 
-      set -gx PATH "''$HOME/.local/bin:''$HOME/.nix-profile/bin:''$HOME/.krew/bin:${config.xdg.dataHome}/go/bin:${config.xdg.dataHome}/cargo/bin:${config.xdg.dataHome}/npm/bin:''$HOME/.dotnet/tools:''$PATH"
+      set -gx PATH "''$HOME/.local/bin:''$HOME/.krew/bin:${config.xdg.dataHome}/go/bin:${config.xdg.dataHome}/cargo/bin:${config.xdg.dataHome}/npm/bin:''$HOME/.nix-profile/bin:''$HOME/.brew/bin:''$PATH"
 
       set -gx GPG_TTY (tty)
       set -gx SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
@@ -61,15 +60,6 @@
         };
       }
       {
-        name = "plugin-aws";
-        src = pkgs.fetchFromGitHub {
-          owner = "oh-my-fish";
-          repo = "plugin-aws";
-          rev = "a4cfb06627b20c9ffdc65620eb29abcedcc16340";
-          sha256 = "sha256-bTyp5j4VcFSntJ7mJBzERgOGGgu7ub15hy/FQcffgRE=";
-        };
-      }
-      {
         name = "base16-fish-shell";
         src = pkgs.fetchFromGitHub {
           owner = "FabioAntunes";
@@ -117,6 +107,7 @@
       copy = if pkgs.stdenv.isDarwin then "pbcopy" else "wl-copy --trim-newline";
       l = "exa --header --all --long --git";
       tree = "exa --tree";
+      yktog = "ykman config usb --list | grep --quiet OTP && ykman config usb --force --disable=otp || ykman config usb --force --enable=otp";
     };
 
     functions = {

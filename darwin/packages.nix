@@ -7,25 +7,32 @@
 
   homebrew = {
     enable = true;
-    autoUpdate = false;
-    cleanup = "none"; # FIXME: When all packages are tracked here, set to "zap"
+    brewPrefix = "/Users/pbar/.brew/bin"; # FIXME: hardcode
+    cleanup = "zap";
+    autoUpdate = true;
     global.brewfile = true;
     global.noLock = true;
 
-    # taps = [];
+    taps = [
+      "homebrew/cask"
+      "homebrew/core"
+      "homebrew/cask-drivers"
+    ];
 
     # brews = [];
 
     casks = [
-      "1password"
-      "aerial"
-      "amethyst"
-      "clipy"
-      "wezterm"
-      "wireshark"
-      "karabiner-elements"
+      "amethyst" # Automatic tiling window manager
+      "clipy" # Clipboard history log
+      "hiddenbar" # Menu bar app to hide icons in overflow menu
+      "iterm2" # Terminal emulator
+      "keepingyouawake" # Menu bar app to keep screen awake
+      "qlmarkdown" # Quick Look plugin for Markdown rendering
+      "rectangle" # Window snapping
+      "syntax-highlight" # Quick Look plugin for syntax highlighting
+      "wezterm" # Terminal emulator
     ];
 
-    # masApps = [];
+    # masApps = {};
   };
 }

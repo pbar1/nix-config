@@ -1,14 +1,16 @@
-{ overlays }:
+{ overlays, ... }:
 
 {
   imports = [
-    ./env.nix
-    ./packages.nix
-    ./tmux.nix
-    ./fish.nix
-    ./starship.nix
-    ./git.nix
     ./alacritty.nix
+    ./env.nix
+    ./fish.nix
+    ./git.nix
+    ./nvim
+    ./packages.nix
+    ./starship.nix
+    ./tmux.nix
+    ./wezterm
   ];
 
   nixpkgs = {
@@ -20,7 +22,7 @@
     # personal
     CDCD1DF93F65BF132EB1F33327E34108F53BD47A
     # work
-    34DC36A515AA457BF44D8DE158FE03774C6554A0
+    98A14E84BFC1A99FDE258E54659F86F577798596
   '';
 
   home.file.".editorconfig".text = ''
@@ -51,7 +53,6 @@
     max_line_length = 80
   '';
 
-  xdg.configFile."wezterm".source = ./wezterm;
 
   # https://github.com/nix-community/home-manager/tree/master/modules/programs
   programs.home-manager.enable = true;

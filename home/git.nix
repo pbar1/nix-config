@@ -4,7 +4,6 @@
   programs.git = {
     enable = true;
     userName = "Pierce Bartine";
-    userEmail = "piercebartine@gmail.com";
     signing.key = null; # GPG picks key based on email if not set
     signing.signByDefault = true;
 
@@ -22,9 +21,6 @@
         side-by-side = true;
       };
     };
-
-    # FIXME: create this file
-    includes = [{ path = "~/.config/git/config.sfdc"; condition = "gitdir:~/code/sfdc/"; }];
 
     aliases = {
       root = "rev-parse --show-toplevel";
@@ -45,6 +41,22 @@
       "**/.DS_Store"
     ];
 
-    #attributes = [];
+    # attributes = [];
+
+    # Load context-based config
+    includes = [
+      { path = "~/.config/git/config.personal"; condition = "gitdir:~/code/"; }
+    ];
   };
+
+  xdg.configFile."git/config.personal".text = ''
+    [user]
+      email = "piercebartine@gmail.com"
+
+    [url "ssh://git@github.com/"]
+      insteadOf = "https://github.com/"
+
+    [url "ssh://git@gitlab.com/"]
+      insteadOf = "https://gitlab.com/"
+  '';
 }
