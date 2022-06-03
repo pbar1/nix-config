@@ -9,6 +9,7 @@ if not vim.g.vscode then
    require("config.lualine")
    require("config.telescope")
    require("config.trouble")
+   require("config.completion")
+   require("config.lsp")
    require("config.which-key")
-   require("config.null-ls")
 end
