@@ -2,7 +2,7 @@
   description = "Configuration for NixOS, macOS, and Home Manager";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # TODO: Await https://github.com/LnL7/nix-darwin/pull/310
     darwin.url = "github:pbar1/nix-darwin";
@@ -13,18 +13,13 @@
 
     # Overlays ----------------------------------------------------------------
 
-    fenix.url = "github:nix-community/fenix";
-    fenix.inputs.nixpkgs.follows = "nixpkgs";
-
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
-
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
     # Neovim Plugins ----------------------------------------------------------
 
     "vim:alpha-nvim" = { url = "github:goolord/alpha-nvim"; flake = false; };
+    "vim:auto-session" = { url = "github:rmagatti/auto-session"; flake = false; };
     "vim:barbar.nvim" = { url = "github:romgrk/barbar.nvim"; flake = false; };
     "vim:cmp-buffer" = { url = "github:hrsh7th/cmp-buffer"; flake = false; };
     "vim:cmp-cmdline" = { url = "github:hrsh7th/cmp-cmdline"; flake = false; };
@@ -69,9 +64,7 @@
   outputs = { self, nixpkgs, darwin, home-manager, ... }@inputs:
     let
       overlays = [
-        inputs.fenix.overlay
         inputs.neovim-nightly-overlay.overlay
-        inputs.emacs-overlay.overlay
         (final: prev: {
           neovimPlugins = with final.lib; with attrsets; with strings; mapAttrs'
             (name: value: nameValuePair (removePrefix "vim:" name) (final.vimUtils.buildVimPluginFrom2Nix {

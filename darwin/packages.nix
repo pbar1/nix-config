@@ -22,15 +22,16 @@
     # brews = [];
 
     casks = [
-      "amethyst" # Automatic tiling window manager
-      "clipy" # Clipboard history log
-      "hiddenbar" # Menu bar app to hide icons in overflow menu
-      "iterm2" # Terminal emulator
-      "keepingyouawake" # Menu bar app to keep screen awake
-      "qlmarkdown" # Quick Look plugin for Markdown rendering
-      "rectangle" # Window snapping
-      "syntax-highlight" # Quick Look plugin for syntax highlighting
-      "wezterm" # Terminal emulator
+      "1password"
+      "amethyst"
+      "clipy"
+      "hiddenbar"
+      "iterm2"
+      "keepingyouawake"
+      "qlmarkdown"
+      "rectangle"
+      "syntax-highlight"
+      "wezterm"
     ];
 
     # masApps = {};
