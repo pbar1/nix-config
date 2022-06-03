@@ -20,5 +20,5 @@
     ] ++ pkgs.lib.attrsets.mapAttrsToList (_: value: value) pkgs.neovimPlugins;
   };
 
-  xdg.configFile."nvim/lua/config".source = ./lua/config;
+  xdg.configFile."nvim/lua".source = ./lua;
 }

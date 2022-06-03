@@ -22,11 +22,14 @@ vim.wo.signcolumn = "yes"
 -- Show whitespace characters
 vim.opt.list = true
 vim.opt.listchars = {
-	tab = "→ ",
-	lead = "·",
-	trail = "·",
-	-- eol = "¬",
-	extends = "»",
-	precedes = "«",
-	nbsp = "+",
+   tab = "→ ",
+   lead = "·",
+   trail = "·",
+   -- eol = "¬",
+   extends = "»",
+   precedes = "«",
+   nbsp = "+",
 }
+
+-- Session options recommended by auto-session
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
