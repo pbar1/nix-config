@@ -36,6 +36,9 @@ in
     # Networking
     eternal-terminal
 
+    # Rust
+    rustup
+
     # Nix
     cachix
     nixpkgs-fmt

@@ -24,8 +24,8 @@
     casks = [
       "1password"
       "amethyst"
+      "bartender"
       "clipy"
-      "hiddenbar"
       "iterm2"
       "keepingyouawake"
       "qlmarkdown"
