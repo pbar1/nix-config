@@ -210,6 +210,20 @@
         set --global --export AWS_SESSION_TOKEN (echo $vault_json | jq -r .data.security_token)
         aws sts get-caller-identity
       '';
+
+      toggle_proxy = ''
+        if test -z "$TOGGLE_PROXY_ON"
+          set -gx TOGGLE_PROXY_ON "true"
+          set -gx HTTP_PROXY "http://fwdproxy:8080"
+          set -gx HTTPS_PROXY "http://fwdproxy:8080"
+          set -gx http_proxy "http://fwdproxy:8080"
+          set -gx https_proxy "http://fwdproxy:8080"
+          set -gx CURL_NIX_FLAGS "-p -x http://fwdproxy:8080"
+          set -gx NIX_SSL_CERT_FILE "/etc/pki/tls/certs/ca-bundle.crt"
+        else
+          set -e TOGGLE_PROXY_ON HTTP_PROXY HTTPS_PROXY http_proxy https_proxy CURL_NIX_FLAGS NIX_SSL_CERT_FILE
+        end
+      '';
     };
   };
 }
