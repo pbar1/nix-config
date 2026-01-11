@@ -14,11 +14,13 @@ in
 
   # Auto upgrade nix package and the daemon service.
   nix.enable = true;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-    extra-nix-path = nixpkgs=flake:nixpkgs
-    bash-prompt-prefix = (nix:$name)\040
-  '';
+  nix.package = pkgs.nix;
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nix.settings.extra-nix-path = "nixpkgs=flake:nixpkgs";
+  nix.settings.bash-prompt-prefix = "(nix:$name)\\040";
   nix.settings.substituters = [
     "https://nix-community.cachix.org"
     "https://devenv.cachix.org"
@@ -53,7 +55,7 @@ in
   ];
 
   # Must be set for `homebrew` and `system` attributes. Previously the user
-  # running the switch command would be chosen implictly.
+  # running the switch command would be chosen implicitly.
   system.primaryUser = user;
 
   # Handy list of macOS `defaults` options

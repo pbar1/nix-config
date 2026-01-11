@@ -68,7 +68,7 @@ tasks:
     - ./result/sw/bin/darwin-rebuild switch --flake .#$HOSTNAME_HACK
 
   darwin:switch:
-    aliases: [ mac ]
+    aliases: [ mac, darwin ]
     desc: Compile and activate nix-darwin config
     cmd: sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#$HOSTNAME_HACK
 

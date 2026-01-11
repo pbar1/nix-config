@@ -46,7 +46,6 @@
 
     # Cloud
     terraform
-    pulumi-bin
     google-cloud-sdk
 
     # Containers & Kubernetes

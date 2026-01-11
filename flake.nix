@@ -2,8 +2,8 @@
   description = "Configuration for NixOS, macOS, and Home Manager";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    darwin.url = "github:LnL7/nix-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    darwin.url = "github:nix-darwin/nix-darwin";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     home-manager.url = "github:nix-community/home-manager";
     nixvim.url = "github:nix-community/nixvim";

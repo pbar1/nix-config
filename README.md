@@ -16,4 +16,3 @@ Configuration for NixOS, macOS, and Home Manager
 - [asimpson/dotfiles](https://github.com/asimpson/dotfiles/blob/master/nixos/t480s/configuration.nix)
 - [NixOS on ZFS](https://grahamc.com/blog/nixos-on-zfs)
 - [Flakes: NixOS and Home Manager migration](https://gvolpe.com/blog/nix-flakes/)
-
