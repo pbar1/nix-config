@@ -89,6 +89,7 @@
     black
     isort
     poetry
+    uv
 
     # Lua
     stylua

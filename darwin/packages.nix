@@ -47,6 +47,7 @@
       "obsidian"
       "slack"
       "spotify"
+      "sweet-home3d"
       "syntax-highlight"
       "tailscale-app"
       "visual-studio-code"

@@ -52,8 +52,9 @@ in
     };
   };
   programs.git.ignores = [
-    "**/.idea/*"
     "**/.DS_Store"
+    "**/.idea/*"
+    "**/.vscode/*"
     "**/Session.vim"
   ];
 
