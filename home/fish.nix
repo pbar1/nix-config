@@ -11,7 +11,7 @@ in
     inherit shellAbbrs;
     inherit shellAliases;
 
-    # Flake inputs with the prefix `fish:` automatially end up here via overlay
+    # Flake inputs with the prefix `fish:` automatically end up here via overlay
     plugins =
       with pkgs.fishPlugins;
       [

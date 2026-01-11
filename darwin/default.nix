@@ -77,10 +77,11 @@ in
   system.defaults.NSGlobalDomain.KeyRepeat = 1; # 15 ms
   system.defaults.NSGlobalDomain.NSWindowShouldDragOnGesture = true; # ctrl+cmd+drag any part of window
 
-  # Disable nix-darwin shell integrations
-  programs.bash.enable = false;
-  programs.fish.enable = false;
-  programs.zsh.enable = false;
+  # Enable shell integrations so that Nix paths are setup properly. Does not
+  # conflict with Home Manager shell integrations
+  programs.bash.enable = true;
+  programs.fish.enable = true;
+  programs.zsh.enable = true;
 
   # TouchID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;

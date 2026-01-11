@@ -61,7 +61,7 @@
     cachix
     nix-tree
     nixd
-    nixfmt-rfc-style
+    nixfmt
     nixdoc
 
     # Bash
