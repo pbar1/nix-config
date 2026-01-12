@@ -7,11 +7,13 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     home-manager.url = "github:nix-community/home-manager";
     nixvim.url = "github:nix-community/nixvim";
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
+    nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
 
     # Zsh Plugins -------------------------------------------------------------
 
@@ -47,6 +49,7 @@
       home-manager,
       nixos-wsl,
       nixvim,
+      nix-vscode-extensions,
       ...
     }@inputs:
     let
@@ -138,7 +141,7 @@
           (
             { config, pkgs, ... }:
             {
-              nixpkgs.overlays = overlays;
+              nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ];
             }
           )
           nixvim.homeModules.nixvim

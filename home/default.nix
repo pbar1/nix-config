@@ -13,6 +13,7 @@
     ./ssh.nix
     ./starship.nix
     ./tmux.nix
+    ./vscode.nix
     ./wezterm
     ./zsh.nix
   ];
