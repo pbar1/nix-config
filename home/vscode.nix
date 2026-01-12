@@ -4,6 +4,8 @@
   programs.vscode.package = pkgs.vscodium;
 
   programs.vscode.profiles.default.extensions = with pkgs; [
+    vscode-marketplace.catppuccin.catppuccin-vsc
+    vscode-marketplace.catppuccin.catppuccin-vsc-icons
     vscode-marketplace.jnoortheen.nix-ide
     vscode-marketplace.rust-lang.rust-analyzer
   ];
@@ -20,5 +22,9 @@
     "rust-analyzer.rustfmt.extraArgs" = [ "+nightly" ];
     "telemetry.telemetryLevel" = "off";
     "update.mode" = "none";
+    "window.autoDetectColorScheme" = true;
+    "workbench.iconTheme" = "catppuccin-macchiato";
+    "workbench.preferredDarkColorTheme" = "Catppuccin Mocha";
+    "workbench.preferredLightColorTheme" = "Catppuccin Latte";
   };
 }
