@@ -13,10 +13,10 @@ in
 
     # TODO: base16 colorscheme not being set correctly
     # https://github.com/nix-community/nixvim/issues/2446
-    extraConfigLuaPost = ''vim.cmd [[ colorscheme base16-gruvbox-light-soft ]]'';
+    extraConfigLuaPost = "vim.cmd [[ colorscheme base16-gruvbox-material-dark-soft ]]";
     # TODO: Light/dark mode
     colorschemes.base16.enable = true;
-    colorschemes.base16.colorscheme = "gruvbox-light-soft";
+    colorschemes.base16.colorscheme = "gruvbox-material-dark-soft";
 
     # Yank to system clipboard
     clipboard.register = "unnamedplus";

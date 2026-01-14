@@ -53,5 +53,6 @@
       "visual-studio-code"
       "vlc"
       "zoom"
+      "ghostty"
     ];
 }
