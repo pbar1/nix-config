@@ -32,6 +32,7 @@
       "brave-browser"
       "calibre"
       "cyberduck"
+      "discord"
       "docker-desktop"
       "google-earth-pro"
       "keka"
