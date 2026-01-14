@@ -12,6 +12,7 @@
     ./nvim.nix
     ./packages.nix
     ./ssh.nix
+    ./opencode
     ./starship.nix
     ./tmux.nix
     ./vscode.nix
