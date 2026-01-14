@@ -10,10 +10,6 @@
   homebrew.enable = true;
   homebrew.onActivation.cleanup = "zap";
 
-  homebrew.taps = [
-    "homebrew/services"
-  ];
-
   homebrew.brews = [
     "openssl"
     "pkg-config"
@@ -23,7 +19,6 @@
     # Core
     [
       "1password"
-      "amethyst"
       "bettermouse"
       "font-iosevka-nerd-font"
       "ghostty"
