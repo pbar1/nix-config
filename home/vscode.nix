@@ -4,22 +4,16 @@
   programs.vscode.package = pkgs.vscodium;
   programs.vscode.mutableExtensionsDir = false;
 
-  programs.vscode.extensions = with pkgs; [
+  programs.vscode.profiles.default.extensions = with pkgs; [
     vscode-marketplace.jnoortheen.nix-ide
     vscode-marketplace.rust-lang.rust-analyzer
     vscode-marketplace.sainnhe.gruvbox-material
   ];
 
-  programs.vscode.userSettings = {
+  programs.vscode.profiles.default.userSettings = {
     "[nix]"."editor.defaultFormatter" = "jnoortheen.nix-ide";
     "[rust]"."editor.defaultFormatter" = "rust-lang.rust-analyzer";
     "editor.formatOnSave" = true;
-    "gruvboxMaterial.darkContrast" = "soft";
-    "gruvboxMaterial.darkPalette" = "material";
-    "gruvboxMaterial.darkWorkbench" = "high-contrast";
-    "gruvboxMaterial.lightContrast" = "soft";
-    "gruvboxMaterial.lightPalette" = "material";
-    "gruvboxMaterial.lightWorkbench" = "high-contrast";
     "nix.enableLanguageServer" = true;
     "nix.serverPath" = "nixd";
     "nix.serverSettings"."nixd"."formatting"."command" = [ "nixfmt" ];
@@ -31,5 +25,13 @@
     "window.autoDetectColorScheme" = true;
     "workbench.preferredDarkColorTheme" = "Gruvbox Material Dark";
     "workbench.preferredLightColorTheme" = "Gruvbox Material Light";
+
+    # TODO: Has no effect since the extension dir is immutable
+    "gruvboxMaterial.darkContrast" = "soft";
+    "gruvboxMaterial.darkPalette" = "material";
+    "gruvboxMaterial.darkWorkbench" = "high-contrast";
+    "gruvboxMaterial.lightContrast" = "soft";
+    "gruvboxMaterial.lightPalette" = "material";
+    "gruvboxMaterial.lightWorkbench" = "high-contrast";
   };
 }

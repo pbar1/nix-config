@@ -23,11 +23,6 @@ tasks:
     desc: Uninstall Nix
     cmd: /nix/nix-installer uninstall
 
-  # https://docs.determinate.systems/flakehub/faq/#upgrade-nix
-  nix:upgrade:
-    desc: Upgrade Nix
-    cmd: sudo nix upgrade-nix --nix-store-paths-url https://releases.nixos.org/nix/nix-2.18.1/fallback-paths.nix
-
   nix:update:
     aliases: [ up ]
     desc: Update Nix flake inputs
@@ -50,7 +45,7 @@ tasks:
 
   nixos:switch:
     desc: Compile and activate NixOS config
-    cmd: nixos-rebuid switch --sudo --flake .#$HOSTNAME_HACK
+    cmd: nixos-rebuild switch --sudo --flake .#$HOSTNAME_HACK
 
   nixos:switch:tec:
     aliases: [ tec ]
@@ -71,14 +66,3 @@ tasks:
     aliases: [ mac, darwin ]
     desc: Compile and activate nix-darwin config
     cmd: sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#$HOSTNAME_HACK
-
-  # Home ----------------------------------------------------------------------
-
-  home:install:
-    desc: Install Home Manager
-    cmd: nix run .#homeConfigurations.$HOSTNAME_HACK.activationPackage
-
-  home:switch:
-    aliases: [ home ]
-    desc: Compile and activate Home Manager config
-    cmd: home-manager switch --flake .#$HOSTNAME_HACK

@@ -15,13 +15,6 @@
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Zsh Plugins -------------------------------------------------------------
-
-    "zsh:zsh-autopair" = {
-      url = "github:hlissner/zsh-autopair";
-      flake = false;
-    };
-
     # Fish Plugins ------------------------------------------------------------
 
     "fish:plugin-bang-bang" = {
@@ -56,18 +49,6 @@
       overlays = [
         (final: prev: {
 
-          myZshPlugins =
-            with final.lib;
-            with attrsets;
-            with strings;
-            mapAttrs' (
-              name: value:
-              nameValuePair (removePrefix "zsh:" name) {
-                name = removePrefix "zsh:" name;
-                src = value.outPath;
-              }
-            ) (filterAttrs (name: _: hasPrefix "zsh:" name) inputs);
-
           myFishPlugins =
             with final.lib;
             with attrsets;
@@ -94,10 +75,6 @@
                 src = value.outPath;
               }
             ) (filterAttrs (name: _: hasPrefix "spoon:" name) inputs);
-
-          opensshNoneCipher = prev.openssh.overrideAttrs (oldAttrs: {
-            patches = (oldAttrs.patches or [ ]) ++ [ ./patches/openssh-enable-none-cipher.patch ];
-          });
 
         }) # END final: prev:
       ]; # END overlays
@@ -146,20 +123,6 @@
         ];
         specialArgs = { inherit inputs; };
         system = "aarch64-darwin";
-      };
-
-      homeConfigurations."bobbery" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."aarch64-darwin";
-        modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ];
-            }
-          )
-          nixvim.homeModules.nixvim
-          ./home
-        ];
       };
 
     }; # END outputs

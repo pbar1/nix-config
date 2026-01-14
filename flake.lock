@@ -182,8 +182,7 @@
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
         "spoon:ReloadConfiguration": "spoon:ReloadConfiguration",
-        "spoon:Seal": "spoon:Seal",
-        "zsh:zsh-autopair": "zsh:zsh-autopair"
+        "spoon:Seal": "spoon:Seal"
       }
     },
     "spoon:ReloadConfiguration": {
@@ -224,22 +223,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "zsh:zsh-autopair": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1720984677,
-        "narHash": "sha256-3zvOgIi+q7+sTXrT+r/4v98qjeiEL4Wh64rxBYnwJvQ=",
-        "owner": "hlissner",
-        "repo": "zsh-autopair",
-        "rev": "449a7c3d095bc8f3d78cf37b9549f8bb4c383f3d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hlissner",
-        "repo": "zsh-autopair",
         "type": "github"
       }
     }
