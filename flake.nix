@@ -131,7 +131,20 @@
       };
 
       darwinConfigurations."bobbery" = darwin.lib.darwinSystem {
-        modules = [ ./darwin ];
+        modules = [
+          (
+            { config, pkgs, ... }:
+            {
+              nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ];
+            }
+          )
+          ./darwin
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.extraSpecialArgs = { inherit inputs; };
+          }
+        ];
+        specialArgs = { inherit inputs; };
         system = "aarch64-darwin";
       };
 

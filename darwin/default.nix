@@ -6,7 +6,11 @@ in
 {
   imports = [
     ./packages.nix
+    ./home.nix
   ];
+
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
@@ -86,10 +90,13 @@ in
   # TouchID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
 
-  # SSH server
-  users.users."${user}".openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGvmdvrrgYY3Q+Wp/SyQm2a2OWL82S2Z+e+FoJ/vmS/D personal@1password"
-  ];
+  # User configuration
+  users.users."${user}" = {
+    home = "/Users/${user}";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGvmdvrrgYY3Q+Wp/SyQm2a2OWL82S2Z+e+FoJ/vmS/D personal@1password"
+    ];
+  };
 
   # FIXME: Touch ~/.hushlogin to disable last login time
   # TODO: Linux builder: https://daiderd.com/nix-darwin/manual/index.html#opt-nix.linux-builder.enable
