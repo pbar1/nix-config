@@ -21,17 +21,6 @@
       url = "github:oh-my-fish/plugin-bang-bang";
       flake = false;
     };
-
-    # Hammerspoon Plugins -----------------------------------------------------
-
-    "spoon:ReloadConfiguration" = {
-      url = "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ReloadConfiguration.spoon.zip";
-      flake = false;
-    };
-    "spoon:Seal" = {
-      url = "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/Seal.spoon.zip";
-      flake = false;
-    };
   };
 
   outputs =
@@ -63,18 +52,6 @@
                 }
               )
             ) (filterAttrs (name: _: hasPrefix "fish:" name) inputs);
-
-          myHammerspoonPlugins =
-            with final.lib;
-            with attrsets;
-            with strings;
-            mapAttrs' (
-              name: value:
-              nameValuePair (removePrefix "spoon:" name) {
-                name = removePrefix "spoon:" name;
-                src = value.outPath;
-              }
-            ) (filterAttrs (name: _: hasPrefix "spoon:" name) inputs);
 
         }) # END final: prev:
       ]; # END overlays

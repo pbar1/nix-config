@@ -8,7 +8,6 @@
     ./ghostty.nix
     ./git.nix
     ./gpg.nix
-    ./hammerspoon
     ./nvim.nix
     ./packages.nix
     ./ssh.nix

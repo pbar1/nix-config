@@ -180,35 +180,7 @@
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
-        "nixvim": "nixvim",
-        "spoon:ReloadConfiguration": "spoon:ReloadConfiguration",
-        "spoon:Seal": "spoon:Seal"
-      }
-    },
-    "spoon:ReloadConfiguration": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1505420358,
-        "narHash": "sha256-kNyFHP3i1O4VhZQL2Ief6002TrvXzT4doZ9w8X5z6C0=",
-        "type": "tarball",
-        "url": "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ReloadConfiguration.spoon.zip"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/ReloadConfiguration.spoon.zip"
-      }
-    },
-    "spoon:Seal": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1740676093,
-        "narHash": "sha256-RhwBwcAksdjDYp8jLcqiorjJhfrY7zsBA13GFdVsiAA=",
-        "type": "tarball",
-        "url": "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/Seal.spoon.zip"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://github.com/Hammerspoon/Spoons/raw/master/Spoons/Seal.spoon.zip"
+        "nixvim": "nixvim"
       }
     },
     "systems": {

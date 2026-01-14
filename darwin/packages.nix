@@ -10,7 +10,7 @@
   homebrew.enable = true;
 
   # prefer "zap", but this may make docker/tailscale/wireshark flap
-  homebrew.onActivation.cleanup = "none";
+  homebrew.onActivation.cleanup = "zap";
 
   homebrew.taps = [
     "homebrew/services"
@@ -28,7 +28,6 @@
       "amethyst"
       "bettermouse"
       "font-iosevka-nerd-font"
-      "hammerspoon"
       "jordanbaird-ice"
       "keepingyouawake"
       "maccy"
@@ -39,20 +38,16 @@
       "calibre"
       "cyberduck"
       "docker-desktop"
+      "ghostty"
       "google-earth-pro"
       "keka"
       "kekaexternalhelper"
       "lulu"
-      "netspot"
-      "obsidian"
       "slack"
       "spotify"
-      "sweet-home3d"
-      "syntax-highlight"
       "tailscale-app"
       "visual-studio-code"
       "vlc"
       "zoom"
-      "ghostty"
     ];
 }

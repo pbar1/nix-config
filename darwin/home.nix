@@ -16,7 +16,6 @@
       ../home/ghostty.nix
       ../home/git.nix
       ../home/gpg.nix
-      ../home/hammerspoon
       ../home/nvim.nix
       ../home/packages.nix
       ../home/ssh.nix
