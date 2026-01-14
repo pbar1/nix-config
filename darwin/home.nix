@@ -19,7 +19,7 @@
       ../home/nvim.nix
       ../home/packages.nix
       ../home/ssh.nix
-      ../home/opencode
+      ../home/opencode.nix
       ../home/starship.nix
       ../home/tmux.nix
       ../home/vscode.nix
