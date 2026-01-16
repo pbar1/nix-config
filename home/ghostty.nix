@@ -9,13 +9,15 @@
   programs.ghostty.package = if pkgs.stdenv.isDarwin then null else pkgs.ghostty;
 
   programs.ghostty.settings = {
+    command = "${pkgs.tmux}/bin/tmux new-session -A -s main";
+    confirm-close-surface = false;
     font-family = "Iosevka Nerd Font Mono";
     font-size = 16;
-    macos-option-as-alt = true; # For opt-backspace word deletion
+    macos-option-as-alt = true;
     maximize = true;
     quit-after-last-window-closed = true;
     theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-soft";
-    window-padding-x = "9, 9"; # Proper side padding
+    window-padding-x = "9, 9";
   };
 
   programs.ghostty.themes = {
