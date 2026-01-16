@@ -35,11 +35,11 @@
     # Left side
     set -g status-left-length 20
     # If prefix is active, session indicator turns yellow
-    set -g status-left "#{?client_prefix,#[fg=black bg=yellow],#[fg=black bg=blue]} #S #[default] "
+    set -g status-left "#{?client_prefix,#[fg=black bg=yellow],#[fg=black bg=blue]} #S "
 
     # Window list (tabs)
-    set -g window-status-format " #[fg=brightwhite,bg=brightblack] #I:#W "
-    set -g window-status-current-format " #[fg=black,bg=white,bold] #I:#W "
+    set -g window-status-format "#[fg=brightwhite,bg=brightblack] #I:#W "
+    set -g window-status-current-format "#[fg=black,bg=white,bold] #I:#W "
     set -g window-status-separator ""
 
     # Right side
