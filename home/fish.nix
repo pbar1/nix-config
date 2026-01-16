@@ -1,35 +1,25 @@
 { pkgs, ... }:
-
 let
   shellAliases = import ./shell/aliases.nix { inherit pkgs; };
   shellAbbrs = import ./shell/abbrs.nix;
 in
 {
-  programs.fish = {
-    enable = true;
+  programs.fish.enable = true;
+  programs.fish.shellAbbrs = shellAbbrs;
+  programs.fish.shellAliases = shellAliases;
 
-    inherit shellAbbrs;
-    inherit shellAliases;
+  programs.fish.plugins = with pkgs.fishPlugins; [
+    { inherit (autopair) name src; }
+    { inherit (bang-bang) name src; }
+    { inherit (fzf-fish) name src; }
+  ];
 
-    # Flake inputs with the prefix `fish:` automatically end up here via overlay
-    plugins =
-      with pkgs.fishPlugins;
-      [
-        { inherit (fzf-fish) name src; }
-        { inherit (autopair) name src; }
-      ]
-      ++ pkgs.lib.attrsets.mapAttrsToList (name: value: {
-        inherit name;
-        inherit (value) src;
-      }) pkgs.myFishPlugins;
+  programs.fish.interactiveShellInit = ''
+    set fish_greeting
+  '';
 
-    interactiveShellInit = ''
-      set fish_greeting
-    '';
-
-    functions = {
-      starship_transient_prompt_func = "starship module character";
-      starship_transient_rprompt_func = "starship module time";
-    };
+  programs.fish.functions = {
+    starship_transient_prompt_func = "starship module character";
+    starship_transient_rprompt_func = "starship module time";
   };
 }

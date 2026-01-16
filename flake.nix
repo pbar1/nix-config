@@ -14,13 +14,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Fish Plugins ------------------------------------------------------------
-
-    "fish:plugin-bang-bang" = {
-      url = "github:oh-my-fish/plugin-bang-bang";
-      flake = false;
-    };
   };
 
   outputs =
@@ -37,21 +30,6 @@
     let
       overlays = [
         (final: prev: {
-
-          myFishPlugins =
-            with final.lib;
-            with attrsets;
-            with strings;
-            mapAttrs' (
-              name: value:
-              nameValuePair (removePrefix "fish:" name) (
-                final.fishPlugins.buildFishPlugin {
-                  pname = removePrefix "fish:" name;
-                  src = value.outPath;
-                  version = value.rev;
-                }
-              )
-            ) (filterAttrs (name: _: hasPrefix "fish:" name) inputs);
 
         }) # END final: prev:
       ]; # END overlays

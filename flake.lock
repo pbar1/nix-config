@@ -20,22 +20,6 @@
         "type": "github"
       }
     },
-    "fish:plugin-bang-bang": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1690139185,
-        "narHash": "sha256-oPPCtFN2DPuM//c48SXb4TrFRjJtccg0YPXcAo0Lxq0=",
-        "owner": "oh-my-fish",
-        "repo": "plugin-bang-bang",
-        "rev": "ec991b80ba7d4dda7a962167b036efc5c2d79419",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oh-my-fish",
-        "repo": "plugin-bang-bang",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -175,7 +159,6 @@
     "root": {
       "inputs": {
         "darwin": "darwin",
-        "fish:plugin-bang-bang": "fish:plugin-bang-bang",
         "home-manager": "home-manager",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-wsl": "nixos-wsl",
