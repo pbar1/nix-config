@@ -1,35 +1,19 @@
-{ pkgs, ... }:
-
 {
-  programs.tmux = {
-    enable = true;
-    disableConfirmationPrompt = true;
-    shortcut = "a";
-    terminal = "tmux-256color";
+  programs.tmux.enable = true;
+  programs.tmux.disableConfirmationPrompt = true;
+  programs.tmux.mouse = true;
+  programs.tmux.terminal = "tmux-256color";
+  programs.tmux.prefix = "M-space";
+  programs.tmux.baseIndex = 1;
+  programs.tmux.escapeTime = 0;
 
-    # https://github.com/neovim/neovim/wiki/FAQ#esc-in-tmux-or-gnu-screen-is-delayed
-    escapeTime = 10;
+  programs.tmux.extraConfig = ''
+    set -g renumber-windows on
 
-    extraConfig = ''
-      set -ga terminal-features ',xterm-256color:RGB'
-      set -g mouse on
-      set -g renumber-windows on
-      #set -g allow-passthrough on
-
-      # Force `tmux load-buffer` to emit OSC 52 escape codes (for Neovim)
-      # https://github.com/tmux/tmux/issues/3088#issuecomment-1054664489
-      set -s command-alias[99] 'load-buffer=load-buffer -w'
-
-      bind s set synchronize-panes
-    '';
-
-    plugins = with pkgs; [
-      { plugin = tmuxPlugins.pain-control; }
-      { plugin = tmuxPlugins.prefix-highlight; }
-      {
-        plugin = tmuxPlugins.better-mouse-mode;
-        extraConfig = "set -g @emulate-scroll-for-no-mouse-alternate-buffer on";
-      }
-    ];
-  };
+    # Vim-like pane splits
+    unbind '"'
+    unbind %
+    bind s split-window -v -c "#{pane_current_path}"
+    bind v split-window -h -c "#{pane_current_path}"
+  '';
 }

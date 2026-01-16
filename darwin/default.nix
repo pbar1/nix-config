@@ -87,8 +87,9 @@ in
   programs.fish.enable = true;
   programs.zsh.enable = true;
 
-  # TouchID for sudo
+  # TouchID for sudo, also works within tmux
   security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local.reattach = true;
 
   # User configuration
   users.users."${user}" = {

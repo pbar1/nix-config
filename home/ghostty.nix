@@ -14,7 +14,6 @@
     macos-option-as-alt = true; # For opt-backspace word deletion
     maximize = true;
     quit-after-last-window-closed = true;
-    shell-integration-features = "ssh-env"; # Fallback to xterm-256color for SSH
     theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-soft";
     window-padding-x = "9, 9"; # Proper side padding
   };

@@ -53,6 +53,7 @@
     fd
     ffmpeg
     fselect
+    ghostty.terminfo
     jq
     pv
     python3
