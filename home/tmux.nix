@@ -3,7 +3,6 @@
   programs.tmux.disableConfirmationPrompt = true;
   programs.tmux.mouse = true;
   programs.tmux.terminal = "tmux-256color";
-  programs.tmux.prefix = "M-space";
   programs.tmux.baseIndex = 1;
   programs.tmux.escapeTime = 0;
   programs.tmux.historyLimit = 50000;
@@ -14,17 +13,11 @@
 
     # Keybindings
 
+    # Additional prefix
+    set-option -g prefix2 M-Space
+    bind-key M-Space send-prefix -2
+
     bind r source-file ~/.config/tmux/tmux.conf \; display "Reloaded tmux config"
-
-    # New window (tab)
-    unbind c
-    bind t new-window -c "#{pane_current_path}"
-
-    # Vim-like split panes
-    unbind '"'
-    unbind %
-    bind s split-window -v -c "#{pane_current_path}"
-    bind v split-window -h -c "#{pane_current_path}"
 
     bind-key / copy-mode \; command-prompt -i -p "search-up" "send-keys -X search-backward-incremental \"%%%\""
 

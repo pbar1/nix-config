@@ -90,7 +90,6 @@
   services.eternal-terminal.enable = true;
 
   programs.tmux.enable = true;
-  programs.tmux.shortcut = "a";
 
   services.k3s.enable = true;
   services.k3s.role = "server";

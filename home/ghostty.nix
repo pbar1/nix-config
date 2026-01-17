@@ -1,8 +1,6 @@
 { pkgs, ... }:
 let
-  # TODO: https://www.reddit.com/r/Ghostty/comments/1hoi3id/my_perfect_ghostty_tmux_nvim_configuration_on/
-  # M-Space keycode literal
-  tmuxPrefix = ''text:\x1b\x20'';
+  tmuxPrefix = ''text:\x02''; # C-b
 in
 {
   programs.ghostty.enable = true;
@@ -24,13 +22,38 @@ in
     theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-soft";
     window-padding-x = "9, 9";
     keybind = [
-      # iTerm2-like overlay for tmux
-      "super+t=${tmuxPrefix}t"
+      # macOS shortcuts for tmux
+      "super+digit_1=${tmuxPrefix}1"
+      "super+digit_2=${tmuxPrefix}2"
+      "super+digit_3=${tmuxPrefix}3"
+      "super+digit_4=${tmuxPrefix}4"
+      "super+digit_5=${tmuxPrefix}5"
+      "super+digit_6=${tmuxPrefix}6"
+      "super+digit_7=${tmuxPrefix}7"
+      "super+digit_8=${tmuxPrefix}8"
+      "super+digit_9=${tmuxPrefix}9"
+      "super+t=${tmuxPrefix}c"
       "super+w=${tmuxPrefix}x"
-      "super+d=${tmuxPrefix}v"
-      "shift+super+d=${tmuxPrefix}s"
-      "super+f=${tmuxPrefix}/"
+      "super+d=${tmuxPrefix}%"
+      ''shift+super+d=${tmuxPrefix}"''
       "shift+super+enter=${tmuxPrefix}z"
+      "super+f=${tmuxPrefix}/" # (custom) Search backward
+
+      # Fallback macOS shortcuts for Ghostty
+      "alt+super+digit_1=goto_tab:1"
+      "alt+super+digit_2=goto_tab:2"
+      "alt+super+digit_3=goto_tab:3"
+      "alt+super+digit_4=goto_tab:4"
+      "alt+super+digit_5=goto_tab:5"
+      "alt+super+digit_6=goto_tab:6"
+      "alt+super+digit_7=goto_tab:7"
+      "alt+super+digit_8=goto_tab:8"
+      "alt+super+digit_9=goto_tab:9"
+      "alt+super+t=new_tab"
+      "alt+super+w=close_surface"
+      "alt+super+d=new_split:right"
+      "alt+shift+super+d=new_split:down"
+      "alt+shift+super+enter=toggle_split_zoom"
     ];
   };
 
