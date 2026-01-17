@@ -26,6 +26,8 @@
     bind s split-window -v -c "#{pane_current_path}"
     bind v split-window -h -c "#{pane_current_path}"
 
+    bind-key / copy-mode \; command-prompt -i -p "search-up" "send-keys -X search-backward-incremental \"%%%\""
+
     # Status line
 
     set -g status-position top

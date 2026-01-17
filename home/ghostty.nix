@@ -1,4 +1,9 @@
 { pkgs, ... }:
+let
+  # TODO: https://www.reddit.com/r/Ghostty/comments/1hoi3id/my_perfect_ghostty_tmux_nvim_configuration_on/
+  # M-Space keycode literal
+  tmuxPrefix = ''text:\x1b\x20'';
+in
 {
   programs.ghostty.enable = true;
   programs.ghostty.enableBashIntegration = true;
@@ -18,6 +23,15 @@
     quit-after-last-window-closed = true;
     theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-soft";
     window-padding-x = "9, 9";
+    keybind = [
+      # iTerm2-like overlay for tmux
+      "super+t=${tmuxPrefix}t"
+      "super+w=${tmuxPrefix}x"
+      "super+d=${tmuxPrefix}v"
+      "shift+super+d=${tmuxPrefix}s"
+      "super+f=${tmuxPrefix}/"
+      "shift+super+enter=${tmuxPrefix}z"
+    ];
   };
 
   programs.ghostty.themes = {
