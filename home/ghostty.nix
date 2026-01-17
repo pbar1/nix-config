@@ -51,7 +51,7 @@ in
       "alt+super+digit_9=goto_tab:9"
       "alt+super+t=new_tab"
       "alt+super+w=close_surface"
-      "alt+super+d=new_split:right"
+      "alt+super+d=new_split:right" # TODO: Conflicts with Dock
       "alt+shift+super+d=new_split:down"
       "alt+shift+super+enter=toggle_split_zoom"
     ];
