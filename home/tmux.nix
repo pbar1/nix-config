@@ -13,6 +13,9 @@
   programs.tmux.extraConfig = ''
     set -g renumber-windows on
 
+    # Allows nested tmux sessions to propagate clipboard
+    set -s set-clipboard on
+
     # Keybindings
 
     # Additional prefix
