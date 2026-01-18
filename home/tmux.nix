@@ -1,5 +1,6 @@
 # https://github.com/ianthehenry/dotfiles/blob/master/.tmux.conf
 # https://ianthehenry.com/posts/tmux-copy-last-command/
+# https://willhbr.net/2024/03/06/tmux-conf-with-commentary/
 # TODO: Have <prefix>U launch tmux, and maybe copy config file
 # TODO: Keybind to temp disable prefix
 
