@@ -8,6 +8,8 @@
   programs.tmux.historyLimit = 50000;
   programs.tmux.focusEvents = true;
 
+  # TODO: Have <prefix>U launch tmux, and maybe copy config file
+  # TODO: Keybind to temp disable prefix
   programs.tmux.extraConfig = ''
     set -g renumber-windows on
 
@@ -17,15 +19,23 @@
     set-option -g prefix2 M-Space
     bind-key M-Space send-prefix -2
 
-    bind r source-file ~/.config/tmux/tmux.conf \; display "Reloaded tmux config"
+    bind r source-file ~/.config/tmux/tmux.conf \; \
+      display "Reloaded tmux config"
 
-    bind-key / copy-mode \; command-prompt -i -p "search-up" "send-keys -X search-backward-incremental \"%%%\""
+    bind-key / copy-mode \; \
+      command-prompt -i -p "search-up" "send-keys -X search-backward-incremental \"%%%\""
+
+    # Paste local config into remote sessions
+    bind-key U load-buffer ~/.config/tmux/tmux.conf \; \
+      send-keys "cat << 'EOF' | tmux source-file /dev/stdin" Enter \; \
+      paste-buffer -p \; \
+      send-keys Enter "EOF" Enter
 
     # Status line
 
     set -g status-position top
     set -g status-justify left
-    set -g status-style "bg=default,fg=default" # Transparent/Terminal background
+    set -g status-style "bg=default,fg=default"
 
     # Left side
     set -g status-left-length 20
