@@ -1,3 +1,8 @@
+# https://github.com/ianthehenry/dotfiles/blob/master/.tmux.conf
+# https://ianthehenry.com/posts/tmux-copy-last-command/
+# TODO: Have <prefix>U launch tmux, and maybe copy config file
+# TODO: Keybind to temp disable prefix
+
 {
   programs.tmux.enable = true;
   programs.tmux.disableConfirmationPrompt = true;
@@ -8,31 +13,35 @@
   programs.tmux.historyLimit = 50000;
   programs.tmux.focusEvents = true;
 
-  # TODO: Have <prefix>U launch tmux, and maybe copy config file
-  # TODO: Keybind to temp disable prefix
   programs.tmux.extraConfig = ''
     set -g renumber-windows on
 
-    # Allows nested tmux sessions to propagate clipboard
+    # Allow nested tmux sessions to propagate clipboard
     set -s set-clipboard on
 
     # Keybindings
 
     # Additional prefix
-    set-option -g prefix2 M-Space
-    bind-key M-Space send-prefix -2
+    set -g prefix2 M-Space
+    bind M-Space send-prefix -2
 
-    bind r source-file ~/.config/tmux/tmux.conf \; \
+    bind r {
+      source-file ~/.config/tmux/tmux.conf
       display "Reloaded tmux config"
+    }
 
-    bind-key / copy-mode \; \
+    bind / {
+      copy-mode
       command-prompt -i -p "search-up" "send-keys -X search-backward-incremental \"%%%\""
+    }
 
     # Paste local config into remote sessions
-    bind-key U load-buffer ~/.config/tmux/tmux.conf \; \
-      send-keys "cat << 'EOF' | tmux source-file /dev/stdin" Enter \; \
-      paste-buffer -p \; \
+    bind U {
+      load-buffer ~/.config/tmux/tmux.conf
+      send-keys "cat << 'EOF' | tmux source-file /dev/stdin" Enter
+      paste-buffer -p
       send-keys Enter "EOF" Enter
+    }
 
     # Status line
 
@@ -42,7 +51,6 @@
 
     # Left side
     set -g status-left-length 20
-    # If prefix is active, session indicator turns yellow
     set -g status-left "#{?client_prefix,#[fg=black bg=yellow],#[fg=black bg=blue]} #S "
 
     # Window list (tabs)
@@ -52,6 +60,6 @@
 
     # Right side
     set -g status-right-length 50
-    set -g status-right "#[fg=brightwhite,bg=brightblack] %Y-%m-%d #[fg=black,bg=white] %H:%M "
+    set -g status-right "#[fg=black,bg=white] #H "
   '';
 }
