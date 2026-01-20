@@ -58,6 +58,9 @@ in
     }
   ];
 
+  networking.hostName = "bobbery";
+  networking.computerName = "Bobbery";
+
   # Must be set for `homebrew` and `system` attributes. Previously the user
   # running the switch command would be chosen implicitly.
   system.primaryUser = user;
