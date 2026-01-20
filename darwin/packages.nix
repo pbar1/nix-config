@@ -43,6 +43,7 @@
       "tailscale-app"
       "visual-studio-code"
       "vlc"
+      "whatsapp"
       "zoom"
     ];
 }
