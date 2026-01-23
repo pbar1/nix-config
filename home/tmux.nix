@@ -31,6 +31,11 @@
       display "Reloaded tmux config"
     }
 
+    bind e {
+      set-window-option synchronize-panes
+      display-message "Synchronize panes: #{?pane_synchronized,ON,OFF}"
+    }
+
     bind / {
       copy-mode
       command-prompt -i -p "search-up" "send-keys -X search-backward-incremental \"%%%\""
@@ -44,6 +49,14 @@
       send-keys Enter "EOF" Enter
     }
 
+    # Copy last command its output
+    bind Y {
+      copy-mode
+      send-keys -X begin-selection
+      send-keys -X previous-prompt
+      send-keys -X copy-pipe-and-cancel
+    }
+
     # Status line
 
     set -g status-position top
@@ -52,7 +65,7 @@
 
     # Left side
     set -g status-left-length 20
-    set -g status-left "#{?client_prefix,#[fg=black bg=yellow],#[fg=black bg=blue]} #S "
+    set -g status-left "#{?client_prefix,#[fg=black bg=yellow],#{?pane_synchronized,#[fg=black bg=red],#[fg=black bg=blue]}} #S "
 
     # Window list (tabs)
     set -g window-status-format "#[fg=brightwhite,bg=brightblack] #I:#W "
