@@ -2,8 +2,6 @@
 {
   environment.systemPackages = with pkgs; [
     vscodium
-    wezterm
-    wireshark
   ];
 
   # TODO: https://github.com/zhaofengli/nix-homebrew
@@ -13,6 +11,7 @@
   homebrew.brews = [
     "openssl"
     "pkg-config"
+    "pulumi"
   ];
 
   homebrew.casks =
@@ -44,6 +43,7 @@
       "visual-studio-code"
       "vlc"
       "whatsapp"
+      "wireshark-app"
       "zoom"
     ];
 }
