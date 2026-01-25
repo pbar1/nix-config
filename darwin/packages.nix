@@ -26,8 +26,10 @@
     ]
     # Personal machine
     ++ [
+      "antigravity"
       "brave-browser"
       "calibre"
+      "cursor"
       "cyberduck"
       "discord"
       "docker-desktop"

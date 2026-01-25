@@ -8,7 +8,11 @@ let
   inherit (pkgs.stdenv) isDarwin;
   jsonFormat = pkgs.formats.json { };
 
-  editors = [ "VSCodium" ];
+  editors = [
+    "VSCodium"
+    "Cursor"
+    "Antigravity"
+  ];
   configDir = if isDarwin then "Library/Application Support" else config.xdg.configHome;
   os = if isDarwin then "osx" else "linux";
 
