@@ -26,12 +26,16 @@
     set -g prefix2 M-Space
     bind M-Space send-prefix -2
 
-    bind r {
+    bind -N "Reload tmux config" r {
       source-file ~/.config/tmux/tmux.conf
       display "Reloaded tmux config"
     }
 
-    bind e {
+    # Splits open in same directory
+    bind -N "Split window vertically" '"' split-window -v -c "#{pane_current_path}"
+    bind -N "Split window horizontally" %  split-window -h -c "#{pane_current_path}"
+
+    bind -N "Toggle pane synchronization" e {
       set-window-option synchronize-panes
       display-message "Synchronize panes: #{?pane_synchronized,ON,OFF}"
     }
@@ -41,16 +45,14 @@
       command-prompt -i -p "search-up" "send-keys -X search-backward-incremental \"%%%\""
     }
 
-    # Paste local config into remote sessions
-    bind U {
+    bind -N "Paste local config into remote tmux session" U {
       load-buffer ~/.config/tmux/tmux.conf
       send-keys "cat << 'EOF' | tmux source-file /dev/stdin" Enter
       paste-buffer -p
       send-keys Enter "EOF" Enter
     }
 
-    # Copy last command its output
-    bind Y {
+    bind -N "Copy last command and output" Y {
       copy-mode
       send-keys -X begin-selection
       send-keys -X previous-prompt

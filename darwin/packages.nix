@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    vscodium
-  ];
+  environment.systemPackages = with pkgs; [ ];
 
   # TODO: https://github.com/zhaofengli/nix-homebrew
   homebrew.enable = true;
@@ -42,6 +40,7 @@
       "tailscale-app"
       "visual-studio-code"
       "vlc"
+      "vscodium"
       "whatsapp"
       "wireshark-app"
       "zoom"
