@@ -23,7 +23,6 @@ in
     EDITOR = "nvim";
     VISUAL = EDITOR;
     # MANPAGER = "sh -c 'col -bx | bat --plain --language=man'";
-    BAT_THEME = "base16"; # Used by Bat and Delta
     SSH_AGENT_PID = "";
     LESS = "--quit-if-one-screen --RAW-CONTROL-CHARS"; # --mouse breaks iTerm mouse select
     LESSKEY = "${configHome}/less/lesskey";

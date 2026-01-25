@@ -38,8 +38,12 @@
 
     programs.zoxide.enable = true;
 
-    # Theme set with environment variable BAT_THEME since Delta also uses it
     programs.bat.enable = true;
-    programs.bat.config.style = "plain";
+    programs.bat.config = {
+      style = "plain";
+      theme = "ansi";
+    };
+
+    programs.dircolors.enable = true;
   };
 }
