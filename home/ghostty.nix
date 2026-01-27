@@ -58,55 +58,85 @@ in
   };
 
   programs.ghostty.themes = {
-    gruvbox-material-light-soft = {
-      background = "#f2e5bc";
-      foreground = "#654735";
-      cursor-color = "#654735";
-      selection-background = "#ebdbb2";
-      selection-foreground = "#654735";
-      palette = [
-        "0=#ebdbb2"
-        "1=#c14a4a"
-        "2=#6c782e"
-        "3=#b47109"
-        "4=#45707a"
-        "5=#945e80"
-        "6=#4c7a5d"
-        "7=#654735"
-        "8=#f3eac7"
-        "9=#c14a4a"
-        "10=#6c782e"
-        "11=#b47109"
-        "12=#45707a"
-        "13=#945e80"
-        "14=#4c7a5d"
-        "15=#654735"
-      ];
-    };
-    gruvbox-material-dark-soft = {
-      background = "#32302f";
-      foreground = "#d4be98";
-      cursor-color = "#d4be98";
-      selection-background = "#45403d";
-      selection-foreground = "#d4be98";
-      palette = [
-        "0=252423"
-        "1=#ea6962"
-        "2=#a9b665"
-        "3=#d8a657"
-        "4=#7daea3"
-        "5=#d3869b"
-        "6=#89b482"
-        "7=#d4be98"
-        "8=#32302f"
-        "9=#ea6962"
-        "10=#a9b665"
-        "11=#d8a657"
-        "12=#7daea3"
-        "13=#d3869b"
-        "14=#89b482"
-        "15=#d4be98"
-      ];
-    };
+    gruvbox-material-dark-soft =
+      let
+        fg0 = "#d4be98";
+        fg1 = "#ddc7a1";
+        bg0 = "#32302f";
+        bg4 = "#504945";
+        bg_current_word = "#45403d";
+        red = "#ea6962";
+        green = "#a9b665";
+        yellow = "#d8a657";
+        blue = "#7daea3";
+        purple = "#d3869b";
+        aqua = "#89b482";
+        orange = "#e78a4e";
+      in
+      {
+        background = bg0;
+        selection-background = bg_current_word;
+        foreground = fg0;
+        selection-foreground = fg0;
+        cursor-color = orange;
+        palette = [
+          "0=${bg0}"
+          "1=${red}"
+          "2=${green}"
+          "3=${yellow}"
+          "4=${blue}"
+          "5=${purple}"
+          "6=${aqua}"
+          "7=${fg0}"
+          "8=${bg4}"
+          "9=${red}"
+          "10=${green}"
+          "11=${yellow}"
+          "12=${blue}"
+          "13=${purple}"
+          "14=${aqua}"
+          "15=${fg1}"
+        ];
+      };
+    gruvbox-material-light-soft =
+      let
+        fg0 = "#654735";
+        fg1 = "#4f3829";
+        bg0 = "#f2e5bc";
+        bg4 = "#dac9a5";
+        bg_current_word = "#ebdbb2";
+        red = "#c14a4a";
+        green = "#6c782e";
+        yellow = "#b47109";
+        blue = "#45707a";
+        purple = "#945e80";
+        aqua = "#4c7a5d";
+        orange = "#c35e0a";
+      in
+      {
+        background = bg0;
+        selection-background = bg_current_word;
+        foreground = fg0;
+        selection-foreground = fg0;
+        cursor-color = orange;
+        palette = [
+          "0=${bg0}"
+          "1=${red}"
+          "2=${green}"
+          "3=${yellow}"
+          "4=${blue}"
+          "5=${purple}"
+          "6=${aqua}"
+          "7=${fg0}"
+          "8=${bg4}"
+          "9=${red}"
+          "10=${green}"
+          "11=${yellow}"
+          "12=${blue}"
+          "13=${purple}"
+          "14=${aqua}"
+          "15=${fg1}"
+        ];
+      };
   };
 }
