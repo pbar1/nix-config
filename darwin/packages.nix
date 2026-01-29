@@ -20,8 +20,6 @@
       "font-iosevka-nerd-font"
       "ghostty"
       "jordanbaird-ice"
-      "keepingyouawake"
-      "maccy"
       "raycast"
     ]
     # Personal machine
@@ -34,6 +32,7 @@
       "discord"
       "docker-desktop"
       "google-earth-pro"
+      "karabiner-elements"
       "keka"
       "kekaexternalhelper"
       "lulu"
