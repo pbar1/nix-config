@@ -43,6 +43,20 @@
   ;; Caps Lock to Escape
   caps esc
 
+  ;; Retain macOS media keys
+  f1   brdn    ;; Brightness Down
+  f2   brup    ;; Brightness Up
+  f3   mctl    ;; Mission Control
+  f4   spot    ;; Spotlight Search (or Launchpad depending on model)
+  f5   dict    ;; Dictation (or Mic Mute)
+  f6   slp     ;; Do Not Disturb / Sleep
+  f7   prev    ;; Rewind/Previous
+  f8   pp      ;; Play/Pause
+  f9   next    ;; Fast Forward/Next
+  f10  mute    ;; Mute
+  f11  vold    ;; Volume Down
+  f12  volu    ;; Volume Up
+
   ;; Home row CAGS mods
   ;; Left hand
   a (t! homerowmod $tot 450 a lctl)
