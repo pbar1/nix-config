@@ -2,6 +2,7 @@
 
 let
   user = "pierce";
+  kanataConfig = ../keyboard/kanata.kbd;
 in
 {
   imports = [
@@ -100,6 +101,21 @@ in
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGvmdvrrgYY3Q+Wp/SyQm2a2OWL82S2Z+e+FoJ/vmS/D personal@1password"
     ];
+  };
+
+  launchd.daemons = {
+    # Keyboard remapper. Must have Karabiner driver running, but NOT Karabiner
+    # itself (ie, it should not be in the menu bar).
+    # https://github.com/jtroo/kanata/discussions/1537
+    kanata = {
+      command = "${pkgs.kanata}/bin/kanata -c ${kanataConfig}";
+      serviceConfig = {
+        KeepAlive = true;
+        RunAtLoad = true;
+        StandardOutPath = "/Library/Logs/Kanata/kanata.out.log";
+        StandardErrorPath = "/Library/Logs/Kanata/kanata.err.log";
+      };
+    };
   };
 
   # FIXME: Touch ~/.hushlogin to disable last login time

@@ -1,6 +1,8 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [
+    kanata
+  ];
 
   # TODO: https://github.com/zhaofengli/nix-homebrew
   homebrew.enable = true;
