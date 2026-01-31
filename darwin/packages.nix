@@ -8,6 +8,10 @@
   homebrew.enable = true;
   homebrew.onActivation.cleanup = "zap";
 
+  homebrew.taps = [
+    "d12frosted/emacs-plus"
+  ];
+
   homebrew.brews = [
     "openssl"
     "pkg-config"
@@ -33,6 +37,7 @@
       "cyberduck"
       "discord"
       "docker-desktop"
+      "emacs-plus-app"
       "google-earth-pro"
       "karabiner-elements"
       "keka"
