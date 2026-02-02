@@ -22,6 +22,9 @@ in
     theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-soft";
     window-padding-x = "9, 9";
     keybind = [
+      # macOS general bindings
+      ''super+backspace=text:\x15'' # ctrl-u, ie delete to start of line
+
       # macOS shortcuts for tmux
       "super+digit_1=${tmuxPrefix}1"
       "super+digit_2=${tmuxPrefix}2"
