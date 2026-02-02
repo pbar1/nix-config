@@ -1,10 +1,9 @@
-{ config, pkgs, ... }:
-let
-  helpers = config.lib.nixvim;
-in
+# TODO: Extract into a standalone package + container
+# TODO: (maybe) Map space/enter to `<C-g>u` to chunk up undos
+# TODO: Map `cmd-z` to undo while in insert mode using a readline adapter
+
+{ pkgs, ... }:
 {
-  # Previous Neovim config
-  # https://github.com/pbar1/dotfiles/tree/c2ca9ff3138ad68f010ff81581a5d2f88f43cc7f/home/nvim
   programs.nixvim = {
     enable = true;
 
@@ -12,8 +11,23 @@ in
       dark-notify
     ];
 
+    # Settings ----------------------------------------------------------------
+
+    globals = {
+      mapleader = " ";
+    };
+
+    opts = {
+      signcolumn = "yes";
+    };
+
+    clipboard.register = "unnamedplus"; # Copy to system clipboard
+    colorschemes.base16.enable = true;
+    editorconfig.enable = true;
+
     # React to system theme changes automatically. Putting it here avoids the
-    # flash of unstyled color at startup.
+    # flash of unstyled color at startup. No need to set an explicit
+    # colorscheme outside of this.
     extraConfigLuaPre = ''
       require('dark_notify').run({
         schemes = {
@@ -27,13 +41,8 @@ in
       })
     '';
 
-    colorschemes.base16.enable = true;
+    # Keybindings -------------------------------------------------------------
 
-    # Yank to system clipboard
-    clipboard.register = "unnamedplus";
-
-    # TODO: Map `cmd-z` to undo while in insert mode using a readline adapter
-    globals.mapleader = " ";
     keymaps = [
       # Text editing and movement
       {
@@ -61,7 +70,6 @@ in
         options.desc = "Go forward one word";
       }
       {
-        # TODO: May need to map space/enter to `<C-g>u` to chunk up undos
         mode = "i";
         key = "<C-_>";
         action = "<C-o>u";
@@ -148,17 +156,64 @@ in
       }
     ];
 
-    editorconfig.enable = true;
+    # Plugins -----------------------------------------------------------------
 
-    # Required for plugins like Telescope and Which-Key
-    plugins.web-devicons.enable = true;
-
+    # General
+    plugins.web-devicons.enable = true; # Required for Telescope and WhichKey
+    plugins.telescope.enable = true;
+    plugins.which-key.enable = true;
     plugins.mini.enable = true;
     plugins.mini.modules = {
       starter = { };
       sessions = { };
     };
 
+    # Syntax
+    plugins.treesitter.enable = true;
+    plugins.treesitter.settings.highlight.enable = true;
+    plugins.lsp.enable = true;
+    plugins.lsp.servers.nixd.enable = true;
+    plugins.rustaceanvim.enable = true;
+
+    # Formatting
+    plugins.conform-nvim.enable = true;
+    plugins.conform-nvim.settings.format_on_save = {
+      timeout_ms = 500;
+      lsp_format = "fallback";
+    };
+    plugins.conform-nvim.settings.formatters_by_ft = {
+      "*" = [ "injected" ]; # Formats code blocks
+      nix = [ "nixfmt" ];
+      rust = [ "rustfmt" ];
+    };
+
+    # Completion
+    plugins.colorful-menu.enable = true;
+    plugins.blink-cmp.enable = true;
+    plugins.blink-cmp.settings.signature.enabled = true;
+    plugins.blink-cmp.settings.keymap.preset = "enter";
+    plugins.blink-cmp.settings.completion.list.selection.preselect = false;
+    plugins.blink-cmp.settings.completion.menu.draw = {
+      columns = [
+        { __unkeyed = "kind_icon"; }
+        {
+          __unkeyed = "label";
+          gap = 1;
+        }
+      ];
+      components.label.text.__raw = ''
+        function(ctx)
+          return require("colorful-menu").blink_components_text(ctx)
+        end
+      '';
+      components.label.highlight.__raw = ''
+        function(ctx)
+          return require("colorful-menu").blink_components_highlight(ctx)
+        end
+      '';
+    };
+
+    # Statusline
     plugins.lualine.enable = true;
     plugins.lualine.settings.options.component_separators = "|";
     plugins.lualine.settings.options.section_separators = "";
@@ -193,52 +248,5 @@ in
         ignore_lsp = [ ];
       }
     ];
-
-    plugins.telescope.enable = true;
-
-    plugins.which-key.enable = true;
-
-    plugins.blink-cmp.enable = true;
-    plugins.blink-cmp.settings.signature.enabled = true;
-    plugins.blink-cmp.settings.keymap.preset = "enter";
-    plugins.blink-cmp.settings.completion.list.selection.preselect = false;
-    plugins.blink-cmp.settings.completion.menu.draw = {
-      columns = [
-        { __unkeyed = "kind_icon"; }
-        {
-          __unkeyed = "label";
-          gap = 1;
-        }
-      ];
-      components.label.text.__raw = ''
-        function(ctx)
-          return require("colorful-menu").blink_components_text(ctx)
-        end
-      '';
-      components.label.highlight.__raw = ''
-        function(ctx)
-          return require("colorful-menu").blink_components_highlight(ctx)
-        end
-      '';
-    };
-    plugins.colorful-menu.enable = true;
-
-    plugins.treesitter.enable = true;
-    plugins.treesitter.settings.highlight.enable = true;
-
-    plugins.lsp.enable = true;
-    plugins.lsp.servers.nixd.enable = true;
-    plugins.rustaceanvim.enable = true;
-
-    plugins.conform-nvim.enable = true;
-    plugins.conform-nvim.settings.format_on_save = {
-      timeout_ms = 500;
-      lsp_format = "fallback";
-    };
-    plugins.conform-nvim.settings.formatters_by_ft = {
-      "*" = [ "injected" ]; # Formats code blocks
-      nix = [ "nixfmt" ];
-      rust = [ "rustfmt" ];
-    };
-  };
+  }; # END programs.nixvim
 }
