@@ -22,41 +22,43 @@ in
     theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-soft";
     window-padding-x = "9, 9";
     keybind = [
-      # macOS general bindings
-      ''super+backspace=text:\x15'' # ctrl-u, ie delete to start of line
+      # macOS bindings for readline
+      # Only those which are not sent automatically are set explicitly here
+      ''opt+backspace=text:\x17'' # (ctrl-w) Delete word backwards
+      ''cmd+z=text:\x1f'' # (ctrl-_) Undo
 
-      # macOS shortcuts for tmux
-      "super+digit_1=${tmuxPrefix}1"
-      "super+digit_2=${tmuxPrefix}2"
-      "super+digit_3=${tmuxPrefix}3"
-      "super+digit_4=${tmuxPrefix}4"
-      "super+digit_5=${tmuxPrefix}5"
-      "super+digit_6=${tmuxPrefix}6"
-      "super+digit_7=${tmuxPrefix}7"
-      "super+digit_8=${tmuxPrefix}8"
-      "super+digit_9=${tmuxPrefix}9"
-      "super+t=${tmuxPrefix}c"
-      "super+w=${tmuxPrefix}x"
-      "super+d=${tmuxPrefix}%"
-      ''shift+super+d=${tmuxPrefix}"''
-      "shift+super+enter=${tmuxPrefix}z"
-      "super+f=${tmuxPrefix}/" # (custom) Search backward
+      # macOS bindings for tmux
+      "cmd+digit_1=${tmuxPrefix}1"
+      "cmd+digit_2=${tmuxPrefix}2"
+      "cmd+digit_3=${tmuxPrefix}3"
+      "cmd+digit_4=${tmuxPrefix}4"
+      "cmd+digit_5=${tmuxPrefix}5"
+      "cmd+digit_6=${tmuxPrefix}6"
+      "cmd+digit_7=${tmuxPrefix}7"
+      "cmd+digit_8=${tmuxPrefix}8"
+      "cmd+digit_9=${tmuxPrefix}9"
+      "cmd+t=${tmuxPrefix}c"
+      "cmd+w=${tmuxPrefix}x"
+      "cmd+d=${tmuxPrefix}%"
+      ''shift+cmd+d=${tmuxPrefix}"''
+      "shift+cmd+enter=${tmuxPrefix}z"
+      "cmd+f=${tmuxPrefix}/" # (custom) Search backward
 
       # Fallback macOS shortcuts for Ghostty
-      "alt+super+digit_1=goto_tab:1"
-      "alt+super+digit_2=goto_tab:2"
-      "alt+super+digit_3=goto_tab:3"
-      "alt+super+digit_4=goto_tab:4"
-      "alt+super+digit_5=goto_tab:5"
-      "alt+super+digit_6=goto_tab:6"
-      "alt+super+digit_7=goto_tab:7"
-      "alt+super+digit_8=goto_tab:8"
-      "alt+super+digit_9=goto_tab:9"
-      "alt+super+t=new_tab"
-      "alt+super+w=close_surface"
-      "alt+super+d=new_split:right" # TODO: Conflicts with Dock
-      "alt+shift+super+d=new_split:down"
-      "alt+shift+super+enter=toggle_split_zoom"
+      "opt+cmd+digit_1=goto_tab:1"
+      "opt+cmd+digit_2=goto_tab:2"
+      "opt+cmd+digit_3=goto_tab:3"
+      "opt+cmd+digit_4=goto_tab:4"
+      "opt+cmd+digit_5=goto_tab:5"
+      "opt+cmd+digit_6=goto_tab:6"
+      "opt+cmd+digit_7=goto_tab:7"
+      "opt+cmd+digit_8=goto_tab:8"
+      "opt+cmd+digit_9=goto_tab:9"
+      "opt+cmd+t=new_tab"
+      "opt+cmd+w=close_surface"
+      "opt+cmd+d=new_split:right" # TODO: Conflicts with Dock
+      "opt+shift+cmd+d=new_split:down"
+      "opt+shift+cmd+enter=toggle_split_zoom"
     ];
   };
 

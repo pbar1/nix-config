@@ -27,21 +27,46 @@ in
       })
     '';
 
-    # options.number = true;
-    # options.signcolumn = "yes";
-
-    # TODO: base16 colorscheme not being set correctly
-    # https://github.com/nix-community/nixvim/issues/2446
-    # extraConfigLuaPost = "vim.cmd [[ colorscheme base16-gruvbox-material-dark-soft ]]";
-    # TODO: Light/dark mode
     colorschemes.base16.enable = true;
-    # colorschemes.base16.colorscheme = "gruvbox-material-dark-soft";
 
     # Yank to system clipboard
     clipboard.register = "unnamedplus";
 
+    # TODO: Map `cmd-z` to undo while in insert mode using a readline adapter
     globals.mapleader = " ";
     keymaps = [
+      # Text editing and movement
+      {
+        mode = "i";
+        key = "<C-a>";
+        action = "<Home>";
+        options.desc = "Go to start of line";
+      }
+      {
+        mode = "i";
+        key = "<C-e>";
+        action = "<End>";
+        options.desc = "Go to end of line";
+      }
+      {
+        mode = "i";
+        key = "<M-b>";
+        action = "<C-o>b";
+        options.desc = "Go back one word";
+      }
+      {
+        mode = "i";
+        key = "<M-f>";
+        action = "<C-o>w";
+        options.desc = "Go forward one word";
+      }
+      {
+        # TODO: May need to map space/enter to `<C-g>u` to chunk up undos
+        mode = "i";
+        key = "<C-_>";
+        action = "<C-o>u";
+        options.desc = "Undo";
+      }
       # Search
       {
         mode = "n";
@@ -92,13 +117,6 @@ in
         key = "<leader>wv";
         action = "<cmd>vsplit<cr>";
         options.desc = "Split vertically";
-      }
-      # Text editing
-      {
-        mode = "i";
-        key = "<M-BS>";
-        action = "<C-w>";
-        options.desc = "Delete word backwards";
       }
       # LSP
       {
