@@ -26,6 +26,7 @@ in
       # Only those which are not sent automatically are set explicitly here
       ''opt+backspace=text:\x17'' # (ctrl-w) Delete word backwards
       ''cmd+z=text:\x1f'' # (ctrl-_) Undo
+      ''cmd+/=text:\x1b#'' # (alt-#) Comment line
 
       # macOS bindings for tmux
       "cmd+digit_1=${tmuxPrefix}1"

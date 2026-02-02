@@ -67,6 +67,27 @@ in
         action = "<C-o>u";
         options.desc = "Undo";
       }
+      {
+        mode = "n";
+        key = "<M-#>";
+        action = "gcc";
+        options.desc = "Toggle line comment";
+        options.remap = true;
+      }
+      {
+        mode = "i";
+        key = "<M-#>";
+        action = "<C-o>gcc";
+        options.desc = "Toggle line comment";
+        options.remap = true;
+      }
+      {
+        mode = "v";
+        key = "<M-#>";
+        action = "gc";
+        options.desc = "Toggle comment on selection";
+        options.remap = true;
+      }
       # Search
       {
         mode = "n";
