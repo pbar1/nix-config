@@ -9,11 +9,18 @@
     nixvim.url = "github:nix-community/nixvim";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
+    # Follow nixpkgs to avoid multiple copies of it bloating the store
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Neovim plugins
+    "nvim:dark-notify" = {
+      url = "github:cormacrelf/dark-notify";
+      flake = false;
+    };
   };
 
   outputs =
@@ -30,6 +37,21 @@
     let
       overlays = [
         (final: prev: {
+
+          myNvimPlugins =
+            with final.lib;
+            with attrsets;
+            with strings;
+            mapAttrs' (
+              name: value:
+              nameValuePair (removePrefix "nvim:" name) (
+                final.vimUtils.buildVimPlugin {
+                  pname = removePrefix "nvim:" name;
+                  src = value.outPath;
+                  version = value.rev;
+                }
+              )
+            ) (filterAttrs (name: _: hasPrefix "nvim:" name) inputs);
 
         }) # END final: prev:
       ]; # END overlays

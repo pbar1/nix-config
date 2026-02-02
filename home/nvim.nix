@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 let
   helpers = config.lib.nixvim;
 in
@@ -8,15 +8,34 @@ in
   programs.nixvim = {
     enable = true;
 
+    extraPlugins = with pkgs.myNvimPlugins; [
+      dark-notify
+    ];
+
+    # React to system theme changes automatically. Putting it here avoids the
+    # flash of unstyled color at startup.
+    extraConfigLuaPre = ''
+      require('dark_notify').run({
+        schemes = {
+          dark = {
+            colorscheme = "base16-gruvbox-material-dark-soft",
+          },
+          light = {
+            colorscheme = "base16-gruvbox-material-light-soft",
+          }
+        }
+      })
+    '';
+
     # options.number = true;
     # options.signcolumn = "yes";
 
     # TODO: base16 colorscheme not being set correctly
     # https://github.com/nix-community/nixvim/issues/2446
-    extraConfigLuaPost = "vim.cmd [[ colorscheme base16-gruvbox-material-dark-soft ]]";
+    # extraConfigLuaPost = "vim.cmd [[ colorscheme base16-gruvbox-material-dark-soft ]]";
     # TODO: Light/dark mode
     colorschemes.base16.enable = true;
-    colorschemes.base16.colorscheme = "gruvbox-material-dark-soft";
+    # colorschemes.base16.colorscheme = "gruvbox-material-dark-soft";
 
     # Yank to system clipboard
     clipboard.register = "unnamedplus";

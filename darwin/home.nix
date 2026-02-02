@@ -10,7 +10,6 @@
 
     imports = [
       inputs.nixvim.homeModules.nixvim
-      ../home/emacs
       ../home/env.nix
       ../home/fish.nix
       ../home/fzf.nix

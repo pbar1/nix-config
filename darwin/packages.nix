@@ -9,10 +9,11 @@
   homebrew.onActivation.cleanup = "zap";
 
   homebrew.taps = [
-    "d12frosted/emacs-plus"
+    "cormacrelf/tap"
   ];
 
   homebrew.brews = [
+    "cormacrelf/tap/dark-notify"
     "openssl"
     "pkg-config"
     "pulumi"
@@ -37,7 +38,6 @@
       "cyberduck"
       "discord"
       "docker-desktop"
-      "emacs-plus-app"
       "google-earth-pro"
       "karabiner-elements"
       "keka"

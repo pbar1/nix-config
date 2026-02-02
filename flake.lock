@@ -156,6 +156,22 @@
         "type": "github"
       }
     },
+    "nvim:dark-notify": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1758630959,
+        "narHash": "sha256-TZuuXeolzx3kby2qO9e/FTf+1g39gKk9NzXQxmjN/UA=",
+        "owner": "cormacrelf",
+        "repo": "dark-notify",
+        "rev": "46879bc7783e65ab6ed9607ef05fd9c1424786b6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cormacrelf",
+        "repo": "dark-notify",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "darwin": "darwin",
@@ -163,7 +179,8 @@
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "nvim:dark-notify": "nvim:dark-notify"
       }
     },
     "systems": {
