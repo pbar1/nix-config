@@ -1,8 +1,7 @@
 {
-  description = "Configuration for NixOS, macOS, and Home Manager";
+  description = "pbar's Nix config";
 
   inputs = {
-    # Core
     systems.url = "github:nix-systems/default";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     darwin.url = "github:nix-darwin/nix-darwin";
@@ -29,7 +28,6 @@
 
   outputs =
     {
-      self,
       systems,
       nixpkgs,
       darwin,
