@@ -2,6 +2,7 @@
   description = "Configuration for NixOS, macOS, and Home Manager";
 
   inputs = {
+    systems.url = "github:nix-systems/default";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     darwin.url = "github:nix-darwin/nix-darwin";
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
@@ -26,6 +27,7 @@
   outputs =
     {
       self,
+      systems,
       nixpkgs,
       darwin,
       home-manager,
@@ -60,16 +62,13 @@
         }) # END final: prev:
       ]; # END overlays
 
-      # Helper to generate packages for each system
-      forAllSystems = nixpkgs.lib.genAttrs [
-        "aarch64-darwin"
-        "x86_64-linux"
-      ];
+      eachSystem = nixpkgs.lib.genAttrs (import systems);
+
       pkgsFor = system: import nixpkgs { inherit system overlays; };
     in
     {
 
-      packages = forAllSystems (system: {
+      packages = eachSystem (system: {
         nvim-pbar = (pkgsFor system).nvim-pbar;
       });
 
