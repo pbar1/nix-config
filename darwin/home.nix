@@ -9,14 +9,12 @@
     home.stateVersion = "22.05";
 
     imports = [
-      inputs.nixvim.homeModules.nixvim
       ../home/env.nix
       ../home/fish.nix
       ../home/fzf.nix
       ../home/ghostty.nix
       ../home/git.nix
       ../home/gpg.nix
-      ../home/nvim.nix
       ../home/packages.nix
       ../home/ssh.nix
       ../home/opencode.nix

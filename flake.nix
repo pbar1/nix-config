@@ -53,10 +53,25 @@
               )
             ) (filterAttrs (name: _: hasPrefix "nvim:" name) inputs);
 
+          nvim-pbar = final.callPackage ./packages/nvim-pbar {
+            nixvim = nixvim.legacyPackages.${final.system};
+          };
+
         }) # END final: prev:
       ]; # END overlays
+
+      # Helper to generate packages for each system
+      forAllSystems = nixpkgs.lib.genAttrs [
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
+      pkgsFor = system: import nixpkgs { inherit system overlays; };
     in
     {
+
+      packages = forAllSystems (system: {
+        nvim-pbar = (pkgsFor system).nvim-pbar;
+      });
 
       nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
         modules = [

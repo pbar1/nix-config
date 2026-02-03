@@ -2,6 +2,9 @@
 
 {
   home.packages = with pkgs; [
+    # Editor
+    nvim-pbar
+
     # Version control & project tools
     go-task
     tokei

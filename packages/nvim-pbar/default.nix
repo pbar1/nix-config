@@ -1,14 +1,9 @@
-# TODO: Extract into a standalone package + container
-# TODO: (maybe) Map space/enter to `<C-g>u` to chunk up undos
-# TODO: Map `cmd-z` to undo while in insert mode using a readline adapter
-
-{ pkgs, ... }:
-{
-  programs.nixvim = {
-    enable = true;
-
-    extraPlugins = with pkgs.myNvimPlugins; [
-      dark-notify
+{ pkgs, nixvim }:
+nixvim.makeNixvimWithModule {
+  inherit pkgs;
+  module = {
+    extraPlugins = [
+      pkgs.myNvimPlugins.dark-notify
     ];
 
     # Settings ----------------------------------------------------------------
@@ -221,7 +216,7 @@
     plugins.lualine.settings.sections.lualine_b = [
       {
         __unkeyed = "branch";
-        icon = "";
+        icon = "";
       }
       "diff"
       "diagnostics"
@@ -230,7 +225,7 @@
       "filename"
       {
         __unkeyed = "lsp_status";
-        icon = "";
+        icon = "";
         symbols.spinner = [
           "⠋"
           "⠙"
@@ -248,5 +243,5 @@
         ignore_lsp = [ ];
       }
     ];
-  }; # END programs.nixvim
+  }; # END module
 }
