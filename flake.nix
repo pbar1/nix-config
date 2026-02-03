@@ -54,7 +54,7 @@
             ) (filterAttrs (name: _: hasPrefix "nvim:" name) inputs);
 
           nvim-pbar = final.callPackage ./packages/nvim-pbar {
-            nixvim = nixvim.legacyPackages.${final.system};
+            nixvim = nixvim.legacyPackages.${final.stdenv.hostPlatform.system};
           };
 
         }) # END final: prev:
@@ -88,12 +88,7 @@
       nixosConfigurations."tec" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = overlays;
-            }
-          )
+          { nixpkgs.overlays = overlays; }
           ./nixos-tec
           home-manager.nixosModules.home-manager
         ];
@@ -101,17 +96,10 @@
 
       darwinConfigurations."bobbery" = darwin.lib.darwinSystem {
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ];
-            }
-          )
+          { nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ]; }
           ./darwin
           home-manager.darwinModules.home-manager
-          {
-            home-manager.extraSpecialArgs = { inherit inputs; };
-          }
+          { home-manager.extraSpecialArgs = { inherit inputs; }; }
         ];
         specialArgs = { inherit inputs; };
         system = "aarch64-darwin";

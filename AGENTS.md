@@ -48,3 +48,6 @@ We MUST write clean code. We do not write AI slop here:
   greppable. We do not go overboard on this, and end it at the point where the module
   doesn't expose any more config options. The Neovim config in this repo is a good
   example of how we write code.
+- If you create a new file that is untracked by Git, you must `git add` it for Nix
+  runs to see it. If you do not do this, you will see errors.
+- You do NOT make Git commits yourself to this repo.
