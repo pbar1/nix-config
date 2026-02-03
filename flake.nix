@@ -74,6 +74,7 @@
       });
 
       nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         modules = [
           nixos-wsl.nixosModules.default
           {
@@ -82,20 +83,25 @@
             wsl.defaultUser = "nixos";
           }
         ];
-        system = "x86_64-linux";
       };
 
+      # `task tec`
       nixosConfigurations."tec" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          { nixpkgs.overlays = overlays; }
-          ./nixos-tec
           home-manager.nixosModules.home-manager
+          ./nixos-tec
+          { nixpkgs.overlays = overlays; }
         ];
       };
 
+      # `task mac`
       darwinConfigurations."bobbery" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs.inputs = inputs;
         modules = [
+          home-manager.darwinModules.home-manager
+          ./darwin
           {
             nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ];
             system.stateVersion = 4;
@@ -103,13 +109,9 @@
             networking.hostName = "bobbery";
             networking.computerName = "Bobbery";
             home-manager.users.pierce.home.stateVersion = "22.05";
+            home-manager.extraSpecialArgs.inputs = inputs;
           }
-          ./darwin
-          home-manager.darwinModules.home-manager
-          { home-manager.extraSpecialArgs = { inherit inputs; }; }
         ];
-        specialArgs = { inherit inputs; };
-        system = "aarch64-darwin";
       };
 
     }; # END outputs
