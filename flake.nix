@@ -2,20 +2,23 @@
   description = "Configuration for NixOS, macOS, and Home Manager";
 
   inputs = {
+    # Core
     systems.url = "github:nix-systems/default";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     darwin.url = "github:nix-darwin/nix-darwin";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+
+    # Modules and overlays
     home-manager.url = "github:nix-community/home-manager";
-    nixvim.url = "github:nix-community/nixvim";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nixvim.url = "github:nix-community/nixvim";
 
     # Follow nixpkgs to avoid multiple copies of it bloating the store
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs";
     nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
     # Neovim plugins
     "nvim:dark-notify" = {
@@ -30,40 +33,16 @@
       systems,
       nixpkgs,
       darwin,
-      home-manager,
-      nixos-wsl,
-      nixvim,
-      nix-vscode-extensions,
       ...
     }@inputs:
     let
-      overlays = [
-        (final: prev: {
+      # Add custom packages to Nixpkgs
+      overlays = import ./overlays.nix inputs;
 
-          myNvimPlugins =
-            with final.lib;
-            with attrsets;
-            with strings;
-            mapAttrs' (
-              name: value:
-              nameValuePair (removePrefix "nvim:" name) (
-                final.vimUtils.buildVimPlugin {
-                  pname = removePrefix "nvim:" name;
-                  src = value.outPath;
-                  version = value.rev;
-                }
-              )
-            ) (filterAttrs (name: _: hasPrefix "nvim:" name) inputs);
-
-          nvim-pbar = final.callPackage ./packages/nvim.nix {
-            nixvim = nixvim.legacyPackages.${final.stdenv.hostPlatform.system};
-          };
-
-        }) # END final: prev:
-      ]; # END overlays
-
+      # Expose a flake output attribute for all supported systems
       eachSystem = nixpkgs.lib.genAttrs (import systems);
 
+      # Instantiate Nixpkgs for a given system including our overlay packages
       pkgsFor = system: import nixpkgs { inherit system overlays; };
     in
     {
@@ -72,37 +51,15 @@
         nvim-pbar = (pkgsFor system).nvim-pbar;
       });
 
-      nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          nixos-wsl.nixosModules.default
-          {
-            system.stateVersion = "24.05";
-            wsl.enable = true;
-            wsl.defaultUser = "nixos";
-          }
-        ];
-      };
-
-      # `task tec`
-      nixosConfigurations."tec" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          home-manager.nixosModules.home-manager
-          ./nixos-tec
-          { nixpkgs.overlays = overlays; }
-        ];
-      };
-
-      # `task mac`
+      # Apply with: `task mac`
       darwinConfigurations."bobbery" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs.inputs = inputs;
         modules = [
-          home-manager.darwinModules.home-manager
+          inputs.home-manager.darwinModules.home-manager
           ./darwin
           {
-            nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ];
+            nixpkgs.overlays = overlays;
             system.stateVersion = 4;
             system.primaryUser = "pierce";
             networking.hostName = "bobbery";
@@ -113,5 +70,29 @@
         ];
       };
 
-    }; # END outputs
-} # END flake
+      # Apply with: `task tec`
+      nixosConfigurations."tec" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          inputs.home-manager.nixosModules.home-manager
+          ./nixos-tec
+          {
+            nixpkgs.overlays = overlays;
+          }
+        ];
+      };
+
+      nixosConfigurations."nixos" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          inputs.nixos-wsl.nixosModules.default
+          {
+            system.stateVersion = "24.05";
+            wsl.enable = true;
+            wsl.defaultUser = "nixos";
+          }
+        ];
+      };
+
+    };
+}
