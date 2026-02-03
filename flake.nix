@@ -64,8 +64,8 @@
             system.primaryUser = "pierce";
             networking.hostName = "bobbery";
             networking.computerName = "Bobbery";
-            home-manager.users.pierce.home.stateVersion = "22.05";
             home-manager.extraSpecialArgs.inputs = inputs;
+            home-manager.users."pierce".home.stateVersion = "22.05";
           }
         ];
       };
