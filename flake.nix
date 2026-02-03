@@ -96,7 +96,14 @@
 
       darwinConfigurations."bobbery" = darwin.lib.darwinSystem {
         modules = [
-          { nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ]; }
+          {
+            nixpkgs.overlays = overlays ++ [ nix-vscode-extensions.overlays.default ];
+            system.stateVersion = 4;
+            system.primaryUser = "pierce";
+            networking.hostName = "bobbery";
+            networking.computerName = "Bobbery";
+            home-manager.users.pierce.home.stateVersion = "22.05";
+          }
           ./darwin
           home-manager.darwinModules.home-manager
           { home-manager.extraSpecialArgs = { inherit inputs; }; }

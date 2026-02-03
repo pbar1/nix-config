@@ -4,10 +4,6 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.pierce = {
-    # The state version is required and should stay at the version you
-    # originally installed.
-    home.stateVersion = "22.05";
-
     imports = [
       ../home/env.nix
       ../home/fish.nix

@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 let
-  user = "pierce";
+  user = config.system.primaryUser;
   kanataConfig = ../keyboard/kanata.kbd;
 in
 {
@@ -12,10 +12,6 @@ in
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
-  system.stateVersion = 4;
 
   # Auto upgrade nix package and the daemon service.
   nix.enable = true;
@@ -58,13 +54,6 @@ in
       maxJobs = 16;
     }
   ];
-
-  networking.hostName = "bobbery";
-  networking.computerName = "Bobbery";
-
-  # Must be set for `homebrew` and `system` attributes. Previously the user
-  # running the switch command would be chosen implicitly.
-  system.primaryUser = user;
 
   # Handy list of macOS `defaults` options
   # https://github.com/LnL7/nix-darwin/blob/master/tests/system-defaults-write.nix
