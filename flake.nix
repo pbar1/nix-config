@@ -45,6 +45,8 @@
     in
     {
 
+      formatter = eachSystem (system: (pkgsFor system).nixfmt-tree);
+
       packages = eachSystem (system: {
         nvim-pbar = (pkgsFor system).nvim-pbar;
       });
