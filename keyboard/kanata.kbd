@@ -59,7 +59,7 @@
   j (t! homerowmod $tot 160 j rsft)
   k (t! homerowmod $tot 300 k rmet)
   l (t! homerowmod $tot 400 l ralt)
-  ; (t! homerowmod $tot 400 ; rctl)
+  ; (t! homerowmod $tot 350 ; rctl)
 
   ;; Letter triggers
   q (multi q @.tp) w (multi w @.tp) e (multi e @.tp) r (multi r @.tp) t (multi t @.tp)

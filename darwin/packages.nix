@@ -39,6 +39,7 @@
       "discord"
       "docker-desktop"
       "google-earth-pro"
+      "iterm2"
       "karabiner-elements"
       "keka"
       "kekaexternalhelper"
