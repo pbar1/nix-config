@@ -19,7 +19,7 @@ in
     macos-option-as-alt = true;
     maximize = true;
     quit-after-last-window-closed = true;
-    theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-soft";
+    theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-hard";
     window-padding-x = "9, 9";
     keybind = [
       # macOS bindings for readline
@@ -63,7 +63,48 @@ in
     ];
   };
 
+  # TODO: Extract into a generic themes file
   programs.ghostty.themes = {
+    gruvbox-material-dark-hard =
+      let
+        fg0 = "#d4be98";
+        fg1 = "#ddc7a1";
+        bg0 = "#1d2021";
+        bg4 = "#3c3836";
+        bg_current_word = "#32302f";
+        red = "#ea6962";
+        green = "#a9b665";
+        yellow = "#d8a657";
+        blue = "#7daea3";
+        purple = "#d3869b";
+        aqua = "#89b482";
+        orange = "#e78a4e";
+      in
+      {
+        background = bg0;
+        selection-background = bg_current_word;
+        foreground = fg0;
+        selection-foreground = fg0;
+        cursor-color = orange;
+        palette = [
+          "0=${bg0}"
+          "1=${red}"
+          "2=${green}"
+          "3=${yellow}"
+          "4=${blue}"
+          "5=${purple}"
+          "6=${aqua}"
+          "7=${fg0}"
+          "8=${bg4}"
+          "9=${red}"
+          "10=${green}"
+          "11=${yellow}"
+          "12=${blue}"
+          "13=${purple}"
+          "14=${aqua}"
+          "15=${fg1}"
+        ];
+      };
     gruvbox-material-dark-soft =
       let
         fg0 = "#d4be98";
