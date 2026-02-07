@@ -27,7 +27,7 @@ nixvim.makeNixvimWithModule {
       require('dark_notify').run({
         schemes = {
           dark = {
-            colorscheme = "base16-gruvbox-material-dark-soft",
+            colorscheme = "base16-gruvbox-material-dark-hard",
           },
           light = {
             colorscheme = "base16-gruvbox-material-light-soft",

@@ -26,8 +26,8 @@
       "bettermouse"
       "font-iosevka-nerd-font"
       "ghostty"
-      "jordanbaird-ice"
       "raycast"
+      "thaw"
     ]
     # Personal machine
     ++ [
@@ -38,6 +38,8 @@
       "cyberduck"
       "discord"
       "docker-desktop"
+      "font-geist-mono-nerd-font"
+      "font-jetbrains-mono-nerd-font"
       "google-earth-pro"
       "iterm2"
       "karabiner-elements"
