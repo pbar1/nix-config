@@ -1,7 +1,2 @@
 result
-result/
-nvim-config/
-**/startuptime.log
-.luarc.json
-.ssh/
-bin/*pw
+!.vscode/settings.json

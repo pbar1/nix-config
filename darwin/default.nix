@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  inputs,
+  pkgs,
+  config,
+  ...
+}:
 
 let
   user = config.system.primaryUser;
@@ -13,14 +18,15 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Auto upgrade nix package and the daemon service.
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+  nix.registry.nixpkgs.flake = inputs.nixpkgs; # `nix` uses nixpkgs from flake
+
   nix.enable = true;
   nix.package = pkgs.nix;
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
-  nix.settings.extra-nix-path = "nixpkgs=flake:nixpkgs";
   nix.settings.bash-prompt-prefix = "(nix:$name)\\040";
   nix.settings.substituters = [
     "https://nix-community.cachix.org"

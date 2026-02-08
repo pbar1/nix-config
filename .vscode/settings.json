@@ -1,0 +1,14 @@
+{
+    "nix.serverSettings": {
+        "nixd": {
+            "options": {
+                "nix-darwin": {
+                    "expr": "(builtins.getFlake (builtins.toString ./.)).darwinConfigurations.bobbery.options",
+                },
+                "home-manager": {
+                    "expr": "(builtins.getFlake (builtins.toString ./.)).darwinConfigurations.bobbery.options.home-manager.users.type.getSubOptions []"
+                }
+            },
+        }
+    }
+}
