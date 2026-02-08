@@ -17,6 +17,8 @@ nixvim.makeNixvimWithModule {
     };
 
     opts = {
+      cursorline = true;
+      number = true;
       signcolumn = "yes";
     };
 
@@ -43,6 +45,12 @@ nixvim.makeNixvimWithModule {
     # Keybindings -------------------------------------------------------------
 
     keymaps = [
+      {
+        mode = "n";
+        key = "<leader><leader>";
+        action = ":";
+        options.desc = "Open command line";
+      }
       # Text editing and movement
       {
         mode = "i";
@@ -169,6 +177,7 @@ nixvim.makeNixvimWithModule {
 
     # Syntax
     plugins.treesitter.enable = true;
+    plugins.treesitter.indent.enable = true;
     plugins.treesitter.settings.highlight.enable = true;
     plugins.lsp.enable = true;
     plugins.lsp.servers.nixd.enable = true;
