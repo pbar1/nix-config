@@ -35,7 +35,7 @@
     programs.bat.enable = true;
     programs.bat.config = {
       style = "plain";
-      theme = "ansi";
+      theme = "base16";
     };
 
     programs.dircolors.enable = true;

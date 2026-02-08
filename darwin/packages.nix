@@ -19,41 +19,35 @@
     "pulumi"
   ];
 
-  homebrew.casks =
-    # Core
-    [
-      "1password"
-      "bettermouse"
-      "font-iosevka-nerd-font"
-      "ghostty"
-      "raycast"
-      "thaw"
-    ]
-    # Personal machine
-    ++ [
-      "antigravity"
-      "brave-browser"
-      "calibre"
-      "cursor"
-      "cyberduck"
-      "discord"
-      "docker-desktop"
-      "font-geist-mono-nerd-font"
-      "font-jetbrains-mono-nerd-font"
-      "google-earth-pro"
-      "iterm2"
-      "karabiner-elements"
-      "keka"
-      "kekaexternalhelper"
-      "lulu"
-      "slack"
-      "spotify"
-      "tailscale-app"
-      "visual-studio-code"
-      "vlc"
-      "vscodium"
-      "whatsapp"
-      "wireshark-app"
-      "zoom"
-    ];
+  homebrew.casks = [
+    "1password"
+    "antigravity"
+    "bettermouse"
+    "brave-browser"
+    "calibre"
+    "cursor"
+    "cyberduck"
+    "discord"
+    "docker-desktop"
+    "font-iosevka-nerd-font"
+    "font-monaspace-nf"
+    "ghostty"
+    "google-earth-pro"
+    "iterm2"
+    "karabiner-elements" # Required for Kanata
+    "keka"
+    "kekaexternalhelper"
+    "lulu"
+    "raycast"
+    "slack"
+    "spotify"
+    "tailscale-app"
+    "thaw"
+    "visual-studio-code"
+    "vlc"
+    "vscodium"
+    "whatsapp"
+    "wireshark-app"
+    "zoom"
+  ];
 }

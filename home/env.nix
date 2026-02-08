@@ -53,6 +53,7 @@ in
     AWS_VAULT_KEYCHAIN_NAME = "login";
     GOOGLE_APPLICATION_CREDENTIALS = "${configHome}/gcp/credentials.json";
     CODEPATH = "${config.home.homeDirectory}/code";
+    BAT_THEME = "base16";
   };
 
   xdg.configFile."npm/npmrc".text = ''

@@ -14,7 +14,8 @@ in
   programs.ghostty.settings = {
     command = "${pkgs.tmux}/bin/tmux new-session -A -s main";
     confirm-close-surface = false;
-    font-family = "Iosevka Nerd Font Mono";
+    font-family = "Monaspace Neon NF";
+    font-feature = [ "calt" ];
     font-size = 16;
     macos-option-as-alt = true;
     maximize = true;
