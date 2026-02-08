@@ -1,4 +1,8 @@
 { pkgs, nixvim }:
+let
+  inherit (pkgs.stdenv.hostPlatform) system;
+  flake = "(builtins.getFlake (builtins.toString ./.))";
+in
 nixvim.makeNixvimWithModule {
   inherit pkgs;
   module = {
@@ -168,6 +172,11 @@ nixvim.makeNixvimWithModule {
     plugins.treesitter.settings.highlight.enable = true;
     plugins.lsp.enable = true;
     plugins.lsp.servers.nixd.enable = true;
+    plugins.lsp.servers.nixd.settings = {
+      options.nix-darwin.expr = "${flake}.darwinConfigurations.bobbery.options";
+      options.home-manager.expr = "${flake}.darwinConfigurations.bobbery.options.home-manager.users.type.getSubOptions []";
+      options.nixvim.expr = ''${flake}.inputs.nixvim.nixvimConfigurations."${system}".default.options'';
+    };
     plugins.rustaceanvim.enable = true;
 
     # Formatting
