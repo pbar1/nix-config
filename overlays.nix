@@ -17,7 +17,7 @@ inputs:
         )
       ) (filterAttrs (name: _: hasPrefix "nvim:" name) inputs);
 
-    nvim-pbar = final.callPackage ./packages/nvim.nix {
+    nvim-pbar = final.callPackage ./pkgs/nvim {
       nixvim = inputs.nixvim.legacyPackages.${final.stdenv.hostPlatform.system};
     };
   })
