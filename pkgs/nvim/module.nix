@@ -43,126 +43,7 @@ in
     })
   '';
 
-  # Keybindings -------------------------------------------------------------
-
-  keymaps = [
-    {
-      mode = "n";
-      key = "<leader><leader>";
-      action = ":";
-      options.desc = "Open command line";
-    }
-    # Text editing and movement
-    {
-      mode = "i";
-      key = "<C-a>";
-      action = "<Home>";
-      options.desc = "Go to start of line";
-    }
-    {
-      mode = "i";
-      key = "<C-e>";
-      action = "<End>";
-      options.desc = "Go to end of line";
-    }
-    {
-      mode = "i";
-      key = "<M-b>";
-      action = "<C-o>b";
-      options.desc = "Go back one word";
-    }
-    {
-      mode = "i";
-      key = "<M-f>";
-      action = "<C-o>w";
-      options.desc = "Go forward one word";
-    }
-    {
-      mode = "i";
-      key = "<C-_>";
-      action = "<C-o>u";
-      options.desc = "Undo";
-    }
-    {
-      mode = "n";
-      key = "<M-#>";
-      action = "gcc";
-      options.desc = "Toggle line comment";
-      options.remap = true;
-    }
-    {
-      mode = "i";
-      key = "<M-#>";
-      action = "<C-o>gcc";
-      options.desc = "Toggle line comment";
-      options.remap = true;
-    }
-    {
-      mode = "v";
-      key = "<M-#>";
-      action = "gc";
-      options.desc = "Toggle comment on selection";
-      options.remap = true;
-    }
-    # Search
-    {
-      mode = "n";
-      key = "<leader>ff";
-      action = "<cmd>Telescope find_files<cr>";
-      options.desc = "Find files";
-    }
-    {
-      mode = "n";
-      key = "<leader>fg";
-      action = "<cmd>Telescope live_grep<cr>";
-      options.desc = "Live grep";
-    }
-    # Quitting and saving
-    {
-      mode = "n";
-      key = "<leader>qq";
-      action = "<cmd>q!<cr>";
-      options.desc = "Force quit without save";
-    }
-    {
-      mode = "n";
-      key = "<leader>qx";
-      action = "<cmd>x<cr>";
-      options.desc = "Save and quit";
-    }
-    {
-      mode = "n";
-      key = "<leader>s";
-      action = "<cmd>w<cr>";
-      options.desc = "Save";
-    }
-    # Window manipulation
-    {
-      mode = "n";
-      key = "<leader>wc";
-      action = "<cmd>close<cr>";
-      options.desc = "Close window";
-    }
-    {
-      mode = "n";
-      key = "<leader>wh";
-      action = "<cmd>split<cr>";
-      options.desc = "Split horizontally";
-    }
-    {
-      mode = "n";
-      key = "<leader>wv";
-      action = "<cmd>vsplit<cr>";
-      options.desc = "Split vertically";
-    }
-    # LSP
-    {
-      mode = "n";
-      key = "<leader>rn";
-      action.__raw = "vim.lsp.buf.rename";
-      options.desc = "Rename symbol";
-    }
-  ];
+  keymaps = import ./keymaps.nix;
 
   # Plugins -----------------------------------------------------------------
 
@@ -174,6 +55,7 @@ in
   plugins.mini.modules = {
     starter = { };
     sessions = { };
+    tabline = { };
   };
 
   # Syntax
