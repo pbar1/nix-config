@@ -57,6 +57,8 @@ in
     sessions = { };
     tabline = { };
   };
+  plugins.gitsigns.enable = true;
+  plugins.trouble.enable = true;
 
   # Syntax
   plugins.treesitter.enable = true;
