@@ -16,6 +16,7 @@
 
   programs.tmux.extraConfig = ''
     set -g renumber-windows on
+    set -as terminal-features ",xterm-ghostty:hyperlinks"
 
     # Allow nested tmux sessions to propagate clipboard
     set -s set-clipboard on

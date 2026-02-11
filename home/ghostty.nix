@@ -22,8 +22,6 @@ in
     quit-after-last-window-closed = true;
     theme = "light:gruvbox-material-light-soft,dark:gruvbox-material-dark-hard";
     window-padding-x = "9, 9";
-    link-url = true;
-    link-previews = true;
 
     keybind = [
       # macOS bindings for readline

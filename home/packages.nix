@@ -11,7 +11,6 @@
     pre-commit
 
     # Other
-    typst
     claude-code
 
     # Command line utils
@@ -65,7 +64,6 @@
     nix-tree
     nixd
     nixfmt
-    nixdoc
 
     # Bash
     nodePackages.bash-language-server
@@ -78,7 +76,6 @@
     # Go
     go
     gopls
-    # gotools # TODO: Conflicts with `ruby`
 
     # Python
     (python3.withPackages (
@@ -90,8 +87,6 @@
     ))
     black
     isort
-    poetry
-    uv
 
     # Lua
     stylua
