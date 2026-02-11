@@ -2,7 +2,6 @@
 
 {
   programs.starship.enable = true;
-  programs.starship.enableTransience = true;
   programs.starship.settings = {
     format = lib.strings.concatStrings [
       "$username"
