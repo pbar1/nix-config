@@ -12,7 +12,11 @@ in
 {
   programs.delta.enable = true;
   programs.delta.enableGitIntegration = true;
-  programs.delta.options.side-by-side = true;
+  programs.delta.options = {
+    hyperlinks = true;
+    hyperlinks-file-link-format = "vscode://file/{path}:{line}";
+    side-by-side = true;
+  };
 
   programs.git.enable = true;
   programs.git.signing.key = signingKey;
