@@ -16,7 +16,7 @@ in
     confirm-close-surface = false;
     font-family = "Monaspace Neon NF";
     font-feature = [ "calt" ];
-    font-size = 16;
+    font-size = 15;
     macos-option-as-alt = true;
     maximize = true;
     quit-after-last-window-closed = true;

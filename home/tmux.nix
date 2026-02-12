@@ -16,6 +16,7 @@
 
   programs.tmux.extraConfig = ''
     set -g renumber-windows on
+    set -g word-separators " ()[]{}|'\"`<>;,"
     set -as terminal-features ",xterm-ghostty:hyperlinks"
 
     # Allow nested tmux sessions to propagate clipboard
