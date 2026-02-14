@@ -23,7 +23,6 @@ in
     EDITOR = "nvim";
     VISUAL = EDITOR;
     # MANPAGER = "sh -c 'col -bx | bat --plain --language=man'";
-    SSH_AGENT_PID = "";
     LESS = "--quit-if-one-screen --RAW-CONTROL-CHARS"; # --mouse breaks iTerm mouse select
     LESSKEY = "${configHome}/less/lesskey";
     LESSHISTFILE = "${cacheHome}/less/history";
