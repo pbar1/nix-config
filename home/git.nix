@@ -1,14 +1,14 @@
 { lib, pkgs, ... }:
-
 let
+  inherit (pkgs.stdenv) isDarwin;
+
   userName = "Pierce Bartine";
   userEmail = "piercebartine@gmail.com";
   signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDim41ofReCgbmijkayBsFg5TlO9qqV8b6Y8Xcwnr49m github@1password";
 
-  credentialHelper = if pkgs.stdenv.isDarwin then "osxkeychain" else "libsecret";
-
+  credentialHelper = if isDarwin then "osxkeychain" else "libsecret";
   sshSignProgram =
-    if pkgs.stdenv.isDarwin then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" else null;
+    if isDarwin then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" else null;
 in
 {
   programs.delta.enable = true;
@@ -17,6 +17,11 @@ in
     hyperlinks = true;
     hyperlinks-file-link-format = "vscode://file/{path}:{line}";
     side-by-side = true;
+  };
+
+  programs.gh.enable = true;
+  programs.gh.settings.aliases = {
+    co = "pr checkout";
   };
 
   programs.git.enable = true;
@@ -63,31 +68,22 @@ in
     "**/Session.vim"
   ];
 
-  programs.sapling = {
-    enable = true;
-    inherit userName;
-    inherit userEmail;
-
-    extraConfig = {
-      pager.pager = "delta";
-      gpg.key = signingKey;
-    };
-
-    aliases = {
-      ar = "addremove";
-      cm = "commit";
-      d = "diff --exclude=*.lock";
-      last = "status --change tip";
-      s = "status";
-      update = "goto";
-      view = "!$HG config paths.default | xargs open";
-      whoami = "config ui.username";
-    };
+  programs.sapling.enable = true;
+  programs.sapling.userName = userName;
+  programs.sapling.userEmail = userEmail;
+  programs.sapling.extraConfig = {
+    pager.pager = "delta";
+    gpg.key = signingKey; # Uses `gpg-ssh-sign` shim in pbar1/bin
   };
-
-  programs.gh.enable = true;
-  programs.gh.settings.aliases = {
-    co = "pr checkout";
+  programs.sapling.aliases = {
+    ar = "addremove";
+    cm = "commit";
+    d = "diff --exclude=*.lock";
+    last = "status --change tip";
+    s = "status";
+    update = "goto";
+    view = "!$HG config paths.default | xargs open";
+    whoami = "config ui.username";
   };
 
   programs.jujutsu.enable = true;
