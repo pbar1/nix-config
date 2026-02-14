@@ -15,7 +15,7 @@
       ../home/packages.nix
       ../home/ssh.nix
       ../home/starship.nix
-      ../home/tmux.nix
+      ../home/tmux
       ../home/vscode.nix
       ../home/wezterm
       ../home/zsh.nix
