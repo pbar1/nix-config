@@ -6,6 +6,7 @@ let
   signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDim41ofReCgbmijkayBsFg5TlO9qqV8b6Y8Xcwnr49m github@1password";
 
   credentialHelper = if pkgs.stdenv.isDarwin then "osxkeychain" else "libsecret";
+
   sshSignProgram =
     if pkgs.stdenv.isDarwin then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" else null;
 in
@@ -69,7 +70,7 @@ in
 
     extraConfig = {
       pager.pager = "delta";
-      gpg.key = "7C92A80F";
+      gpg.key = signingKey;
     };
 
     aliases = {
