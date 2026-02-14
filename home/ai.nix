@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 {
   home.sessionVariables = {
     OPENCODE_ENABLE_EXA = "true";
@@ -6,6 +5,7 @@
   };
 
   programs.opencode.enable = true;
+  programs.opencode.package = null;
   programs.opencode.enableMcpIntegration = true;
   programs.opencode.settings = {
     theme = "system"; # Matches terminal theme

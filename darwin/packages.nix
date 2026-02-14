@@ -14,6 +14,7 @@
 
   homebrew.brews = [
     "cormacrelf/tap/dark-notify"
+    "opencode"
     "openssl"
     "pkg-config"
     "pulumi"
