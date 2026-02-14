@@ -82,7 +82,7 @@ in
     last = "status --change tip";
     s = "status";
     update = "goto";
-    view = "!$HG config paths.default | xargs open";
+    view = "!gh repo view --web";
     whoami = "config ui.username";
   };
 
