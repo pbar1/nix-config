@@ -11,7 +11,6 @@
     pre-commit
 
     # Other
-    claude-code
     starship-claude
 
     # Command line utils

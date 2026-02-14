@@ -1,10 +1,11 @@
-{ inputs, ... }:
+{ ... }:
 
 {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.pierce = {
     imports = [
+      ../home/ai.nix
       ../home/env.nix
       ../home/fish.nix
       ../home/fzf.nix
@@ -13,7 +14,6 @@
       ../home/gpg.nix
       ../home/packages.nix
       ../home/ssh.nix
-      ../home/opencode.nix
       ../home/starship.nix
       ../home/tmux.nix
       ../home/vscode.nix
