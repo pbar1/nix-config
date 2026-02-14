@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   home.sessionVariables = {
     OPENCODE_ENABLE_EXA = "true";
@@ -13,4 +14,5 @@
   programs.claude-code.enable = true;
 
   programs.codex.enable = true;
+  programs.codex.package = null;
 }

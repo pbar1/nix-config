@@ -1,5 +1,6 @@
-inputs:
-[
+inputs: [
+  inputs.nix-vscode-extensions.overlays.default
+
   (final: prev: {
     # Neovim plugins auto-populated from flake inputs with `nvim:` hasPrefix
     myNvimPlugins =
@@ -25,7 +26,4 @@ inputs:
       src = inputs.starship-claude;
     };
   })
-]
-++ [
-  inputs.nix-vscode-extensions.overlays.default
 ]

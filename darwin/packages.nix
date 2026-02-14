@@ -25,6 +25,7 @@
     "bettermouse"
     "brave-browser"
     "calibre"
+    "codex"
     "cursor"
     "cyberduck"
     "discord"
