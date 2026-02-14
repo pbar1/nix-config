@@ -33,3 +33,4 @@ Similar to the structure of a Nix module:
 │   └── nvim
 └── flake.nix
 ```
+
