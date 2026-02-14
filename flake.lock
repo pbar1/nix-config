@@ -181,7 +181,24 @@
         "nixpkgs": "nixpkgs",
         "nixvim": "nixvim",
         "nvim:dark-notify": "nvim:dark-notify",
+        "starship-claude": "starship-claude",
         "systems": "systems_2"
+      }
+    },
+    "starship-claude": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769923979,
+        "narHash": "sha256-U042WJFd9jGW1xkCTz54b3HIFCVTYAOjQuhoC45bLCs=",
+        "owner": "martinemde",
+        "repo": "starship-claude",
+        "rev": "9fdada53b4cd91fec86cdadc4fdcb9bd43f10f62",
+        "type": "github"
+      },
+      "original": {
+        "owner": "martinemde",
+        "repo": "starship-claude",
+        "type": "github"
       }
     },
     "systems": {

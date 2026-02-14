@@ -12,6 +12,7 @@
 
     # Other
     claude-code
+    starship-claude
 
     # Command line utils
     _1password-cli
