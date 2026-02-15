@@ -26,11 +26,10 @@
 
     programs.home-manager.enable = true;
 
-    # Fish shell enables this for `man` completion to work, but it is very slow
-    # https://github.com/NixOS/nixpkgs/issues/100288
-    programs.man.generateCaches = false;
-
-    programs.zoxide.enable = true;
+    programs.less.enable = true;
+    programs.less.options = {
+      RAW-CONTROL-CHARS = true;
+    };
 
     programs.bat.enable = true;
     programs.bat.config = {
@@ -39,5 +38,7 @@
     };
 
     programs.dircolors.enable = true;
+
+    programs.zoxide.enable = true;
   };
 }

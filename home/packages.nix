@@ -25,7 +25,6 @@
     hyperfine
     jq
     dyff
-    less
     procs
     pstree
     ripgrep

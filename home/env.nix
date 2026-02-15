@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
-
 let
+  inherit (config.xdg) configHome dataHome cacheHome;
   home = config.home.homeDirectory;
-  configHome = config.xdg.configHome;
-  dataHome = config.xdg.dataHome;
-  cacheHome = config.xdg.cacheHome;
 in
 {
   xdg.enable = true;
@@ -22,10 +19,6 @@ in
   home.sessionVariables = rec {
     EDITOR = "nvim";
     VISUAL = EDITOR;
-    # MANPAGER = "sh -c 'col -bx | bat --plain --language=man'";
-    LESS = "--quit-if-one-screen --RAW-CONTROL-CHARS"; # --mouse breaks iTerm mouse select
-    LESSKEY = "${configHome}/less/lesskey";
-    LESSHISTFILE = "${cacheHome}/less/history";
     XZ_DEFAULTS = "--verbose --keep --threads=0";
     ZSTD_NBTHREADS = "0";
     GOPATH = "${dataHome}/go";
