@@ -65,6 +65,8 @@ in
   plugins.treesitter.settings.highlight.enable = true;
   plugins.lsp.enable = true;
   plugins.lsp.servers.nixd.enable = true;
+  plugins.lsp.servers.pyright.enable = true;
+  plugins.lsp.servers.ts_ls.enable = true;
   plugins.lsp.servers.nixd.settings = {
     options.nix-darwin.expr = "${flake}.darwinConfigurations.bobbery.options";
     options.home-manager.expr = "${flake}.darwinConfigurations.bobbery.options.home-manager.users.type.getSubOptions []";
@@ -80,8 +82,18 @@ in
   };
   plugins.conform-nvim.settings.formatters_by_ft = {
     "*" = [ "injected" ]; # Formats code blocks
+    javascript = [ "prettier" ];
+    javascriptreact = [ "prettier" ];
+    json = [ "prettier" ];
     nix = [ "nixfmt" ];
+    python = [
+      "isort"
+      "black"
+    ];
     rust = [ "rustfmt" ];
+    typescript = [ "prettier" ];
+    typescriptreact = [ "prettier" ];
+    yaml = [ "prettier" ];
   };
 
   # Completion

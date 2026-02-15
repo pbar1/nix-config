@@ -95,6 +95,7 @@
     yarn-berry
     deno
     bun
+    prettier
 
     # Dotnet and C#
     (
