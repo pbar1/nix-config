@@ -40,5 +40,21 @@
     programs.dircolors.enable = true;
 
     programs.zoxide.enable = true;
+
+    editorconfig.enable = true;
+    editorconfig.settings = {
+      # Sections merge, later wins
+      "*" = {
+        charset = "utf-8";
+        end_of_line = "lf";
+        indent_size = 4;
+        indent_style = "space";
+        insert_final_newline = true;
+        trim_trailing_whitespace = true;
+      };
+      "*.{nix}" = {
+        indent_size = 2;
+      };
+    };
   };
 }

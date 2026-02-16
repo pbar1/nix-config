@@ -18,9 +18,13 @@ in
 
   opts = {
     cursorline = true;
+    expandtab = true;
     number = true;
+    shiftwidth = 4;
     signcolumn = "yes";
     smartindent = true;
+    softtabstop = 4;
+    tabstop = 4;
   };
 
   clipboard.register = "unnamedplus"; # Copy to system clipboard
