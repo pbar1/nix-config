@@ -81,7 +81,9 @@ in
     lsp_format = "fallback";
   };
   plugins.conform-nvim.settings.formatters_by_ft = {
-    "*" = [ "injected" ]; # Formats code blocks
+    "*" = [
+      "injected" # Formats code blocks
+    ];
     javascript = [ "prettier" ];
     javascriptreact = [ "prettier" ];
     json = [ "prettier" ];
@@ -91,6 +93,7 @@ in
       "black"
     ];
     rust = [ "rustfmt" ];
+    sh = [ "shfmt" ];
     typescript = [ "prettier" ];
     typescriptreact = [ "prettier" ];
     yaml = [ "prettier" ];
