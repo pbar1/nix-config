@@ -69,14 +69,15 @@ in
   plugins.treesitter.settings.highlight.enable = true;
   plugins.lsp.enable = true;
   plugins.lsp.servers.nixd.enable = true;
-  plugins.lsp.servers.pyright.enable = true;
-  plugins.lsp.servers.ts_ls.enable = true;
   plugins.lsp.servers.nixd.settings = {
     options.nix-darwin.expr = "${flake}.darwinConfigurations.bobbery.options";
     options.home-manager.expr = "${flake}.darwinConfigurations.bobbery.options.home-manager.users.type.getSubOptions []";
     options.nixvim.expr = ''${flake}.inputs.nixvim.nixvimConfigurations."${system}".default.options'';
   };
+  plugins.lsp.servers.pyright.enable = true;
+  plugins.lsp.servers.ts_ls.enable = true;
   plugins.rustaceanvim.enable = true;
+  plugins.roslyn.enable = true;
 
   # Formatting
   plugins.conform-nvim.enable = true;
