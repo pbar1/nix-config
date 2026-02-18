@@ -18,6 +18,16 @@
     "root"
     "nixos"
   ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  nix.settings.auto-optimise-store = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than=30d";
+  };
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -55,6 +65,7 @@
     fselect
     ghostty.terminfo
     jq
+    osc
     pv
     python3
     ripgrep
@@ -88,7 +99,7 @@
   '';
 
   services.eternal-terminal.enable = true;
-
+  programs.mosh.enable = true;
   programs.tmux.enable = true;
 
   services.k3s.enable = true;

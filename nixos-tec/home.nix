@@ -10,6 +10,7 @@
 
     imports = [
       ../home-ng/env.nix
+      ../home-ng/git.nix
       ../home-ng/shell.nix
     ];
 
@@ -26,7 +27,5 @@
       tv = "cd $TV";
       ab = "cd $AUDIOBOOKS";
     };
-
-    programs.git.enable = true;
   };
 }
