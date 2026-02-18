@@ -27,5 +27,7 @@
       tv = "cd $TV";
       ab = "cd $AUDIOBOOKS";
     };
+
+    xdg.configFile."tmux/tmux.conf".source = ../home/tmux/tmux.conf;
   };
 }

@@ -72,6 +72,7 @@
     ruby
     sd
     smartmontools
+    tmux
     vim
     wget
     yt-dlp
@@ -100,7 +101,6 @@
 
   services.eternal-terminal.enable = true;
   programs.mosh.enable = true;
-  programs.tmux.enable = true;
 
   services.k3s.enable = true;
   services.k3s.role = "server";
