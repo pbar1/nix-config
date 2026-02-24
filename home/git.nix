@@ -60,14 +60,13 @@ in
     ar = "add .";
     ci = "commit --all";
     d = "diff ':!*.lock'";
-    go = "switch";
     last = "diff --name-status HEAD^!";
     lg = "log --graph --decorate --date=relative --pretty=tformat:'%C(auto)%h%d %s %Cgreen(%ad)%Creset %C(bold blue)<%an>%Creset'";
     root = "rev-parse --show-toplevel";
-    st = "status --short";
+    s = "status --short";
     unstage = "restore --staged";
+    up = "switch";
     view = "!gh repo view --web";
-    whoami = "config --get-regexp '^user\.'";
   };
   programs.git.ignores = [
     "**/.DS_Store"
@@ -84,29 +83,10 @@ in
   };
   programs.sapling.aliases = {
     ar = "addremove";
-    cm = "commit";
     d = "diff --exclude=*.lock";
     last = "status --change tip";
     s = "status";
-    update = "goto";
+    up = "goto";
     view = "!gh repo view --web";
-    whoami = "config ui.username";
-  };
-
-  programs.jujutsu.enable = true;
-  programs.jujutsu.settings = {
-    user.name = userName;
-    user.email = userEmail;
-    ui."default-command" = "log";
-    ui.diff-formatter = [
-      (lib.getExe pkgs.difftastic)
-      "--color=always"
-      "$left"
-      "$right"
-    ];
-    signing.behavior = "own";
-    signing.backend = "ssh";
-    signing.key = signingKey;
-    signing.backends.ssh.program = sshSignProgram;
   };
 }
