@@ -44,7 +44,7 @@ in
       cm = "commit";
       co = "checkout";
       head-branch = "!git remote show $(git upstream-name) | awk '/HEAD branch/ {print $NF}'";
-      lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+      lg = "log --graph --decorate --date=relative --pretty=tformat:'%C(auto)%h%d %s %Cgreen(%ad)%Creset %C(bold blue)<%an>%Creset'";
       remotes = "remote --verbose";
       root = "rev-parse --show-toplevel";
       unstage = "reset HEAD --";
