@@ -11,12 +11,14 @@ let
     if isDarwin then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" else null;
 in
 {
+  programs.difftastic.enable = true;
+
   programs.delta.enable = true;
   programs.delta.enableGitIntegration = true;
   programs.delta.options = {
     hyperlinks = true;
     hyperlinks-file-link-format = "vscode://file/{path}:{line}";
-    side-by-side = true;
+    navigate = true;
   };
 
   programs.gh.enable = true;
@@ -28,38 +30,44 @@ in
   programs.git.signing.key = signingKey;
   programs.git.signing.signByDefault = true;
   programs.git.settings = {
-    user.name = userName;
-    user.email = userEmail;
-    branch.autoSetupMerge = "always";
+    branch.sort = "-committerdate";
     credential.helper = credentialHelper;
+    diff.algorithm = "histogram";
+    diff.colorMoved = "zebra";
+    diff.mnemonicPrefix = true;
+    diff.tool = "difftastic";
+    difftool.difftastic.cmd = ''difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"'';
+    difftool.prompt = false;
+    fetch.prune = true;
     gpg.format = "ssh";
     gpg.ssh.program = sshSignProgram;
+    help.autocorrect = "prompt";
     init.defaultBranch = "main";
+    merge.conflictStyle = "zdiff3";
+    pager.difftool = true;
     pull.rebase = true;
-    push.default = "current";
+    push.autoSetupRemote = true;
+    push.default = "simple";
     push.followTags = true;
-    alias = {
-      ar = "add .";
-      br = "branch";
-      cm = "commit";
-      co = "checkout";
-      head-branch = "!git remote show $(git upstream-name) | awk '/HEAD branch/ {print $NF}'";
-      lg = "log --graph --decorate --date=relative --pretty=tformat:'%C(auto)%h%d %s %Cgreen(%ad)%Creset %C(bold blue)<%an>%Creset'";
-      remotes = "remote --verbose";
-      root = "rev-parse --show-toplevel";
-      unstage = "reset HEAD --";
-      upstream-auto = "!git remote set-head origin --auto";
-      upstream-name = "!git remote | egrep -o '(upstream|origin)' | tail -1";
-      view = "!gh repo view --web";
-      whoami = "config --get-regexp '^user\.'";
-      zap = "remote prune origin";
-
-      # Mercurial/Sapling emulation
-      ci = "commit --all";
-      d = "diff ':!*.lock'";
-      shelve = "stash";
-      st = "status --short";
-    };
+    rebase.autoStash = true;
+    rebase.updateRefs = true;
+    rerere.autoUpdate = true;
+    rerere.enabled = true;
+    user.email = userEmail;
+    user.name = userName;
+  };
+  programs.git.settings.alias = {
+    ar = "add .";
+    ci = "commit --all";
+    co = "checkout";
+    d = "diff ':!*.lock'";
+    lg = "log --graph --decorate --date=relative --pretty=tformat:'%C(auto)%h%d %s %Cgreen(%ad)%Creset %C(bold blue)<%an>%Creset'";
+    remotes = "remote --verbose";
+    root = "rev-parse --show-toplevel";
+    st = "status --short";
+    unstage = "reset HEAD --";
+    view = "!gh repo view --web";
+    whoami = "config --get-regexp '^user\.'";
   };
   programs.git.ignores = [
     "**/.DS_Store"
