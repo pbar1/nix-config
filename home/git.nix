@@ -59,13 +59,13 @@ in
   programs.git.settings.alias = {
     ar = "add .";
     ci = "commit --all";
-    co = "checkout";
     d = "diff ':!*.lock'";
+    go = "switch";
+    last = "diff --name-status HEAD^!";
     lg = "log --graph --decorate --date=relative --pretty=tformat:'%C(auto)%h%d %s %Cgreen(%ad)%Creset %C(bold blue)<%an>%Creset'";
-    remotes = "remote --verbose";
     root = "rev-parse --show-toplevel";
     st = "status --short";
-    unstage = "reset HEAD --";
+    unstage = "restore --staged";
     view = "!gh repo view --web";
     whoami = "config --get-regexp '^user\.'";
   };
@@ -73,7 +73,6 @@ in
     "**/.DS_Store"
     "**/.idea/*"
     "**/.vscode/*"
-    "**/Session.vim"
   ];
 
   programs.sapling.enable = true;
