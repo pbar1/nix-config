@@ -35,8 +35,8 @@ in
     diff.algorithm = "histogram";
     diff.colorMoved = "zebra";
     diff.mnemonicPrefix = true;
-    diff.tool = "difftastic";
-    difftool.difftastic.cmd = ''difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"'';
+    diff.tool = "difft";
+    difftool.difft.cmd = ''difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"'';
     difftool.prompt = false;
     fetch.prune = true;
     gpg.format = "ssh";
@@ -60,10 +60,12 @@ in
     ar = "add .";
     ci = "commit --all";
     d = "diff ':!*.lock'";
+    dt = "difftool";
     last = "diff --name-status HEAD^!";
     lg = "log --graph --decorate --date=relative --pretty=tformat:'%C(auto)%h%d %s %Cgreen(%ad)%Creset %C(bold blue)<%an>%Creset'";
     root = "rev-parse --show-toplevel";
-    s = "status --short";
+    showt = "-c diff.external=difft show --ext-diff";
+    st = "status --short";
     unstage = "restore --staged";
     up = "switch";
     view = "!gh repo view --web";
@@ -78,14 +80,20 @@ in
   programs.sapling.userName = userName;
   programs.sapling.userEmail = userEmail;
   programs.sapling.extraConfig = {
-    pager.pager = "delta";
+    extdiff."cmd.difft" = "difft";
+    extensions.extdiff = "";
     gpg.key = signingKey; # Uses `gpg-ssh-sign` shim in pbar1/bin
+    pager.pager = "delta";
   };
   programs.sapling.aliases = {
     ar = "addremove";
     d = "diff --exclude=*.lock";
-    last = "status --change tip";
-    s = "status";
+    dt = "difft";
+    p = "pull --rebase";
+    showt = "difft --change=.";
+    sub = "submit";
+    submit = "pr submit";
+    unstack = "rebase --source=.";
     up = "goto";
     view = "!gh repo view --web";
   };
