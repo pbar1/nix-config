@@ -11,8 +11,6 @@ let
     if isDarwin then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" else null;
 in
 {
-  programs.difftastic.enable = true;
-
   programs.delta.enable = true;
   programs.delta.enableGitIntegration = true;
   programs.delta.options = {
@@ -20,6 +18,10 @@ in
     hyperlinks-file-link-format = "vscode://file/{path}:{line}";
     navigate = true;
   };
+
+  programs.difftastic.enable = true;
+
+  programs.mergiraf.enable = true;
 
   programs.gh.enable = true;
   programs.gh.settings.aliases = {
@@ -43,7 +45,7 @@ in
     gpg.ssh.program = sshSignProgram;
     help.autocorrect = "prompt";
     init.defaultBranch = "main";
-    merge.conflictStyle = "zdiff3";
+    merge.conflictStyle = "diff3"; # Required for mergiraf
     pager.difftool = true;
     pull.rebase = true;
     push.autoSetupRemote = true;
@@ -96,5 +98,12 @@ in
     unstack = "rebase --source=.";
     up = "goto";
     view = "!gh repo view --web";
+  };
+
+  programs.jujutsu.enable = true;
+  programs.jujutsu.settings = {
+    user.name = userName;
+    user.email = userEmail;
+    ui.default-command = "log";
   };
 }
