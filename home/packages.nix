@@ -9,6 +9,7 @@
     go-task
     tokei
     pre-commit
+    git-branchless
 
     # Other
     starship-claude
@@ -18,7 +19,6 @@
     coreutils
     eza
     fd
-    fselect
     file
     gnused
     gawk
@@ -33,10 +33,11 @@
     unixtools.watch
     xz
     ffmpeg
+    tlrc
+    glow
 
     # Networking
     dig
-    hey
     nmap
     socat
     eternal-terminal
