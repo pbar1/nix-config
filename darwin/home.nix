@@ -28,7 +28,12 @@
 
     programs.less.enable = true;
     programs.less.options = {
+      LONG-PROMPT = true;
       RAW-CONTROL-CHARS = true;
+      ignore-case = true;
+      mouse = true;
+      quiet = true;
+      quit-if-one-screen = true;
     };
 
     programs.bat.enable = true;
