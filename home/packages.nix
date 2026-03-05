@@ -14,6 +14,9 @@
     # Other
     starship-claude
 
+    # GNU userland
+    ncurses
+
     # Command line utils
     _1password-cli
     coreutils

@@ -1,7 +1,7 @@
 # WARNING: Abbreviations with single quotes will break zsh-abbr!
 {
   "," = "nix-shell --packages";
-  c = "clear";
+  c = "clear -x";
   cb = "cargo build";
   cr = "cargo run";
   ct = "cargo test";
@@ -25,7 +25,6 @@
   kxx = "kubectl xx";
   lt = "eza --tree";
   nc = "ncat";
-  nv = "nvim";
   oc = "opencode";
   s = "sl";
   t = "task";
