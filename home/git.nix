@@ -102,8 +102,12 @@ in
 
   programs.jujutsu.enable = true;
   programs.jujutsu.settings = {
-    user.name = userName;
-    user.email = userEmail;
+    signing.backend = "ssh";
+    signing.backends.ssh.program = sshSignProgram;
+    signing.behavior = "own";
+    signing.key = signingKey;
     ui.default-command = "log";
+    user.email = userEmail;
+    user.name = userName;
   };
 }
