@@ -11,7 +11,7 @@ let
   };
 in
 [
-  # Readline adapters (also enables some macOS text shortcuts)
+  # Readline shortcuts
   (kmap [ "i" "c" "n" "v" ] "<C-a>" "<Home>" "Go to start of line")
   (kmap [ "i" "c" "n" "v" ] "<C-e>" "<End>" "Go to end of line")
   (kmap [ "i" "c" "n" "v" ] "<M-b>" "<S-Left>" "Go back one word")
@@ -22,16 +22,20 @@ in
   (kmap "n" "<M-#>" "gcc" "Toggle line comment" // remap)
   (kmap "v" "<M-#>" "gc" "Toggle line comment" // remap)
 
+  # macOS shortcuts
+  (kmap "i" "<F13>" "<C-o><Cmd>update<CR>" "Save file")
+  (kmap "n" "<F13>" "<Cmd>update<CR>" "Save file")
+
   # Leader shortcuts
-  (kmap "n" "<leader><leader>" ":" "Command mode")
-  (kmap "n" "<leader>db" "<cmd>bdelete<CR>" "Close buffer")
-  (kmap "n" "<leader>dh" "<cmd>nohlsearch<CR>" "Clear search highlight")
-  (kmap "n" "<leader>dw" "<cmd>close<CR>" "Close window")
-  (kmap "n" "<leader>fb" "<cmd>Telescope buffers<CR>" "Find buffers")
-  (kmap "n" "<leader>ff" "<cmd>Telescope find_files<CR>" "Find files")
-  (kmap "n" "<leader>fg" "<cmd>Telescope live_grep<CR>" "Find text")
-  (kmap "n" "<leader>fh" "<cmd>Telescope help_tags<CR>" "Find help")
-  (kmap "n" "<leader>fm" "<cmd>Telescope marks<CR>" "Find marks")
-  (kmap "n" "<leader>rn" (lua "vim.lsp.buf.rename") "Rename symbol")
-  (kmap "n" "<leader>td" "<cmd>Trouble diagnostics toggle<CR>" "Toggle diagnostics")
+  (kmap "n" "<Leader><Leader>" ":" "Command mode")
+  (kmap "n" "<Leader>db" "<Cmd>bdelete<CR>" "Close buffer")
+  (kmap "n" "<Leader>dh" "<Cmd>nohlsearch<CR>" "Clear search highlight")
+  (kmap "n" "<Leader>dw" "<Cmd>close<CR>" "Close window")
+  (kmap "n" "<Leader>fb" "<Cmd>Telescope buffers<CR>" "Find buffers")
+  (kmap "n" "<Leader>ff" "<Cmd>Telescope find_files<CR>" "Find files")
+  (kmap "n" "<Leader>fg" "<Cmd>Telescope live_grep<CR>" "Find text")
+  (kmap "n" "<Leader>fh" "<Cmd>Telescope help_tags<CR>" "Find help")
+  (kmap "n" "<Leader>fm" "<Cmd>Telescope marks<CR>" "Find marks")
+  (kmap "n" "<Leader>rn" (lua "vim.lsp.buf.rename") "Rename symbol")
+  (kmap "n" "<Leader>td" "<Cmd>Trouble diagnostics toggle<CR>" "Toggle diagnostics")
 ]

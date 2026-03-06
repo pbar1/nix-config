@@ -57,8 +57,9 @@ in
   plugins.which-key.enable = true;
   plugins.mini.enable = true;
   plugins.mini.modules = {
-    starter = { };
+    pairs = { };
     sessions = { };
+    starter = { };
     tabline = { };
   };
   plugins.gitsigns.enable = true;

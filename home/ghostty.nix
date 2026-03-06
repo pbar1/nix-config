@@ -30,6 +30,9 @@ in
       ''cmd+z=text:\x1f'' # (ctrl-_) Undo
       ''cmd+/=text:\x1b#'' # (alt-#) Comment line
 
+      # macOS bindings for nvim
+      ''cmd+s=text:\x1b[1;2P'' # (F13)
+
       # macOS bindings for tmux
       "cmd+digit_1=${tmuxPrefix}1"
       "cmd+digit_2=${tmuxPrefix}2"
