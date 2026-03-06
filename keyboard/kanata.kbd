@@ -9,7 +9,7 @@
   ;; Without this, MX Master mice cursors are stuck in top left corner.
   ;; However, this also may cause Kanata to need a restart after bluetooth
   ;; reconnects. https://github.com/jtroo/kanata/issues/1390
-  macos-dev-names-exclude 
+  macos-dev-names-exclude
     ("MX Master 2S"
      "MX Master 3S"))
 
@@ -20,8 +20,8 @@
   tot 220)
 
 (deftemplate homerowmod (timeouttap timeouthold keytap keyhold)
-  (tap-hold $timeouttap $timeouthold 
-    (multi $keytap @.tp) 
+  (tap-hold $timeouttap $timeouthold
+    (multi $keytap @.tp)
     $keyhold))
 
 (deftemplate homerowmodfiltered (timeouttap timeouthold keytap keyhold typinglist)
@@ -30,7 +30,7 @@
     $keyhold
     $typinglist))
 
-(defalias 
+(defalias
   .tp (switch () (multi (layer-switch typing) (on-idle 55 tap-vkey to-base)) break)
   capnav (tap-hold 200 200 esc (layer-toggle nav))
 )
@@ -57,7 +57,7 @@
   j (t! homerowmod $tot 160 j rsft)
   k (t! homerowmod $tot 300 k rmet)
   l (t! homerowmod $tot 400 l ralt)
-  ; (t! homerowmod $tot 350 ; rctl)
+  ; (t! homerowmod $tot 300 ; rctl)
 
   ;; Letter triggers
   q (multi q @.tp) w (multi w @.tp) e (multi e @.tp) r (multi r @.tp) t (multi t @.tp)
