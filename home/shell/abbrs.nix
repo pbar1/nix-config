@@ -1,6 +1,7 @@
 # WARNING: Abbreviations with single quotes will break zsh-abbr!
 {
   "," = "nix-shell --packages";
+  a = "astu";
   c = "clear -x";
   cb = "cargo build";
   cr = "cargo run";
@@ -9,6 +10,7 @@
   dyf = "dyff between -b";
   e = "$EDITOR";
   g = "git";
+  gr = ''cd "$(git root)"'';
   gs = "git status --short";
   k = "kubectl";
   kapi = "kubectl api-resources";

@@ -8,7 +8,7 @@
     # Version control & project tools
     go-task
     tokei
-    pre-commit
+    prek
     git-branchless
 
     # Other

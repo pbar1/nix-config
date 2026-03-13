@@ -57,7 +57,7 @@
         insert_final_newline = true;
         trim_trailing_whitespace = true;
       };
-      "*.{nix}" = {
+      "*.{nix,yml,yaml}" = {
         indent_size = 2;
       };
     };
