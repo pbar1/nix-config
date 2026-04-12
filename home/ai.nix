@@ -5,14 +5,12 @@
   };
 
   programs.opencode.enable = true;
-  programs.opencode.package = null;
   programs.opencode.enableMcpIntegration = true;
   programs.opencode.settings = {
-    theme = "system"; # Matches terminal theme
   };
+  programs.opencode.tui.theme = "system"; # Matches terminal theme
 
   programs.claude-code.enable = true;
 
   programs.codex.enable = true;
-  programs.codex.package = null;
 }
