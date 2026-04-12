@@ -33,19 +33,28 @@
 (defalias
   .tp (switch () (multi (layer-switch typing) (on-idle 55 tap-vkey to-base)) break)
   capnav (tap-hold 200 200 esc (layer-toggle nav))
+  fnrow (layer-while-held function)
 )
 
 (defsrc)
 
 (deflayermap (base)
   caps @capnav
+  fn @fnrow
 
-  ;; HID media keys
-  f1   brdn
-  f2   brup
-  f10  mute
-  f11  vold
-  f12  volu
+  ;; Recreate macOS media key defaults (Kanata hijacks this)
+  f1  brdn
+  f2  brup
+  f3  mctl
+  f4  sls
+  f5  dtn
+  f6  dnd
+  f7  prev
+  f8  pp
+  f9  next
+  f10 mute
+  f11 vold
+  f12 volu
 
   ;; Home row CAGS mods
   ;; Left hand
@@ -74,5 +83,19 @@
   k down
   l right
   i up)
+
+(deflayermap (function)
+  f1  f1
+  f2  f2
+  f3  f3
+  f4  f4
+  f5  f5
+  f6  f6
+  f7  f7
+  f8  f8
+  f9  f9
+  f10 f10
+  f11 f11
+  f12 f12)
 
 ;; vim: set ft=scheme:
