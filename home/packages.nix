@@ -90,6 +90,7 @@
     ))
     black
     isort
+    uv
 
     # Lua
     stylua
