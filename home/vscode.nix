@@ -7,14 +7,60 @@
 let
   inherit (pkgs.stdenv) isDarwin;
   jsonFormat = pkgs.formats.json { };
-
-  editors = [
-    "VSCodium"
-    "Cursor"
-    "Antigravity"
-  ];
   configDir = if isDarwin then "Library/Application Support" else config.xdg.configHome;
   os = if isDarwin then "osx" else "linux";
+  editors = [ "VSCodium" ];
+
+  # Literal `\u` is impossible without this: https://github.com/NixOS/nix/issues/10082
+  tmuxPrefix = builtins.fromJSON ''"\u0002"''; # C-b
+  termBind = vscodeKey: tmuxKey: {
+    key = vscodeKey;
+    command = "workbench.action.terminal.sendSequence";
+    args.text = tmuxKey;
+    when = "terminalFocus";
+  };
+
+  keybindings = [
+    {
+      key = "shift+cmd+enter";
+      command = "workbench.action.toggleMaximizedPanel";
+    }
+    {
+      command = "workbench.action.splitEditor";
+      key = "cmd+d";
+    }
+    {
+      command = "-workbench.action.splitEditor";
+      key = "cmd+\\";
+    }
+    {
+      command = "workbench.action.splitEditorOrthogonal";
+      key = "shift+cmd+d";
+    }
+    {
+      command = "-workbench.action.splitEditorOrthogonal";
+      key = "cmd+k cmd+\\";
+    }
+    {
+      command = "workbench.action.zoomIn";
+      key = "cmd+=";
+    }
+    # macOS shortcuts for tmux
+    (termBind "cmd+1" "${tmuxPrefix}1")
+    (termBind "cmd+2" "${tmuxPrefix}2")
+    (termBind "cmd+3" "${tmuxPrefix}3")
+    (termBind "cmd+4" "${tmuxPrefix}4")
+    (termBind "cmd+5" "${tmuxPrefix}5")
+    (termBind "cmd+6" "${tmuxPrefix}6")
+    (termBind "cmd+7" "${tmuxPrefix}7")
+    (termBind "cmd+8" "${tmuxPrefix}8")
+    (termBind "cmd+9" "${tmuxPrefix}9")
+    (termBind "cmd+t" "${tmuxPrefix}c")
+    (termBind "cmd+w" "${tmuxPrefix}x")
+    (termBind "cmd+d" "${tmuxPrefix}%")
+    (termBind "shift+cmd+d" ''${tmuxPrefix}"'')
+    (termBind "cmd+f" "${tmuxPrefix}/")
+  ];
 
   settings = {
     "[dockercompose]" = {
@@ -154,6 +200,7 @@ let
     "update.mode" = "none";
     "vsicons.dontShowNewVersionMessage" = true;
     "window.autoDetectColorScheme" = true;
+    "window.nativeTabs" = true;
     "workbench.editor.empty.hint" = "hidden";
     "workbench.editorAssociations" = {
       "*.bin" = "hexEditor.hexedit";
@@ -165,56 +212,6 @@ let
     "yaml.format.enable" = true;
   };
 
-  keybindings = [
-    {
-      key = "shift+cmd+enter";
-      command = "workbench.action.toggleMaximizedPanel";
-    }
-    {
-      command = "workbench.action.splitEditor";
-      key = "cmd+d";
-    }
-    {
-      command = "-workbench.action.splitEditor";
-      key = "cmd+\\";
-    }
-    {
-      command = "workbench.action.splitEditorOrthogonal";
-      key = "shift+cmd+d";
-    }
-    {
-      command = "-workbench.action.splitEditorOrthogonal";
-      key = "cmd+k cmd+\\";
-    }
-    {
-      command = "workbench.action.zoomIn";
-      key = "cmd+=";
-    }
-    # macOS shortcuts for tmux
-    (termBind "cmd+1" "${tmuxPrefix}1")
-    (termBind "cmd+2" "${tmuxPrefix}2")
-    (termBind "cmd+3" "${tmuxPrefix}3")
-    (termBind "cmd+4" "${tmuxPrefix}4")
-    (termBind "cmd+5" "${tmuxPrefix}5")
-    (termBind "cmd+6" "${tmuxPrefix}6")
-    (termBind "cmd+7" "${tmuxPrefix}7")
-    (termBind "cmd+8" "${tmuxPrefix}8")
-    (termBind "cmd+9" "${tmuxPrefix}9")
-    (termBind "cmd+t" "${tmuxPrefix}c")
-    (termBind "cmd+w" "${tmuxPrefix}x")
-    (termBind "cmd+d" "${tmuxPrefix}%")
-    (termBind "shift+cmd+d" ''${tmuxPrefix}"'')
-    (termBind "cmd+f" "${tmuxPrefix}/")
-  ];
-
-  # Literal `\u` is impossible without this: https://github.com/NixOS/nix/issues/10082
-  tmuxPrefix = builtins.fromJSON ''"\u0002"''; # C-b
-  termBind = vscodeKey: tmuxKey: {
-    key = vscodeKey;
-    command = "workbench.action.terminal.sendSequence";
-    args.text = tmuxKey;
-    when = "terminalFocus";
-  };
 in
 {
   home.file = lib.listToAttrs (

@@ -22,12 +22,10 @@
 
   homebrew.casks = [
     "1password"
-    "antigravity"
     "bettermouse"
     "brave-browser"
     "calibre"
     "codex"
-    "cursor"
     "cyberduck"
     "discord"
     "docker-desktop"
