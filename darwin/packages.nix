@@ -38,6 +38,7 @@
     "keka"
     "kekaexternalhelper"
     "lulu"
+    "monitorcontrol"
     "raycast"
     "slack"
     "spotify"
