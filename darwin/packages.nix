@@ -1,9 +1,5 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    kanata
-  ];
-
   # TODO: https://github.com/zhaofengli/nix-homebrew
   homebrew.enable = true;
   homebrew.onActivation.cleanup = "zap";
@@ -14,6 +10,7 @@
 
   homebrew.brews = [
     "cormacrelf/tap/dark-notify"
+    "kanata"
     "opencode"
     "openssl"
     "pkg-config"
