@@ -107,6 +107,7 @@ in
       serviceConfig = {
         KeepAlive = true;
         RunAtLoad = true;
+        ProcessType = "Interactive";
         StandardOutPath = "/Library/Logs/Kanata/kanata.out.log";
         StandardErrorPath = "/Library/Logs/Kanata/kanata.err.log";
       };
