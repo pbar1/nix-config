@@ -1,5 +1,9 @@
 { pkgs, ... }:
 
+let
+  zfsMount = [ "zfs-mount.service" ];
+in
+
 {
   imports = [
     ./hardware-configuration.nix
@@ -105,13 +109,22 @@
   services.k3s.enable = true;
   services.k3s.role = "server";
   services.k3s.extraFlags = toString [
-    # IPv4-only beacuse ISP has trouble keeping an IPv6 address, which crashes
+    # IPv4-only because ISP has trouble keeping an IPv6 address, which crashes
     # the cluster when lost
     "--cluster-cidr=10.42.0.0/16"
     "--service-cidr=10.43.0.0/16"
     "--default-local-storage-path=/zssd/general/local-path-provisioner"
     "--secrets-encryption"
     "--disable=traefik"
+  ];
+  # Ensure K3s starts with proper ZFS datasets mounted
+  systemd.services.k3s.after = zfsMount;
+  systemd.services.k3s.requires = zfsMount;
+  systemd.services.k3s.unitConfig.RequiresMountsFor = [
+    "/data/media"
+    "/data/torrents"
+    "/zssd/general/config"
+    "/zssd/general/local-path-provisioner"
   ];
 
   programs.criu.enable = true;

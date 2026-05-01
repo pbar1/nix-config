@@ -6,6 +6,14 @@
   ...
 }:
 
+let
+  keysMount = [ "keys.mount" ];
+  zfsImport = [
+    "zfs-import-data.service"
+    "zfs-import-zssd.service"
+  ];
+in
+
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
@@ -35,10 +43,21 @@
   '';
   boot.extraModulePackages = [ ];
   boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = [
     "data"
     "zssd"
   ];
+
+  # `/keys` must be mounted for ZFS native encryption to work when importing
+  systemd.services.zfs-import-data.after = keysMount;
+  systemd.services.zfs-import-data.requires = keysMount;
+  systemd.services.zfs-import-zssd.after = keysMount;
+  systemd.services.zfs-import-zssd.requires = keysMount;
+
+  # Ensure that the expected zpools are imported before mounting
+  systemd.services.zfs-mount.after = zfsImport;
+  systemd.services.zfs-mount.requires = zfsImport;
 
   fileSystems."/" = {
     device = "/dev/disk/by-id/nvme-CT500P2SSD8_2118E59D6609-part1";
@@ -52,6 +71,7 @@
 
   fileSystems."/keys" = {
     device = "/dev/disk/by-id/usb-Lexar_USB_Flash_Drive_04DDARFLD3OSXBA7-0:0-part1";
+    fsType = "ext4";
     options = [
       "defaults"
       "nofail"
