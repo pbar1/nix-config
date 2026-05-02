@@ -117,6 +117,19 @@ in
     "--secrets-encryption"
     "--disable=traefik"
   ];
+  services.k3s.manifests.gvisor-runtimeclass.content = {
+    apiVersion = "node.k8s.io/v1";
+    kind = "RuntimeClass";
+    metadata.name = "gvisor";
+    handler = "runsc";
+  };
+  services.k3s.containerdConfigTemplate = ''
+    {{ template "base" . }}
+
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runsc]
+      runtime_type = "io.containerd.runsc.v1"
+  '';
+  systemd.services.k3s.path = [ pkgs.gvisor ];
   # Ensure K3s starts with proper ZFS datasets mounted
   systemd.services.k3s.after = zfsMount;
   systemd.services.k3s.requires = zfsMount;
