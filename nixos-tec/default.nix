@@ -6,6 +6,7 @@ in
 
 {
   imports = [
+    ./apparmor.nix
     ./hardware-configuration.nix
     ./home.nix
   ];
@@ -59,7 +60,6 @@ in
   users.users.root.hashedPassword = "!"; # Disable root user
 
   security.sudo.wheelNeedsPassword = false;
-  security.apparmor.enable = true;
 
   environment.systemPackages = with pkgs; [
     bpftrace
