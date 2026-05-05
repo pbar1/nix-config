@@ -129,7 +129,11 @@ in
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runsc]
       runtime_type = "io.containerd.runsc.v1"
   '';
-  systemd.services.k3s.path = [ pkgs.gvisor ];
+  systemd.services.k3s.path = with pkgs; [
+    apparmor-parser
+    apparmor-utils
+    gvisor
+  ];
   # Ensure K3s starts with proper ZFS datasets mounted
   systemd.services.k3s.after = zfsMount;
   systemd.services.k3s.requires = zfsMount;
