@@ -6,7 +6,7 @@ in
 
 {
   imports = [
-    ./apparmor.nix
+    ./apparmor
     ./hardware-configuration.nix
     ./home.nix
   ];
