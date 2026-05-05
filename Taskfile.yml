@@ -51,8 +51,8 @@ tasks:
     aliases: [ tec ]
     desc: Compile and activate NixOS config (tec)
     cmds:
-    - rsync --recursive --delete --exclude='.git*' --filter='dir-merge,- .gitignore' $PWD/* nixos@tec:~/nix-config
-    - ssh nixos@tec 'nixos-rebuild switch --sudo --flake ~/nix-config#tec'
+    - rsync --recursive --delete --delete-excluded --exclude='.git/' --exclude='.jj/' --filter='dir-merge,- .gitignore' ./ nixos@tec:~/nix-config-deploy/
+    - ssh nixos@tec 'nixos-rebuild switch --sudo --flake ~/nix-config-deploy#tec'
 
   # Darwin --------------------------------------------------------------------
 
