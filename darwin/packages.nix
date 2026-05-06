@@ -9,7 +9,11 @@
   ];
 
   homebrew.brews = [
+    "colima"
     "cormacrelf/tap/dark-notify"
+    "docker"
+    "docker-buildx"
+    "docker-compose"
     "kanata"
     "opencode"
     "openssl"
@@ -25,7 +29,6 @@
     "codex"
     "cyberduck"
     "discord"
-    "docker-desktop"
     "font-iosevka-nerd-font"
     "font-monaspace-nf"
     "ghostty"
