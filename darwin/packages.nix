@@ -9,15 +9,12 @@
   ];
 
   homebrew.brews = [
-    "colima"
     "cormacrelf/tap/dark-notify"
-    "docker"
-    "docker-buildx"
-    "docker-compose"
     "kanata"
     "opencode"
     "openssl"
     "pkg-config"
+    "podman"
     "pulumi"
   ];
 
