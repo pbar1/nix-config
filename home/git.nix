@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 let
   inherit (pkgs.stdenv) isDarwin;
 
@@ -29,7 +29,9 @@ in
   };
 
   programs.git.enable = true;
+  programs.git.signing.format = "ssh";
   programs.git.signing.key = signingKey;
+  programs.git.signing.signer = sshSignProgram;
   programs.git.signing.signByDefault = true;
   programs.git.settings = {
     branch.sort = "-committerdate";
@@ -41,8 +43,6 @@ in
     difftool.difft.cmd = ''difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"'';
     difftool.prompt = false;
     fetch.prune = true;
-    gpg.format = "ssh";
-    gpg.ssh.program = sshSignProgram;
     help.autocorrect = "prompt";
     init.defaultBranch = "main";
     merge.conflictStyle = "diff3"; # Required for mergiraf

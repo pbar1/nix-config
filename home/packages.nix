@@ -98,7 +98,7 @@
     # JavaScript
     nodejs
     yarn-berry
-    deno
+    # deno
     bun
     prettier
 
