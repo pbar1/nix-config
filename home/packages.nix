@@ -11,9 +11,6 @@
     prek
     git-branchless
 
-    # Other
-    starship-claude
-
     # GNU userland
     ncurses
 

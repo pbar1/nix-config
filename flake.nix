@@ -24,12 +24,6 @@
       url = "github:cormacrelf/dark-notify";
       flake = false;
     };
-
-    # Other
-    starship-claude = {
-      url = "github:martinemde/starship-claude";
-      flake = false;
-    };
   };
 
   outputs =
@@ -55,7 +49,6 @@
 
       packages = eachSystem (system: {
         nvim-pbar = (pkgsFor system).nvim-pbar;
-        starship-claude = (pkgsFor system).starship-claude;
       });
 
       # Apply with: `task mac`

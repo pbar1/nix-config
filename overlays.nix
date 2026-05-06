@@ -21,9 +21,5 @@ inputs: [
     nvim-pbar = final.callPackage ./pkgs/nvim {
       nixvim = inputs.nixvim.legacyPackages.${final.stdenv.hostPlatform.system};
     };
-
-    starship-claude = final.callPackage ./pkgs/starship-claude.nix {
-      src = inputs.starship-claude;
-    };
   })
 ]

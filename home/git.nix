@@ -22,6 +22,8 @@ in
   programs.difftastic.enable = true;
 
   programs.mergiraf.enable = true;
+  programs.mergiraf.enableGitIntegration = true;
+  programs.mergiraf.enableJujutsuIntegration = true;
 
   programs.gh.enable = true;
   programs.gh.settings.aliases = {
