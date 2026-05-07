@@ -33,7 +33,6 @@
     "iterm2"
     "karabiner-elements" # Required for Kanata
     "keka"
-    "kekaexternalhelper"
     "lulu"
     "monitorcontrol"
     "raycast"
