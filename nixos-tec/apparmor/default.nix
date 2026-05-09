@@ -1,4 +1,31 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
+
+let
+  # NixOS does not install AppArmor tunables, enumerate and install them
+  tunables = "${pkgs.apparmor-profiles}/etc/apparmor.d/tunables";
+  readTunables =
+    root:
+    let
+      go =
+        dir:
+        lib.concatMapAttrs (
+          name: type:
+          let
+            path = "${dir}/${name}";
+            rel = builtins.unsafeDiscardStringContext (lib.removePrefix "${root}/" path);
+          in
+          if type == "regular" then
+            {
+              "tunables/${rel}" = builtins.readFile path;
+            }
+          else if type == "directory" then
+            go path
+          else
+            { }
+        ) (builtins.readDir dir);
+    in
+    go root;
+in
 
 {
   # TODO: K3s containerd checks for /sbin/apparmor_parser to enable AppArmor
@@ -8,6 +35,7 @@
   ];
 
   security.apparmor.enable = true;
+  security.apparmor.includes = readTunables tunables;
 
   security.apparmor.policies.plex = {
     state = "complain";
