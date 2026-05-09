@@ -123,17 +123,38 @@ in
     metadata.name = "gvisor";
     handler = "runsc";
   };
+  services.k3s.manifests.kata-runtimeclass.content = {
+    apiVersion = "node.k8s.io/v1";
+    kind = "RuntimeClass";
+    metadata.name = "kata";
+    handler = "kata";
+  };
   services.k3s.containerdConfigTemplate = ''
     {{ template "base" . }}
 
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runsc]
       runtime_type = "io.containerd.runsc.v1"
+
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
+      runtime_type = "io.containerd.kata.v2"
+      privileged_without_host_devices = true
+      pod_annotations = ["io.katacontainers.*"]
+      container_annotations = ["io.katacontainers.*"]
   '';
   systemd.services.k3s.path = with pkgs; [
     apparmor-parser
     apparmor-utils
     gvisor
+    kata-runtime
   ];
+  systemd.services.k3s.serviceConfig.DeviceAllow = [
+    "/dev/kvm rwm"
+    "/dev/kmsg rwm"
+    "/dev/vhost-vsock rwm"
+    "/dev/vhost-net rwm"
+    "/dev/net/tun rwm"
+  ];
+  systemd.services.k3s.serviceConfig.Delegate = "yes";
   # Ensure K3s starts with proper ZFS datasets mounted
   systemd.services.k3s.after = zfsMount;
   systemd.services.k3s.requires = zfsMount;
