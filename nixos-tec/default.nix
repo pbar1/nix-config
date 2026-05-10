@@ -128,6 +128,8 @@ in
     kind = "RuntimeClass";
     metadata.name = "kata";
     handler = "kata";
+    overhead.podFixed.cpu = "25m";
+    overhead.podFixed.memory = "256Mi";
   };
   services.k3s.containerdConfigTemplate = ''
     {{ template "base" . }}
