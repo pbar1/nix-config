@@ -19,6 +19,7 @@
   kgi = "kubectl get ingresses,services,endpoints,certificates,certificaterequests,certificatesigningrequests,challenges,orders";
   kgn = "kubectl get namespaces --show-labels";
   kgp = "kubectl get pods";
+  kl = "kubectl logs --follow";
   kns = "kubens";
   ksec = "kubectl sec";
   ktp = "kubectl top pod --sort-by=cpu";
