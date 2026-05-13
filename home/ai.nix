@@ -6,9 +6,7 @@
 
   programs.opencode.enable = true;
   programs.opencode.enableMcpIntegration = true;
-  programs.opencode.settings = {
-  };
-  programs.opencode.tui.theme = "system"; # Matches terminal theme
+  programs.opencode.tui.theme = "system";
 
   programs.claude-code.enable = true;
 
