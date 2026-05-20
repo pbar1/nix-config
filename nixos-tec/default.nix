@@ -50,9 +50,12 @@ in
   networking.firewall.extraCommands = ''
     ${pkgs.iptables}/bin/iptables -t mangle -C nixos-fw-rpfilter -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN 2>/dev/null \
       || ${pkgs.iptables}/bin/iptables -t mangle -I nixos-fw-rpfilter 1 -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN
+    ${pkgs.iptables}/bin/iptables -C nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept 2>/dev/null \
+      || ${pkgs.iptables}/bin/iptables -I nixos-fw 3 -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept
   '';
   networking.firewall.extraStopCommands = ''
     ${pkgs.iptables}/bin/iptables -t mangle -D nixos-fw-rpfilter -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN 2>/dev/null || true
+    ${pkgs.iptables}/bin/iptables -D nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept 2>/dev/null || true
   '';
 
   time.timeZone = "America/Los_Angeles";
@@ -158,6 +161,13 @@ in
 
       routingMode: tunnel
       tunnelProtocol: vxlan
+
+      hubble:
+        enabled: true
+        relay:
+          enabled: true
+        ui:
+          enabled: true
     '';
   };
   services.k3s.manifests.gvisor-runtimeclass.content = {
