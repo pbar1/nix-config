@@ -3,7 +3,7 @@ let
   inherit (pkgs.stdenv) isDarwin;
 
   userName = "Pierce Bartine";
-  userEmail = "piercebartine@gmail.com";
+  userEmail = "26949935+pbar1@users.noreply.github.com";
   signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDim41ofReCgbmijkayBsFg5TlO9qqV8b6Y8Xcwnr49m github@1password";
 
   credentialHelper = if isDarwin then "osxkeychain" else "libsecret";
