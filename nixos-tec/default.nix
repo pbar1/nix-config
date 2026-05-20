@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 let
+  apiServerHost = "10.0.0.54";
   zfsMount = [ "zfs-mount.service" ];
 in
 
@@ -45,6 +46,14 @@ in
     10250 # Kubernetes - Metrics Server
     32400 # Plex
   ];
+  networking.firewall.logReversePathDrops = true;
+  networking.firewall.extraCommands = ''
+    ${pkgs.iptables}/bin/iptables -t mangle -C nixos-fw-rpfilter -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN 2>/dev/null \
+      || ${pkgs.iptables}/bin/iptables -t mangle -I nixos-fw-rpfilter 1 -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN
+  '';
+  networking.firewall.extraStopCommands = ''
+    ${pkgs.iptables}/bin/iptables -t mangle -D nixos-fw-rpfilter -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN 2>/dev/null || true
+  '';
 
   time.timeZone = "America/Los_Angeles";
 
@@ -116,7 +125,41 @@ in
     "--default-local-storage-path=/zssd/general/local-path-provisioner"
     "--secrets-encryption"
     "--disable=traefik"
+    "--disable=servicelb"
+    "--disable-kube-proxy"
+    "--disable-network-policy"
+    "--flannel-backend=none"
   ];
+  services.k3s.manifests.cilium.content = {
+    apiVersion = "helm.cattle.io/v1";
+    kind = "HelmChart";
+    metadata.name = "cilium";
+    metadata.namespace = "kube-system";
+    spec.chart = "oci://quay.io/cilium/charts/cilium";
+    spec.version = "1.19.4";
+    spec.targetNamespace = "kube-system";
+    spec.bootstrap = true;
+    spec.valuesContent = ''
+      operator:
+        replicas: 1
+
+      kubeProxyReplacement: true
+      k8sServiceHost: "${apiServerHost}"
+      k8sServicePort: 6443
+
+      ipam:
+        operator:
+          clusterPoolIPv4PodCIDRList:
+            - 10.42.0.0/16
+
+      cni:
+        binPath: /opt/cni/bin
+        confPath: /etc/cni/net.d
+
+      routingMode: tunnel
+      tunnelProtocol: vxlan
+    '';
+  };
   services.k3s.manifests.gvisor-runtimeclass.content = {
     apiVersion = "node.k8s.io/v1";
     kind = "RuntimeClass";
