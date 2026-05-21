@@ -161,6 +161,9 @@ in
       routingMode: tunnel
       tunnelProtocol: vxlan
 
+      socketLB:
+        hostNamespaceOnly: true
+
       hubble:
         enabled: true
         relay:
