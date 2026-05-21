@@ -52,10 +52,13 @@ in
       || ${pkgs.iptables}/bin/iptables -t mangle -I nixos-fw-rpfilter 1 -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN
     ${pkgs.iptables}/bin/iptables -C nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept 2>/dev/null \
       || ${pkgs.iptables}/bin/iptables -I nixos-fw 3 -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept
+    ${pkgs.iptables}/bin/iptables -C nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 9100 -m comment --comment "Prometheus scrape node-exporter from pods" -j nixos-fw-accept 2>/dev/null \
+      || ${pkgs.iptables}/bin/iptables -I nixos-fw 4 -i lxc+ -s 10.42.0.0/16 -p tcp --dport 9100 -m comment --comment "Prometheus scrape node-exporter from pods" -j nixos-fw-accept
   '';
   networking.firewall.extraStopCommands = ''
     ${pkgs.iptables}/bin/iptables -t mangle -D nixos-fw-rpfilter -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN 2>/dev/null || true
     ${pkgs.iptables}/bin/iptables -D nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept 2>/dev/null || true
+    ${pkgs.iptables}/bin/iptables -D nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 9100 -m comment --comment "Prometheus scrape node-exporter from pods" -j nixos-fw-accept 2>/dev/null || true
   '';
 
   time.timeZone = "America/Los_Angeles";
@@ -154,10 +157,6 @@ in
         operator:
           clusterPoolIPv4PodCIDRList:
             - 10.42.0.0/16
-
-      cni:
-        binPath: /opt/cni/bin
-        confPath: /etc/cni/net.d
 
       routingMode: tunnel
       tunnelProtocol: vxlan
