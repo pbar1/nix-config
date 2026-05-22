@@ -44,6 +44,7 @@ in
     2022 # Eternal Terminal
     6443 # Kubernetes - API
     10250 # Kubernetes - Metrics Server
+    30443 # Contour - Envoy HTTPS
     32400 # Plex
   ];
   networking.firewall.logReversePathDrops = true;
