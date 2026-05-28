@@ -24,6 +24,9 @@
     # Don't show Home Manager news on switch
     news.display = "silent";
 
+    # Using `follows` in Flake inputs so versions are not mismatched
+    home.enableNixpkgsReleaseCheck = false;
+
     programs.home-manager.enable = true;
 
     programs.less.enable = true;

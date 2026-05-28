@@ -30,31 +30,28 @@ in
 
   programs.ssh.enable = true;
   programs.ssh.enableDefaultConfig = false;
-
-  programs.ssh.matchBlocks."*" = {
-    inherit identityAgent;
-  };
-
-  programs.ssh.matchBlocks."github.com" = {
-    user = "git";
-    hostname = "github.com";
-    identityFile = "~/.ssh/github.pub";
-    identitiesOnly = true;
-  };
-
-  programs.ssh.matchBlocks."tec" = {
-    user = "nixos";
-    hostname = "tec";
-  };
-
-  programs.ssh.matchBlocks."ha" = {
-    user = "root";
-    hostname = "yellow";
-  };
-
-  programs.ssh.matchBlocks."haos" = {
-    user = "root";
-    hostname = "yellow";
-    port = 22222;
+  programs.ssh.settings = {
+    "*" = {
+      inherit identityAgent;
+    };
+    "github.com" = {
+      user = "git";
+      hostname = "github.com";
+      identityFile = "~/.ssh/github.pub";
+      identitiesOnly = true;
+    };
+    "tec" = {
+      user = "nixos";
+      hostname = "tec";
+    };
+    "ha" = {
+      user = "root";
+      hostname = "yellow";
+    };
+    "haos" = {
+      user = "root";
+      hostname = "yellow";
+      port = 22222;
+    };
   };
 }
