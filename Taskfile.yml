@@ -24,22 +24,29 @@ tasks:
     cmd: /nix/nix-installer uninstall
 
   nix:update:
-    aliases: [ up ]
+    aliases: [up]
     desc: Update Nix flake inputs
     cmd: nix flake update
 
   nix:gc:
-    aliases: [ gc ]
+    aliases: [gc]
     desc: Remove unused objects from the Nix store
     cmds:
-    - nix-collect-garbage --delete-old
-    - sudo nix-collect-garbage --delete-old
+      - nix-collect-garbage --delete-old
+      - sudo nix-collect-garbage --delete-old
+
+  nix:gc:tec:
+    aliases: [gc:tec]
+    desc: Remove unused objects from the Nix store (tec)
+    cmds:
+      - ssh nixos@tec 'nix-collect-garbage --delete-old'
+      - ssh nixos@tec 'sudo nix-collect-garbage --delete-old'
 
   nix:repl:
     desc: Launch a repl for this Nix flake
     cmds:
-    - echo 'To load flake config, type `:lf .#` in the repl'
-    - nix repl
+      - echo 'To load flake config, type `:lf .#` in the repl'
+      - nix repl
 
   # NixOS ---------------------------------------------------------------------
 
@@ -48,21 +55,21 @@ tasks:
     cmd: nixos-rebuild switch --sudo --flake .#$HOSTNAME_HACK
 
   nixos:switch:tec:
-    aliases: [ tec ]
+    aliases: [tec]
     desc: Compile and activate NixOS config (tec)
     cmds:
-    - rsync --recursive --delete --delete-excluded --exclude='.git/' --exclude='.jj/' --filter='dir-merge,- .gitignore' ./ nixos@tec:~/nix-config-deploy/
-    - ssh nixos@tec 'nixos-rebuild switch --sudo --flake ~/nix-config-deploy#tec'
+      - rsync --recursive --delete --delete-excluded --exclude='.git/' --exclude='.jj/' --filter='dir-merge,- .gitignore' ./ nixos@tec:~/nix-config-deploy/
+      - ssh nixos@tec 'nixos-rebuild switch --sudo --flake ~/nix-config-deploy#tec'
 
   # Darwin --------------------------------------------------------------------
 
   darwin:install:
     desc: Install nix-darwin
     cmds:
-    - nix build .#darwinConfigurations.$HOSTNAME_HACK.system
-    - ./result/sw/bin/darwin-rebuild switch --flake .#$HOSTNAME_HACK
+      - nix build .#darwinConfigurations.$HOSTNAME_HACK.system
+      - ./result/sw/bin/darwin-rebuild switch --flake .#$HOSTNAME_HACK
 
   darwin:switch:
-    aliases: [ mac, darwin ]
+    aliases: [mac, darwin]
     desc: Compile and activate nix-darwin config
     cmd: sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#$HOSTNAME_HACK

@@ -37,6 +37,7 @@ in
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 10;
 
   networking.hostName = "tec";
   networking.hostId = "e7e35d28"; # via `head -c 8 /etc/machine-id`
