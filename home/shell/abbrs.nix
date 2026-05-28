@@ -29,6 +29,7 @@
   lt = "eza --tree";
   nc = "ncat";
   oc = "opencode";
+  s = "jj";
   t = "task";
   tf = "terraform";
   wkgp = "watch kubectl get pods";

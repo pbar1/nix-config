@@ -106,6 +106,10 @@ in
   programs.jujutsu.settings = {
     aliases = {
       d = [ "diff" ];
+      push = [
+        "git"
+        "push"
+      ];
     };
     signing.backend = "ssh";
     signing.backends.ssh.program = sshSignProgram;
