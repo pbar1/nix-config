@@ -45,6 +45,8 @@ in
     6443 # Kubernetes - API
     10250 # Kubernetes - Metrics Server
     30443 # Contour - Envoy HTTPS
+    30139 # SMB - netbios
+    30445 # SMB
     32400 # Plex
   ];
   networking.firewall.logReversePathDrops = true;
