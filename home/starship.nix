@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 {
   programs.starship.enable = true;
@@ -13,6 +13,7 @@
       "$git_commit"
       "$git_state"
       "$git_status"
+      "\${custom.jj}"
       "$nix_shell"
       "$python"
       "$terraform"
@@ -69,7 +70,7 @@
     };
 
     git_branch = {
-      disabled = false;
+      disabled = true;
       format = "[$symbol $branch]($style)";
       symbol = "";
       truncation_length = 10;
@@ -78,11 +79,24 @@
     };
 
     git_commit = {
-      disabled = false;
+      disabled = true;
       format = " [$hash $tag]($style)";
     };
 
     git_status.disabled = true;
+
+    custom.jj = {
+      command = "prompt";
+      format = "$output";
+      ignore_timeout = true;
+      shell = [
+        "${pkgs.starship-jj}/bin/starship-jj"
+        "--ignore-working-copy"
+        "starship"
+      ];
+      use_stdin = false;
+      when = true;
+    };
 
     nix_shell = {
       disabled = false;

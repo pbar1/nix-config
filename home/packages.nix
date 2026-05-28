@@ -9,7 +9,6 @@
     go-task
     tokei
     prek
-    git-branchless
 
     # GNU userland
     ncurses
