@@ -9,7 +9,7 @@
   cx = "codex";
   dyf = "dyff between -b";
   e = "$EDITOR";
-  g = "git";
+  g = "jj";
   gr = ''cd "$(git root)"'';
   gs = "git status --short";
   k = "kubectl";
@@ -29,7 +29,6 @@
   lt = "eza --tree";
   nc = "ncat";
   oc = "opencode";
-  s = "sl";
   t = "task";
   tf = "terraform";
   wkgp = "watch kubectl get pods";

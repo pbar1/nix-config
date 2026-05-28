@@ -80,7 +80,7 @@ in
     "**/.vscode/*"
   ];
 
-  programs.sapling.enable = true;
+  programs.sapling.enable = false;
   programs.sapling.userName = userName;
   programs.sapling.userEmail = userEmail;
   programs.sapling.extraConfig = {
@@ -104,6 +104,9 @@ in
 
   programs.jujutsu.enable = true;
   programs.jujutsu.settings = {
+    aliases = {
+      d = [ "diff" ];
+    };
     signing.backend = "ssh";
     signing.backends.ssh.program = sshSignProgram;
     signing.behavior = "own";
