@@ -5,7 +5,7 @@
   home-manager.useUserPackages = true;
   home-manager.users.pierce = {
     imports = [
-      ../home/ai.nix
+      ../home/agents
       ../home/env.nix
       ../home/fish.nix
       ../home/fzf.nix
