@@ -24,6 +24,7 @@
     "brave-browser"
     "calibre"
     "codex"
+    "codex-app"
     "cyberduck"
     "discord"
     "font-iosevka-nerd-font"
