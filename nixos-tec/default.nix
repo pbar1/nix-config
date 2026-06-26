@@ -47,6 +47,7 @@ in
     10250 # Kubernetes - Metrics Server
     30443 # Contour - Envoy HTTPS
     30139 # SMB - netbios
+    30180 # WebDAV
     30445 # SMB
     32400 # Plex
   ];
