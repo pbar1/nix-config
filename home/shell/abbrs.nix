@@ -12,6 +12,7 @@
   g = "jj";
   gr = ''cd "$(git root)"'';
   gs = "git status --short";
+  j = "jj";
   k = "kubectl";
   kapi = "kubectl api-resources";
   kge = "kubectl get events --watch";
