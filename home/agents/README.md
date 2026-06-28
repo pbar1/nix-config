@@ -59,3 +59,8 @@ For multi-step tasks, state a brief plan:
 ```
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+## 5. Personal Preferences
+
+- If a repo has a `.jj` folder, then you must use `jj` instead of `git` for
+  source control.
