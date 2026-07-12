@@ -112,7 +112,8 @@ in
       ];
     };
     revsets."bookmark-advance-to" = "closest_pushable(@)";
-    "revset-aliases"."closest_pushable(to)" = ''heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'';
+    "revset-aliases"."closest_pushable(to)" =
+      ''heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'';
     signing.backend = "ssh";
     signing.backends.ssh.program = sshSignProgram;
     signing.behavior = "own";
