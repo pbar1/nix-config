@@ -5,13 +5,7 @@
 
 (defcfg
   log-layer-changes no
-  process-unmapped-keys yes
-  ;; Without this, MX Master mice cursors are stuck in top left corner.
-  ;; However, this also may cause Kanata to need a restart after bluetooth
-  ;; reconnects. https://github.com/jtroo/kanata/issues/1390
-  macos-dev-names-exclude
-    ("MX Master 2S"
-     "MX Master 3S"))
+  process-unmapped-keys yes)
 
 (defvirtualkeys
   to-base (layer-switch base))

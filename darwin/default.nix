@@ -103,7 +103,7 @@ in
     # itself (ie, it should not be in the menu bar).
     # https://github.com/jtroo/kanata/discussions/1537
     kanata = {
-      command = "/opt/homebrew/bin/kanata -c ${kanataConfig}";
+      command = "/opt/homebrew/bin/kanata --cfg ${kanataConfig} --release-grab-on-lock";
       serviceConfig = {
         KeepAlive = true;
         RunAtLoad = true;
