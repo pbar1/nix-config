@@ -6,6 +6,8 @@ let
   flake = "(builtins.getFlake (builtins.toString ./.))";
 in
 {
+  enableMan = false;
+
   extraPlugins = with pkgs; [
     myNvimPlugins.dark-notify
   ];

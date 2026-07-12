@@ -17,6 +17,10 @@ in
   # OpenCode
   programs.opencode.enable = true;
   programs.opencode.enableMcpIntegration = true;
+  programs.opencode.settings.permission = {
+    edit."/nix/store/**" = "deny";
+    external_directory."/nix/store/**" = "allow";
+  };
   programs.opencode.tui.theme = "system";
   home.sessionVariables.OPENCODE_ENABLE_EXA = "true";
   home.sessionVariables.OPENCODE_EXPERIMENTAL_LSP_TOOL = "true";
