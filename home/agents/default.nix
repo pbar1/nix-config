@@ -1,8 +1,14 @@
-{ config, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (config.lib.file) mkOutOfStoreSymlink;
   inherit (config.home) homeDirectory;
+  inherit (config.xdg) configHome;
 
   repo = "${homeDirectory}/code/nix-config";
   agentsFile = mkOutOfStoreSymlink "${repo}/home/agents/README.md";
@@ -13,6 +19,15 @@ in
   xdg.configFile."agents/AGENTS.md".source = agentsFile;
   programs.mcp.enable = true;
   programs.mcp.servers.grep.url = "https://mcp.grep.app";
+  programs.mcp.servers.home-assistant = {
+    command = lib.getExe pkgs.mcp-proxy;
+    args = [
+      "--transport=streamablehttp"
+      "--stateless"
+      "https://ha.xnauts.net/api/mcp"
+    ];
+    env.API_ACCESS_TOKEN.file = "${configHome}/agents/home-assistant-mcp-token";
+  };
 
   # OpenCode
   programs.opencode.enable = true;
