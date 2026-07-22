@@ -6,6 +6,10 @@
 
   homebrew.taps = [
     "cormacrelf/tap"
+    {
+      name = "docker/tap";
+      trusted = true;
+    }
   ];
 
   homebrew.brews = [
@@ -14,7 +18,6 @@
     "opencode"
     "openssl"
     "pkg-config"
-    "podman"
     "pulumi"
   ];
 
@@ -27,6 +30,8 @@
     "codex-app"
     "cyberduck"
     "discord"
+    "docker-desktop"
+    "docker/tap/sbx"
     "font-iosevka-nerd-font"
     "font-monaspace-nf"
     "ghostty"
