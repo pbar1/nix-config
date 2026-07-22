@@ -110,6 +110,10 @@ in
         "git"
         "push"
       ];
+      tug = [
+        "bookmark"
+        "advance"
+      ];
       up = [ "edit" ];
     };
     revsets."bookmark-advance-to" = "closest_pushable(@)";
