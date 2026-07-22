@@ -110,6 +110,7 @@ in
         "git"
         "push"
       ];
+      up = [ "edit" ];
     };
     revsets."bookmark-advance-to" = "closest_pushable(@)";
     "revset-aliases"."closest_pushable(to)" =
