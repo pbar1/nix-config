@@ -34,4 +34,3 @@ Similar to the structure of a Nix module:
 └── flake.nix
 ```
 
-
