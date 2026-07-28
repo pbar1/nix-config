@@ -4,27 +4,22 @@
   pkgs,
   ...
 }:
+
 let
   inherit (pkgs.stdenv) isDarwin;
   inherit (config.home) homeDirectory;
-  toTOML = (pkgs.formats.toml { }).generate "dummy";
 
-  opAgentMac = "${homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
+  secretiveData = "${homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data";
+  pubkeyAuth = "${secretiveData}/PublicKeys/2417d563ece4afe286bc273c01b3a1b1.pub";
+  pubkeyGit = "${secretiveData}/PublicKeys/2a01d39e9725b0c9e5b5e62a8c951393.pub";
+  sshAgentSocket = if isDarwin then "${secretiveData}/socket.ssh" else null;
 
-  SSH_AUTH_SOCK = if isDarwin then opAgentMac else null;
-  identityAgent = lib.replaceStrings [ " " ] [ "\\ " ] SSH_AUTH_SOCK;
+  identityAgent = lib.replaceStrings [ " " ] [ "\\ " ] sshAgentSocket;
 in
-{
-  # Select subset of keys from 1Password agent and set their ordering
-  xdg.configFile."1Password/ssh/agent.toml".source = toTOML {
-    ssh-keys = [
-      { item = "SSH Personal"; }
-      { item = "SSH GitHub"; }
-    ];
-  };
 
+{
   home.sessionVariables = {
-    inherit SSH_AUTH_SOCK;
+    SSH_AUTH_SOCK = sshAgentSocket;
     SSH_AGENT_PID = "";
   };
 
@@ -37,21 +32,27 @@ in
     "github.com" = {
       user = "git";
       hostname = "github.com";
-      identityFile = "~/.ssh/github.pub";
+      identityFile = pubkeyGit;
       identitiesOnly = true;
     };
     "tec" = {
       user = "nixos";
       hostname = "tec";
+      identityFile = pubkeyAuth;
+      identitiesOnly = true;
     };
     "ha" = {
       user = "root";
       hostname = "yellow";
+      identityFile = pubkeyAuth;
+      identitiesOnly = true;
     };
     "haos" = {
       user = "root";
       hostname = "yellow";
       port = 22222;
+      identityFile = pubkeyAuth;
+      identitiesOnly = true;
     };
   };
 }

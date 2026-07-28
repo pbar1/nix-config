@@ -9,13 +9,13 @@ let
   user = config.system.primaryUser;
   kanataConfig = ../keyboard/kanata.kbd;
 in
+
 {
   imports = [
     ./packages.nix
     ./home.nix
   ];
 
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -44,22 +44,6 @@ in
   ];
   nix.settings.download-buffer-size = 500000000;
   nix.distributedBuilds = true;
-  nix.buildMachines = [
-    {
-      hostName = "tec";
-      system = "x86_64-linux";
-      protocol = "ssh-ng";
-      sshUser = "nixos";
-      sshKey = "/Users/${user}/.ssh/nix_build";
-      supportedFeatures = [
-        "nixos-test"
-        "benchmark"
-        "big-parallel"
-        "kvm"
-      ];
-      maxJobs = 16;
-    }
-  ];
 
   # Handy list of macOS `defaults` options
   # https://github.com/LnL7/nix-darwin/blob/master/tests/system-defaults-write.nix

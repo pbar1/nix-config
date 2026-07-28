@@ -18,7 +18,6 @@
     "opencode"
     "openssl"
     "pkg-config"
-    "pulumi"
   ];
 
   homebrew.casks = [
@@ -28,7 +27,6 @@
     "calibre"
     "chatgpt"
     "codex"
-    "cyberduck"
     "discord"
     "docker-desktop"
     "docker/tap/sbx"
@@ -44,6 +42,7 @@
     "monitorcontrol"
     "obsidian"
     "raycast"
+    "secretive"
     "slack"
     "spotify"
     "tailscale-app"
