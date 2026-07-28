@@ -1,14 +1,12 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   inherit (pkgs.stdenv) isDarwin;
 
   userName = "Pierce Bartine";
   userEmail = "26949935+pbar1@users.noreply.github.com";
-  signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDim41ofReCgbmijkayBsFg5TlO9qqV8b6Y8Xcwnr49m github@1password";
+  pubkeyGit = config.programs.ssh.settings."github.com".data.identityFile;
 
   credentialHelper = if isDarwin then "osxkeychain" else "libsecret";
-  sshSignProgram =
-    if isDarwin then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" else null;
 in
 {
   programs.delta.enable = true;
@@ -32,8 +30,7 @@ in
 
   programs.git.enable = true;
   programs.git.signing.format = "ssh";
-  programs.git.signing.key = signingKey;
-  programs.git.signing.signer = sshSignProgram;
+  programs.git.signing.key = pubkeyGit;
   programs.git.signing.signByDefault = true;
   programs.git.settings = {
     branch.sort = "-committerdate";
@@ -80,28 +77,6 @@ in
     "**/.vscode/*"
   ];
 
-  programs.sapling.enable = false;
-  programs.sapling.userName = userName;
-  programs.sapling.userEmail = userEmail;
-  programs.sapling.extraConfig = {
-    extdiff."cmd.difft" = "difft";
-    extensions.extdiff = "";
-    gpg.key = signingKey; # Uses `gpg-ssh-sign` shim in pbar1/bin
-    pager.pager = "delta";
-  };
-  programs.sapling.aliases = {
-    ar = "addremove";
-    d = "diff --exclude=*.lock";
-    dt = "difft";
-    p = "pull --rebase";
-    showt = "difft --change=.";
-    sub = "submit";
-    submit = "pr submit";
-    unstack = "rebase --source=.";
-    up = "goto";
-    view = "!gh repo view --web";
-  };
-
   programs.jujutsu.enable = true;
   programs.jujutsu.settings = {
     aliases = {
@@ -120,9 +95,8 @@ in
     "revset-aliases"."closest_pushable(to)" =
       ''heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'';
     signing.backend = "ssh";
-    signing.backends.ssh.program = sshSignProgram;
     signing.behavior = "own";
-    signing.key = signingKey;
+    signing.key = pubkeyGit;
     ui.default-command = "log";
     user.email = userEmail;
     user.name = userName;
