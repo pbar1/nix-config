@@ -40,6 +40,7 @@
     nmap
     socat
     eternal-terminal
+    openssh
 
     # Database
     duckdb
