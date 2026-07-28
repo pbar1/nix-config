@@ -38,9 +38,11 @@
     "google-earth-pro"
     "iterm2"
     "karabiner-elements" # Required for Kanata
+    "keepassxc"
     "keka"
     "lulu"
     "monitorcontrol"
+    "obsidian"
     "raycast"
     "slack"
     "spotify"
