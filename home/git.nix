@@ -90,6 +90,15 @@ in
         "advance"
       ];
       up = [ "edit" ];
+      view = [
+        "util"
+        "exec"
+        "--"
+        "gh"
+        "repo"
+        "view"
+        "--web"
+      ];
     };
     revsets."bookmark-advance-to" = "closest_pushable(@)";
     "revset-aliases"."closest_pushable(to)" =
