@@ -10,6 +10,7 @@ in
     ./apparmor
     ./hardware-configuration.nix
     ./home.nix
+    ./ssh.nix
   ];
 
   nix.settings.substituters = [
@@ -69,12 +70,6 @@ in
   users.users.nixos.isNormalUser = true;
   users.users.nixos.extraGroups = [ "wheel" ];
   users.users.nixos.hashedPassword = "$6$ouPdfmFbwMP/0uf7$qHv26BknhOYNzoZPMJZ6Ic5uR6Rw3K/CLSYEDWr5djV9UJKkzcGB4b3ZRqHawJ5pt.dKr3ySK7JDUyTnXEl2k1";
-  users.users.nixos.openssh.authorizedKeys.keys = [
-    "verify-required sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHxrK0/YVAOMW+IKh7TPw8URtahQEEhcmu2q64i+ckzOAAAABHNzaDo= yubikey"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGvmdvrrgYY3Q+Wp/SyQm2a2OWL82S2Z+e+FoJ/vmS/D personal@1password"
-    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOdw035S5U0YP971KASp1NFK3BR2vmEflQxzn5ECwY4HEsiCfMQr20bo2JI47M/E6BVK/38AdEcixjESUYNQm7s= auth@bobbery"
-    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBeL5XO0CnwlYNUX+4OXnLBLXzbYsOjLYp7TtJpjrn9QpnrIo/zUDp0HZifnauOyVln9+GvqiMyB4xqfYhUhRjg= blink@goombella"
-  ];
 
   users.users.root.hashedPassword = "!"; # Disable root user
 
@@ -100,27 +95,6 @@ in
     wget
     yt-dlp
   ];
-
-  services.openssh.enable = true;
-  services.openssh.settings.PermitRootLogin = "no";
-  services.openssh.settings.PasswordAuthentication = false;
-  services.openssh.settings.KexAlgorithms = [
-    "mlkem768x25519-sha256"
-    "sntrup761x25519-sha512"
-    "sntrup761x25519-sha512@openssh.com"
-    "curve25519-sha256"
-    "curve25519-sha256@libssh.org"
-  ];
-  services.openssh.settings.Ciphers = [
-    "chacha20-poly1305@openssh.com"
-    "aes256-gcm@openssh.com"
-  ];
-  services.openssh.settings.Macs = [
-    "hmac-sha2-256-etm@openssh.com" # must enable at least one
-  ];
-  services.openssh.extraConfig = ''
-    HostKeyAlgorithms ssh-ed25519
-  '';
 
   services.eternal-terminal.enable = true;
   programs.mosh.enable = true;
