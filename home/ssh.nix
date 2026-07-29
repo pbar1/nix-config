@@ -9,17 +9,27 @@ let
   inherit (pkgs.stdenv) isDarwin;
   inherit (config.home) homeDirectory;
 
+  toTOML = (pkgs.formats.toml { }).generate "dummy";
+  sshConfigEscape = s: lib.replaceStrings [ " " ] [ "\\ " ] s;
   secretiveData = "${homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data";
-  pubkeyAuth = "${secretiveData}/PublicKeys/2417d563ece4afe286bc273c01b3a1b1.pub";
-  pubkeyGit = "${secretiveData}/PublicKeys/2a01d39e9725b0c9e5b5e62a8c951393.pub";
-  sshAgentSocket = if isDarwin then "${secretiveData}/socket.ssh" else null;
+  sshAgentSecretive = "${secretiveData}/socket.ssh";
+  sshAgent1Password = "${homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 
-  identityAgent = lib.replaceStrings [ " " ] [ "\\ " ] sshAgentSocket;
+  sshAgentMain = if isDarwin then sshAgentSecretive else null;
+  sshAgentGit = if isDarwin then sshAgent1Password else null;
+
+  pubkeyMain = "${secretiveData}/PublicKeys/2417d563ece4afe286bc273c01b3a1b1.pub";
+  pubkeyGit = "${homeDirectory}/.ssh/git.pub";
 in
 
 {
+  # Select a subset of keys from 1Password agent and set their ordering
+  xdg.configFile."1Password/ssh/agent.toml".source = toTOML {
+    ssh-keys = [ { item = "SSH Git"; } ];
+  };
+
   home.sessionVariables = {
-    SSH_AUTH_SOCK = sshAgentSocket;
+    SSH_AUTH_SOCK = sshAgentMain;
     SSH_AGENT_PID = "";
   };
 
@@ -27,32 +37,28 @@ in
   programs.ssh.enableDefaultConfig = false;
   programs.ssh.settings = {
     "*" = {
-      inherit identityAgent;
+      identityAgent = sshConfigEscape sshAgentMain;
+      identityFile = pubkeyMain;
+      identitiesOnly = true;
     };
     "github.com" = {
       user = "git";
       hostname = "github.com";
+      identityAgent = sshConfigEscape sshAgentGit;
       identityFile = pubkeyGit;
-      identitiesOnly = true;
     };
     "tec" = {
       user = "nixos";
       hostname = "tec";
-      identityFile = pubkeyAuth;
-      identitiesOnly = true;
     };
     "ha" = {
       user = "root";
       hostname = "yellow";
-      identityFile = pubkeyAuth;
-      identitiesOnly = true;
     };
     "haos" = {
       user = "root";
       hostname = "yellow";
       port = 22222;
-      identityFile = pubkeyAuth;
-      identitiesOnly = true;
     };
   };
 }

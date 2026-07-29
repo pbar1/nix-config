@@ -1,13 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-let
-  foo = null;
-in
+{ ... }:
 
 {
   services.openssh.enable = true;
