@@ -60,5 +60,10 @@ in
       hostname = "yellow";
       port = 22222;
     };
+    "kindle" = {
+      user = "root";
+      hostname = "10.21.20.194";
+      port = 2222;
+    };
   };
 }
