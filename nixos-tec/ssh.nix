@@ -8,8 +8,6 @@
     "mlkem768x25519-sha256"
     "sntrup761x25519-sha512"
     "sntrup761x25519-sha512@openssh.com"
-    "curve25519-sha256"
-    "curve25519-sha256@libssh.org"
   ];
   services.openssh.settings.Ciphers = [
     "chacha20-poly1305@openssh.com"
@@ -22,6 +20,7 @@
   ];
   services.openssh.extraConfig = ''
     HostKeyAlgorithms ssh-ed25519
+    PubkeyAcceptedAlgorithms +ssh-mldsa44-ed25519@openssh.com
   '';
 
   users.users."nixos".openssh.authorizedKeys.keys = [
