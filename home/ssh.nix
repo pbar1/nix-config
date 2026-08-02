@@ -11,15 +11,14 @@ let
 
   toTOML = (pkgs.formats.toml { }).generate "dummy";
   sshConfigEscape = s: lib.replaceStrings [ " " ] [ "\\ " ] s;
-  secretiveData = "${homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data";
-  sshAgentSecretive = "${secretiveData}/socket.ssh";
   sshAgent1Password = "${homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 
-  sshAgentMain = if isDarwin then sshAgentSecretive else null;
   sshAgentGit = if isDarwin then sshAgent1Password else null;
 
-  pubkeyMain = "${secretiveData}/PublicKeys/2417d563ece4afe286bc273c01b3a1b1.pub";
-  pubkeyGit = "${homeDirectory}/.ssh/git.pub";
+  sshSkProvider = if isDarwin then "/usr/lib/ssh-keychain.dylib" else null;
+
+  keyMain = "${homeDirectory}/.ssh/id_ecdsa_sk_rk";
+  keyGit = "${homeDirectory}/.ssh/git.pub";
 in
 
 {
@@ -29,23 +28,23 @@ in
   };
 
   home.sessionVariables = {
-    SSH_AUTH_SOCK = sshAgentMain;
     SSH_AGENT_PID = "";
+    SSH_SK_PROVIDER = sshSkProvider;
   };
 
   programs.ssh.enable = true;
   programs.ssh.enableDefaultConfig = false;
   programs.ssh.settings = {
     "*" = {
-      identityAgent = sshConfigEscape sshAgentMain;
-      identityFile = pubkeyMain;
+      securityKeyProvider = sshSkProvider;
+      identityFile = keyMain;
       identitiesOnly = true;
     };
     "github.com" = {
       user = "git";
       hostname = "github.com";
       identityAgent = sshConfigEscape sshAgentGit;
-      identityFile = pubkeyGit;
+      identityFile = keyGit;
     };
     "tec" = {
       user = "nixos";

@@ -1,4 +1,5 @@
-{ pkgs, ... }:
+{ ... }:
+
 {
   # TODO: https://github.com/zhaofengli/nix-homebrew
   homebrew.enable = true;
@@ -43,7 +44,6 @@
     "monitorcontrol"
     "obsidian"
     "raycast"
-    "secretive"
     "slack"
     "spotify"
     "tailscale-app"
