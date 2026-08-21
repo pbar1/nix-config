@@ -27,6 +27,7 @@ in
     smartindent = true;
     softtabstop = 4;
     tabstop = 4;
+    undofile = true;
   };
 
   clipboard.register = "unnamedplus"; # Copy to system clipboard
