@@ -1,14 +1,13 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
-  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
 
   userName = "Pierce Bartine";
   userEmail = "26949935+pbar1@users.noreply.github.com";
   signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDim41ofReCgbmijkayBsFg5TlO9qqV8b6Y8Xcwnr49m git";
 
   credentialHelper = if isDarwin then "osxkeychain" else "libsecret";
-  sshSignProgram =
-    if isDarwin then "/Applications/1Password.app/Contents/MacOS/op-ssh-sign" else null;
+  sshSignProgram = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
 in
 {
   programs.delta.enable = true;
@@ -33,7 +32,7 @@ in
   programs.git.enable = true;
   programs.git.signing.format = "ssh";
   programs.git.signing.key = signingKey;
-  programs.git.signing.signer = sshSignProgram;
+  programs.git.signing.signer = lib.mkIf isDarwin sshSignProgram;
   programs.git.signing.signByDefault = true;
   programs.git.settings = {
     branch.sort = "-committerdate";
@@ -107,7 +106,7 @@ in
     "revset-aliases"."closest_pushable(to)" =
       ''heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'';
     signing.backend = "ssh";
-    signing.backends.ssh.program = sshSignProgram;
+    signing.backends.ssh.program = lib.mkIf isDarwin sshSignProgram;
     signing.behavior = "own";
     signing.key = signingKey;
     ui.default-command = "log";

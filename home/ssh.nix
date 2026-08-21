@@ -6,16 +6,13 @@
 }:
 
 let
-  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
   inherit (config.home) homeDirectory;
 
   toTOML = (pkgs.formats.toml { }).generate "dummy";
   sshConfigEscape = s: lib.replaceStrings [ " " ] [ "\\ " ] s;
   sshAgent1Password = "${homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
-
-  sshAgentGit = if isDarwin then sshAgent1Password else null;
-
-  sshSkProvider = if isDarwin then "/usr/lib/ssh-keychain.dylib" else null;
+  sshSkProvider = "/usr/lib/ssh-keychain.dylib";
 
   keyMain = "${homeDirectory}/.ssh/id_ecdsa_sk_rk";
   keyGit = "${homeDirectory}/.ssh/git.pub";
@@ -29,21 +26,21 @@ in
 
   home.sessionVariables = {
     SSH_AGENT_PID = "";
-    SSH_SK_PROVIDER = sshSkProvider;
+    SSH_SK_PROVIDER = lib.mkIf isDarwin sshSkProvider;
   };
 
   programs.ssh.enable = true;
   programs.ssh.enableDefaultConfig = false;
   programs.ssh.settings = {
     "*" = {
-      securityKeyProvider = sshSkProvider;
+      securityKeyProvider = lib.mkIf isDarwin sshSkProvider;
       identityFile = keyMain;
       identitiesOnly = true;
     };
     "github.com" = {
       user = "git";
       hostname = "github.com";
-      identityAgent = sshConfigEscape sshAgentGit;
+      identityAgent = lib.mkIf isDarwin (sshConfigEscape sshAgent1Password);
       identityFile = keyGit;
     };
     "tec" = {

@@ -73,3 +73,11 @@ tasks:
     aliases: [mac, darwin]
     desc: Compile and activate nix-darwin config
     cmd: sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#$HOSTNAME_HACK
+
+  # Docker Sandboxes ----------------------------------------------------------
+
+  sbx:
+    desc: Build and load the Home Manager Docker Sandbox template
+    cmds:
+      - nix build .#sbx
+      - sbx template load result

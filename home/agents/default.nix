@@ -11,7 +11,11 @@ let
   inherit (config.xdg) configHome;
 
   repo = "${homeDirectory}/code/nix-config";
-  agentsFile = mkOutOfStoreSymlink "${repo}/home/agents/README.md";
+  agentsFile =
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      mkOutOfStoreSymlink "${repo}/home/agents/README.md"
+    else
+      ./README.md;
 in
 
 {

@@ -44,6 +44,8 @@ in
   ];
   nix.settings.download-buffer-size = 500000000;
   nix.distributedBuilds = true;
+  nix.linux-builder.enable = true;
+  nix.linux-builder.config.virtualisation.qemu.options = [ "-machine gic-version=3" ];
 
   # Handy list of macOS `defaults` options
   # https://github.com/LnL7/nix-darwin/blob/master/tests/system-defaults-write.nix
@@ -99,5 +101,4 @@ in
   };
 
   # FIXME: Touch ~/.hushlogin to disable last login time
-  # TODO: Linux builder: https://daiderd.com/nix-darwin/manual/index.html#opt-nix.linux-builder.enable
 }
