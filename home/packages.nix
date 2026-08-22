@@ -8,7 +8,6 @@
     # Version control & project tools
     go-task
     tokei
-    prek
 
     # GNU userland
     ncurses
@@ -21,24 +20,18 @@
     file
     gnused
     gawk
-    hyperfine
     jq
     dyff
     procs
     pstree
     ripgrep
-    ast-grep
     sd
     unixtools.watch
     xz
-    ffmpeg
-    tlrc
-    glow
 
     # Networking
     dig
     nmap
-    socat
     eternal-terminal
     openssh
 
@@ -46,22 +39,14 @@
     duckdb
     sqlite
 
-    # Cloud
-    terraform
-    google-cloud-sdk
-
     # Containers & Kubernetes
     krew
     kubectl
     kubectx
     kubernetes-helm
     stern
-    k3d
-    dive
 
     # Nix
-    cachix
-    nix-tree
     nixd
     nixfmt
 
@@ -94,8 +79,6 @@
 
     # JavaScript
     nodejs
-    yarn-berry
-    # deno
     bun
     prettier
 
