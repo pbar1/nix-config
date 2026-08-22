@@ -44,6 +44,7 @@
     "monitorcontrol"
     "obsidian"
     "raycast"
+    "secretive"
     "slack"
     "spotify"
     "tailscale-app"

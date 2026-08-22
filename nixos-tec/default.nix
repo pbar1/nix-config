@@ -93,7 +93,6 @@ in
     tmux
     vim
     wget
-    yt-dlp
   ];
 
   services.eternal-terminal.enable = true;

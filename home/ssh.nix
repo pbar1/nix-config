@@ -11,10 +11,11 @@ let
 
   toTOML = (pkgs.formats.toml { }).generate "dummy";
   sshConfigEscape = s: lib.replaceStrings [ " " ] [ "\\ " ] s;
+  secretiveData = "${homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data";
+  sshAgentSecretive = "${secretiveData}/socket.ssh";
   sshAgent1Password = "${homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
-  sshSkProvider = "/usr/lib/ssh-keychain.dylib";
 
-  keyMain = "${homeDirectory}/.ssh/id_ecdsa_sk_rk";
+  keyMain = "${secretiveData}/PublicKeys/f147e7312171443c2e0557320e1ce2a9.pub";
   keyGit = "${homeDirectory}/.ssh/git.pub";
 in
 
@@ -25,15 +26,15 @@ in
   };
 
   home.sessionVariables = {
+    SSH_AUTH_SOCK = lib.mkIf isDarwin sshAgentSecretive;
     SSH_AGENT_PID = "";
-    SSH_SK_PROVIDER = lib.mkIf isDarwin sshSkProvider;
   };
 
   programs.ssh.enable = true;
   programs.ssh.enableDefaultConfig = false;
   programs.ssh.settings = {
     "*" = {
-      securityKeyProvider = lib.mkIf isDarwin sshSkProvider;
+      identityAgent = lib.mkIf isDarwin (sshConfigEscape sshAgentSecretive);
       identityFile = keyMain;
       identitiesOnly = true;
     };
