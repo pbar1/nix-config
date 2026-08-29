@@ -46,7 +46,7 @@ in
     };
     "tec" = {
       user = "nixos";
-      hostname = "tec";
+      hostname = "10.0.0.54";
     };
     "ha" = {
       user = "root";
