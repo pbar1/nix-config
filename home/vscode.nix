@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (pkgs.stdenv) isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin;
   jsonFormat = pkgs.formats.json { };
   configDir = if isDarwin then "Library/Application Support" else config.xdg.configHome;
   os = if isDarwin then "osx" else "linux";

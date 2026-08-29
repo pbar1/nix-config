@@ -9,7 +9,7 @@ in
   programs.ghostty.enableFishIntegration = true;
 
   # Install with Homebrew on macOS via nix-darwin
-  programs.ghostty.package = if pkgs.stdenv.isDarwin then null else pkgs.ghostty;
+  programs.ghostty.package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
 
   programs.ghostty.settings = {
     command = "${pkgs.tmux}/bin/tmux new-session -A -s main";
