@@ -107,7 +107,8 @@ in
       ''heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'';
     signing.backend = "ssh";
     signing.backends.ssh.program = lib.mkIf isDarwin sshSignProgram;
-    signing.behavior = "own";
+    git.sign-on-push = true;
+    signing.behavior = "drop"; # Needed for sign-on-push
     signing.key = signingKey;
     ui.default-command = "log";
     user.email = userEmail;
