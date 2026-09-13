@@ -48,7 +48,6 @@
     "slack"
     "spotify"
     "tailscale-app"
-    "thaw"
     "visual-studio-code"
     "vlc"
     "vscodium"
