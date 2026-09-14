@@ -27,7 +27,6 @@
     "brave-browser"
     "calibre"
     "chatgpt"
-    "codex"
     "cyberduck"
     "discord"
     "docker-desktop"
@@ -36,7 +35,6 @@
     "font-monaspace-nf"
     "ghostty"
     "google-earth-pro"
-    "iterm2"
     "karabiner-elements" # Required for Kanata
     "keepassxc"
     "keka"
@@ -50,7 +48,6 @@
     "tailscale-app"
     "visual-studio-code"
     "vlc"
-    "vscodium"
     "whatsapp"
     "wireshark-app"
     "zoom"

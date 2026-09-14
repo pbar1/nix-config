@@ -45,7 +45,7 @@ in
   nix.settings.download-buffer-size = 500000000;
   nix.distributedBuilds = true;
   nix.linux-builder.enable = true;
-  nix.linux-builder.config.virtualisation.qemu.options = [ "-machine gic-version=3" ];
+  nix.linux-builder.package = pkgs.darwin.linux-builder-vz;
 
   # Handy list of macOS `defaults` options
   # https://github.com/LnL7/nix-darwin/blob/master/tests/system-defaults-write.nix
