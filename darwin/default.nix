@@ -44,7 +44,7 @@ in
   ];
   nix.settings.download-buffer-size = 500000000;
   nix.distributedBuilds = true;
-  nix.linux-builder.enable = true;
+  nix.linux-builder.enable = false;
   nix.linux-builder.package = pkgs.darwin.linux-builder-vz;
 
   # Handy list of macOS `defaults` options

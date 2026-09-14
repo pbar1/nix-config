@@ -32,6 +32,7 @@
   oc = "opencode";
   s = "jj";
   t = "task";
+  tempdir = "cd $(mktemp --directory)";
   tf = "terraform";
   wkgp = "watch kubectl get pods";
   wo = "type --all --short --path";
