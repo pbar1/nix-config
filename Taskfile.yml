@@ -61,6 +61,26 @@ tasks:
       - rsync --recursive --delete --delete-excluded --exclude='.git/' --exclude='.jj/' --filter='dir-merge,- .gitignore' ./ nixos@tec:~/nix-config-deploy/
       - ssh nixos@tec 'nixos-rebuild switch --sudo --flake ~/nix-config-deploy#tec'
 
+  nixos:switch:nixvm:
+    aliases: [nixvm]
+    desc: Compile and activate NixOS config (nixvm)
+    cmds:
+      - |
+        set -eu
+        control_dir=$(mktemp -d)
+        staging_dir=
+        cleanup() {
+          if [ -n "$staging_dir" ]; then
+            ssh -S "$control_dir/ssh" nixvm "rm -rf -- $staging_dir" || true
+          fi
+          ssh -S "$control_dir/ssh" -O exit nixvm 2>/dev/null || true
+          rm -rf -- "$control_dir"
+        }
+        trap cleanup EXIT
+        staging_dir=$(ssh -S "$control_dir/ssh" -o ControlMaster=auto -o ControlPersist=60 nixvm 'mktemp -d')
+        scp -o ControlPath="$control_dir/ssh" nixvm/*.nix "nixvm:$staging_dir/"
+        ssh -S "$control_dir/ssh" -t nixvm "sudo sh -c 'install -m 0644 $staging_dir/*.nix /etc/nixos/ && nixos-rebuild switch'"
+
   # Darwin --------------------------------------------------------------------
 
   darwin:install:
