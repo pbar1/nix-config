@@ -86,6 +86,13 @@
   services.pipewire.enable = true;
   services.pipewire.alsa.enable = true;
   services.pipewire.pulse.enable = true;
+  # Use 16-bit samples so VMware's audio buffer holds enough frames.
+  services.pipewire.wireplumber.extraConfig."50-vmware-audio"."monitor.alsa.rules" = [
+    {
+      matches = [ { "node.name" = "alsa_output.pci-0000_01_01.0.analog-stereo"; } ];
+      actions.update-props."audio.format" = "S16LE";
+    }
+  ];
 
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
