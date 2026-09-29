@@ -2,6 +2,7 @@
 
 {
   cat = "bat";
+  codex = "codex --profile=nix";
   copy = if pkgs.stdenv.hostPlatform.isDarwin then "pbcopy" else "wl-copy --trim-newline";
   l = "eza --header --all --long --git";
   ls = "eza";

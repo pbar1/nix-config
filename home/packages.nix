@@ -28,6 +28,7 @@
     sd
     unixtools.watch
     xz
+    _7zz
 
     # Networking
     dig
