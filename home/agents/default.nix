@@ -42,6 +42,5 @@ in
 
   # Codex
   programs.codex.enable = true;
-  programs.codex.profiles.nix.tui.keymap.composer.submit = "ctrl-enter";
   home.file.".codex/AGENTS.md".source = agentsFile;
 }
