@@ -47,6 +47,7 @@
     "sol"
     "spotify"
     "tailscale-app"
+    "virtualbox"
     "visual-studio-code"
     "vlc"
     "whatsapp"
