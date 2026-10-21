@@ -9,7 +9,7 @@
   cx = "codex";
   dyf = "dyff between -b";
   e = "$EDITOR";
-  g = "jj";
+  g = "git";
   gr = ''cd "$(git root)"'';
   gs = "git status --short";
   j = "jj";
