@@ -20,7 +20,7 @@
   ];
   services.openssh.extraConfig = ''
     HostKeyAlgorithms ssh-ed25519
-    PubkeyAcceptedAlgorithms +ssh-mldsa44-ed25519@openssh.com
+    PubkeyAcceptedAlgorithms +ssh-mldsa44-ed25519
   '';
 
   # `verify-required` does not work with Secure Enclave sk keys
