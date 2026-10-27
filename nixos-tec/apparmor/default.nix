@@ -37,6 +37,34 @@ in
   security.apparmor.enable = true;
   security.apparmor.includes = readTunables tunables;
 
+  # Load profiles before setting the kernel's one-way lock_policy; K3s requires both.
+  # Switches retain the loaded policy. Stage policy changes and dependent updates
+  # with `task tec:boot`, then reboot; live rollback cannot revert policy.
+  systemd.services.apparmor.reloadIfChanged = lib.mkForce false;
+  systemd.services.apparmor.restartIfChanged = false;
+  systemd.services.apparmor.serviceConfig.ExecReload = lib.mkForce [ ];
+  systemd.services.apparmor.serviceConfig.ExecStop = lib.mkForce [ ];
+
+  systemd.services.apparmor-policy-lock = {
+    description = "Lock AppArmor policy until reboot";
+    wantedBy = [ "sysinit.target" ];
+    requiredBy = [ "k3s.service" ];
+    requires = [ "apparmor.service" ];
+    after = [ "apparmor.service" ];
+    before = [
+      "sysinit.target"
+      "k3s.service"
+    ];
+    unitConfig.DefaultDependencies = false;
+    serviceConfig.Type = "oneshot";
+    serviceConfig.RemainAfterExit = true;
+    script = ''
+      if [ "$(cat /sys/module/apparmor/parameters/lock_policy)" != Y ]; then
+        echo Y > /sys/module/apparmor/parameters/lock_policy
+      fi
+    '';
+  };
+
   # WARNING: aa-remove-unknown runs and unloads undeclared runtime profiles
   # which removes confinement on live processes. killUnconfinedConfinables does
   # NOT mitigate this.
