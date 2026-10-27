@@ -5,7 +5,9 @@ let
   zfsMount = [ "zfs-mount.service" ];
   kataConfig = pkgs.runCommand "kata-clh.toml" { } ''
     substitute ${pkgs.kata-runtime}/share/defaults/kata-containers/configuration-clh.toml "$out" \
-      --replace-fail "${pkgs.kata-runtime}/bin/cloud-hypervisor" "${pkgs.cloud-hypervisor}/bin/cloud-hypervisor"
+      --replace-fail "${pkgs.kata-runtime}/bin/cloud-hypervisor" "${pkgs.cloud-hypervisor}/bin/cloud-hypervisor" \
+      --replace-fail 'enable_annotations = ["enable_iommu", "kernel_params", "kernel_verity_params"]' 'enable_annotations = []' \
+      --replace-fail 'disable_guest_seccomp = true' 'disable_guest_seccomp = false'
   '';
 in
 
@@ -176,8 +178,8 @@ in
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
       runtime_type = "io.containerd.kata.v2"
       privileged_without_host_devices = true
-      pod_annotations = ["io.katacontainers.*"]
-      container_annotations = ["io.katacontainers.*"]
+      pod_annotations = []
+      container_annotations = []
 
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
       ConfigPath = "${kataConfig}"

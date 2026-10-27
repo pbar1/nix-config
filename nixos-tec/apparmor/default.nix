@@ -37,8 +37,21 @@ in
   security.apparmor.enable = true;
   security.apparmor.includes = readTunables tunables;
 
-  security.apparmor.policies.plex = {
-    state = "complain";
-    profile = import ./plex.nix;
+  # WARNING: aa-remove-unknown runs and unloads undeclared runtime profiles
+  # which removes confinement on live processes. killUnconfinedConfinables does
+  # NOT mitigate this.
+  security.apparmor.policies = {
+    "cri-containerd.apparmor.d" = {
+      state = "enforce";
+      profile = builtins.readFile ./cri-containerd.apparmor.d;
+    };
+    kata-cloud-hypervisor = {
+      state = "enforce";
+      profile = import ./kata-cloud-hypervisor.nix { inherit pkgs; };
+    };
+    plex = {
+      state = "complain";
+      profile = import ./plex.nix;
+    };
   };
 }
