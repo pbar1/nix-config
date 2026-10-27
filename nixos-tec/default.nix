@@ -3,6 +3,10 @@
 let
   apiServerHost = "10.0.0.54";
   zfsMount = [ "zfs-mount.service" ];
+  kataConfig = pkgs.runCommand "kata-clh.toml" { } ''
+    substitute ${pkgs.kata-runtime}/share/defaults/kata-containers/configuration-clh.toml "$out" \
+      --replace-fail "${pkgs.kata-runtime}/bin/cloud-hypervisor" "${pkgs.cloud-hypervisor}/bin/cloud-hypervisor"
+  '';
 in
 
 {
@@ -174,6 +178,9 @@ in
       privileged_without_host_devices = true
       pod_annotations = ["io.katacontainers.*"]
       container_annotations = ["io.katacontainers.*"]
+
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
+      ConfigPath = "${kataConfig}"
   '';
   systemd.services.k3s.path = with pkgs; [
     apparmor-parser
