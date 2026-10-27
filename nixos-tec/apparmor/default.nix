@@ -47,7 +47,7 @@ in
     };
     kata-cloud-hypervisor = {
       state = "enforce";
-      profile = import ./kata-cloud-hypervisor.nix { inherit pkgs; };
+      profile = import ./kata-cloud-hypervisor.nix;
     };
     plex = {
       state = "complain";

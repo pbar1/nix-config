@@ -1,11 +1,9 @@
-{ pkgs }:
-
 ''
   abi <abi/4.0>,
 
   include <tunables/global>
 
-  profile kata-cloud-hypervisor ${pkgs.cloud-hypervisor}/bin/cloud-hypervisor flags=(attach_disconnected) {
+  profile kata-cloud-hypervisor /nix/store/*-cloud-hypervisor-*/bin/cloud-hypervisor flags=(attach_disconnected) {
     include <abstractions/base>
 
     /nix/store/** mr,
