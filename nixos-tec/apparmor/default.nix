@@ -37,6 +37,14 @@ in
   security.apparmor.enable = true;
   security.apparmor.includes = readTunables tunables;
 
+  # Capture AppArmor events without the kernel journal's printk rate limit.
+  security.auditd.enable = true;
+  security.auditd.settings = {
+    max_log_file = 64;
+    num_logs = 8;
+    max_log_file_action = "ROTATE";
+  };
+
   # Load profiles before setting the kernel's one-way lock_policy; K3s requires both.
   # Switches retain the loaded policy. Stage policy changes and dependent updates
   # with `task tec:boot`, then reboot; live rollback cannot revert policy.
