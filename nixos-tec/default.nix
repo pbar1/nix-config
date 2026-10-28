@@ -5,6 +5,7 @@ let
   zfsMount = [ "zfs-mount.service" ];
   runscConfig = pkgs.writeText "runsc.toml" ''
     [runsc_config]
+      platform = "kvm"
       directfs = "false"
       oci-seccomp = "true"
       systemd-cgroup = "true"
