@@ -3,6 +3,12 @@
 let
   apiServerHost = "10.0.0.54";
   zfsMount = [ "zfs-mount.service" ];
+  runscConfig = pkgs.writeText "runsc.toml" ''
+    [runsc_config]
+      directfs = "false"
+      oci-seccomp = "true"
+      systemd-cgroup = "true"
+  '';
   kataConfig = pkgs.runCommand "kata-clh.toml" { } ''
     substitute ${pkgs.kata-runtime}/share/defaults/kata-containers/configuration-clh.toml "$out" \
       --replace-fail "${pkgs.kata-runtime}/bin/cloud-hypervisor" "${pkgs.cloud-hypervisor}/bin/cloud-hypervisor" \
@@ -175,6 +181,10 @@ in
 
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runsc]
       runtime_type = "io.containerd.runsc.v1"
+
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runsc.options]
+      TypeUrl = "io.containerd.runsc.v1.options"
+      ConfigPath = "${runscConfig}"
 
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata]
       runtime_type = "io.containerd.kata.v2"
