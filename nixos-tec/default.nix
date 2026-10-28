@@ -123,6 +123,7 @@ in
     "--secrets-encryption"
     "--disable=traefik"
     "--disable=servicelb"
+    "--disable=runtimes"
     "--disable-kube-proxy"
     "--disable-network-policy"
     "--flannel-backend=none"
