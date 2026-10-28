@@ -77,9 +77,5 @@ in
       state = "enforce";
       profile = import ./kata-cloud-hypervisor.nix;
     };
-    plex = {
-      state = "complain";
-      profile = import ./plex.nix;
-    };
   };
 }
