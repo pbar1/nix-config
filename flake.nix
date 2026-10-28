@@ -5,6 +5,11 @@
     systems.url = "github:nix-systems/default";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     darwin.url = "github:nix-darwin/nix-darwin";
+    gvisor = {
+      # Merge release-20261026.0-138-g80666354a (automated), matching nixpkgs' pinning convention.
+      url = "github:google/gvisor/063618a361eba871db68aa3d240173f48d1569f8";
+      flake = false;
+    };
 
     # Modules and overlays
     home-manager.url = "github:nix-community/home-manager";

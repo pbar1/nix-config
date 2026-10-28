@@ -57,6 +57,23 @@
         "type": "github"
       }
     },
+    "gvisor": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793223008,
+        "narHash": "sha256-F0lKa0r4MU62oaJSZgz5XPYuMTmpgvOG4T9kB5PyCWk=",
+        "owner": "google",
+        "repo": "gvisor",
+        "rev": "063618a361eba871db68aa3d240173f48d1569f8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "google",
+        "repo": "gvisor",
+        "rev": "063618a361eba871db68aa3d240173f48d1569f8",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -175,6 +192,7 @@
     "root": {
       "inputs": {
         "darwin": "darwin",
+        "gvisor": "gvisor",
         "home-manager": "home-manager",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-wsl": "nixos-wsl",
