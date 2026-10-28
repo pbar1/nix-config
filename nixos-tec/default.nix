@@ -7,7 +7,8 @@ let
     substitute ${pkgs.kata-runtime}/share/defaults/kata-containers/configuration-clh.toml "$out" \
       --replace-fail "${pkgs.kata-runtime}/bin/cloud-hypervisor" "${pkgs.cloud-hypervisor}/bin/cloud-hypervisor" \
       --replace-fail 'enable_annotations = ["enable_iommu", "kernel_params", "kernel_verity_params"]' 'enable_annotations = []' \
-      --replace-fail 'disable_guest_seccomp = true' 'disable_guest_seccomp = false'
+      --replace-fail 'disable_guest_seccomp = true' 'disable_guest_seccomp = false' \
+      --replace-fail 'reclaim_guest_freed_memory = false' 'reclaim_guest_freed_memory = true'
   '';
 in
 
