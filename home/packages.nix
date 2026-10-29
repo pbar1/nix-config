@@ -46,6 +46,7 @@
     kubectx
     kubernetes-helm
     stern
+    talosctl
 
     # Nix
     nixd
