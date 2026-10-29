@@ -46,6 +46,9 @@ in
   nix.distributedBuilds = true;
   nix.linux-builder.enable = true;
   nix.linux-builder.package = pkgs.darwin.linux-builder-vz;
+  nix.linux-builder.config.virtualisation.cores = 4;
+  nix.linux-builder.config.virtualisation.darwin-builder.diskSize = 40 * 1024;
+  nix.linux-builder.config.virtualisation.darwin-builder.memorySize = 6 * 1024;
   nix.linux-builder.systems = [
     "aarch64-linux"
     "x86_64-linux"
