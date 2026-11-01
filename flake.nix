@@ -10,6 +10,10 @@
       url = "github:google/gvisor/063618a361eba871db68aa3d240173f48d1569f8";
       flake = false;
     };
+    kata-kernel = {
+      url = "file+https://github.com/kata-containers/kata-containers/releases/download/4.3.1/kata-static-4.3.1-amd64.tar.zst";
+      flake = false;
+    };
 
     # Modules and overlays
     home-manager.url = "github:nix-community/home-manager";
@@ -91,6 +95,7 @@
       # Apply with: `task tec`
       nixosConfigurations."tec" = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
+        specialArgs.inputs = inputs;
         modules = [
           inputs.home-manager.nixosModules.home-manager
           ./nixos-tec

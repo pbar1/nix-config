@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 let
   apiServerHost = "10.0.0.54";
@@ -10,9 +10,14 @@ let
       oci-seccomp = "true"
       systemd-cgroup = "true"
   '';
+  kataKernel = pkgs.runCommand "kata-kernel" { nativeBuildInputs = [ pkgs.zstd ]; } ''
+    tar --zstd -xf ${inputs.kata-kernel} --wildcards './opt/kata/share/kata-containers/vmlinux*'
+    cp -L opt/kata/share/kata-containers/vmlinux.container "$out"
+  '';
   kataConfig = pkgs.runCommand "kata-clh.toml" { } ''
     substitute ${pkgs.kata-runtime}/share/defaults/kata-containers/configuration-clh.toml "$out" \
       --replace-fail "${pkgs.kata-runtime}/bin/cloud-hypervisor" "${pkgs.cloud-hypervisor}/bin/cloud-hypervisor" \
+      --replace-fail 'kernel = "${pkgs.kata-runtime.kata-images}/share/kata-containers/vmlinux.container"' 'kernel = "${kataKernel}"' \
       --replace-fail 'enable_annotations = ["enable_iommu", "kernel_params", "kernel_verity_params"]' 'enable_annotations = []' \
       --replace-fail 'disable_guest_seccomp = true' 'disable_guest_seccomp = false' \
       --replace-fail 'reclaim_guest_freed_memory = false' 'reclaim_guest_freed_memory = true'
@@ -197,6 +202,7 @@ in
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
       ConfigPath = "${kataConfig}"
   '';
+  systemd.services.k3s.restartTriggers = [ kataConfig ];
   systemd.services.k3s.path = with pkgs; [
     apparmor-parser
     apparmor-utils

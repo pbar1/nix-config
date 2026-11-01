@@ -48,21 +48,13 @@ in
       user = "nixos";
       hostname = "10.0.0.54";
     };
-    "nixvm" = {
-      user = "user";
-      proxyCommand = ''/usr/bin/nc -U "${homeDirectory}/Virtual Machines.localized/NixOS.vmwarevm/ssh.sock"'';
-    };
-    "nixvm-unlock" = {
-      user = "root";
-      proxyCommand = ''/usr/bin/nc -U "${homeDirectory}/Virtual Machines.localized/NixOS.vmwarevm/ssh.sock"'';
-    };
     "ha" = {
       user = "root";
-      hostname = "yellow";
+      hostname = "home-assistant";
     };
     "haos" = {
       user = "root";
-      hostname = "yellow";
+      hostname = "home-assistant";
       port = 22222;
     };
     "kindle" = {

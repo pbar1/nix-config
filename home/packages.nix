@@ -34,7 +34,6 @@
     dig
     nmap
     eternal-terminal
-    openssh
 
     # Database
     duckdb

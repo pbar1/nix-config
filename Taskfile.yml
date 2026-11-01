@@ -65,6 +65,12 @@ tasks:
       - task: nixos:sync:tec
       - ssh nixos@tec 'nixos-rebuild switch --sudo --flake ~/nix-config-deploy#tec'
 
+  nixos:build:tec:
+    desc: Compile NixOS config without activating it (tec)
+    cmds:
+      - task: nixos:sync:tec
+      - ssh nixos@tec 'nixos-rebuild build --flake ~/nix-config-deploy#tec'
+
   # Kernel and AppArmor changes require reboot
   nixos:boot:tec:
     aliases: [tec:boot]

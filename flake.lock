@@ -94,6 +94,18 @@
         "type": "github"
       }
     },
+    "kata-kernel": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-XrbUhjnF3Oo5Ksdz5n4OlYBU+KrDH6OTkiVXJigwVDE=",
+        "type": "file",
+        "url": "https://github.com/kata-containers/kata-containers/releases/download/4.3.1/kata-static-4.3.1-amd64.tar.zst"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/kata-containers/kata-containers/releases/download/4.3.1/kata-static-4.3.1-amd64.tar.zst"
+      }
+    },
     "nix-vscode-extensions": {
       "inputs": {
         "nixpkgs": [
@@ -194,6 +206,7 @@
         "darwin": "darwin",
         "gvisor": "gvisor",
         "home-manager": "home-manager",
+        "kata-kernel": "kata-kernel",
         "nix-vscode-extensions": "nix-vscode-extensions",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
