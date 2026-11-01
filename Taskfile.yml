@@ -39,8 +39,8 @@ tasks:
     aliases: [gc:tec]
     desc: Remove unused objects from the Nix store (tec)
     cmds:
-      - ssh nixos@tec 'nix-collect-garbage --delete-old'
-      - ssh nixos@tec 'sudo nix-collect-garbage --delete-old'
+      - ssh nixos@tec 'nix-collect-garbage --delete-older-than=30d'
+      - ssh nixos@tec 'sudo nix-collect-garbage --delete-older-than=30d'
 
   nix:repl:
     desc: Launch a repl for this Nix flake
