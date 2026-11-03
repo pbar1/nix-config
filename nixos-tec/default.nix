@@ -117,6 +117,14 @@ in
   services.eternal-terminal.enable = true;
   programs.mosh.enable = true;
 
+  services.tailscale.enable = true;
+  services.tailscale.openFirewall = true;
+  services.tailscale.disableTaildrop = true;
+  services.tailscale.extraSetFlags = [
+    "--accept-dns=false"
+    "--ssh=false" # Insecure; ensure this never gets silently enabled
+  ];
+
   services.k3s.enable = true;
   services.k3s.role = "server";
   services.k3s.extraFlags = toString [
@@ -149,6 +157,9 @@ in
       kubeProxyReplacement: true
       k8sServiceHost: "${apiServerHost}"
       k8sServicePort: 6443
+
+      # Exclude Tailscale's smaller tunnel MTU from device detection.
+      devices: enp4s0
 
       ipam:
         operator:
