@@ -83,6 +83,19 @@ in
   programs.jujutsu.settings = {
     aliases = {
       d = [ "diff" ];
+      onboard = [
+        "util"
+        "exec"
+        "--"
+        "sh"
+        "-euc"
+        ''
+          jj git remote add origin "$1"
+          jj bookmark set main -r 'closest_pushable(@)'
+          jj bookmark track main --remote origin
+        ''
+        "jj-onboard"
+      ];
       push = [
         "git"
         "push"
