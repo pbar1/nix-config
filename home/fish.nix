@@ -11,7 +11,6 @@ in
   programs.fish.plugins = with pkgs.fishPlugins; [
     { inherit (autopair) name src; }
     { inherit (bang-bang) name src; }
-    { inherit (fzf-fish) name src; }
   ];
 
   programs.fish.interactiveShellInit = ''
