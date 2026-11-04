@@ -13,10 +13,8 @@ let
   sshConfigEscape = s: lib.replaceStrings [ " " ] [ "\\ " ] s;
   secretiveData = "${homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data";
   sshAgentSecretive = "${secretiveData}/socket.ssh";
-  sshAgent1Password = "${homeDirectory}/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 
   keyMain = "${secretiveData}/PublicKeys/f147e7312171443c2e0557320e1ce2a9.pub";
-  keyGit = "${homeDirectory}/.ssh/git.pub";
 in
 
 {
@@ -37,12 +35,6 @@ in
       identityAgent = lib.mkIf isDarwin (sshConfigEscape sshAgentSecretive);
       identityFile = keyMain;
       identitiesOnly = true;
-    };
-    "github.com" = {
-      user = "git";
-      hostname = "github.com";
-      identityAgent = lib.mkIf isDarwin (sshConfigEscape sshAgent1Password);
-      identityFile = keyGit;
     };
     "tec" = {
       user = "nixos";

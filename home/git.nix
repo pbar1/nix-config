@@ -56,6 +56,10 @@ in
     rebase.updateRefs = true;
     rerere.autoUpdate = true;
     rerere.enabled = true;
+    url."https://github.com/".insteadOf = [
+      "git@github.com:"
+      "ssh://git@github.com/"
+    ];
     user.email = userEmail;
     user.name = userName;
   };
