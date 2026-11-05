@@ -44,7 +44,7 @@ in
   ];
   nix.settings.download-buffer-size = 500000000;
   nix.distributedBuilds = true;
-  nix.linux-builder.enable = true;
+  nix.linux-builder.enable = false; # Enable temporarily when doing crossplat dev
   nix.linux-builder.package = pkgs.darwin.linux-builder-vz;
   nix.linux-builder.config.virtualisation.cores = 4;
   nix.linux-builder.config.virtualisation.darwin-builder.diskSize = 40 * 1024;

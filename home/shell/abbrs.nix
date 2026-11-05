@@ -30,6 +30,7 @@
   lt = "eza --tree";
   nc = "ncat";
   oc = "opencode";
+  p = "podman";
   s = "jj";
   t = "task";
   tempdir = "cd $(mktemp --directory)";
