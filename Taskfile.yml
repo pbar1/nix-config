@@ -79,26 +79,6 @@ tasks:
       - task: nixos:sync:tec
       - ssh nixos@tec 'nixos-rebuild boot --sudo --flake ~/nix-config-deploy#tec'
 
-  nixos:switch:nixvm:
-    aliases: [nixvm]
-    desc: Compile and activate NixOS config (nixvm)
-    cmds:
-      - |
-        set -eu
-        control_dir=$(mktemp -d)
-        staging_dir=
-        cleanup() {
-            if [ -n "$staging_dir" ]; then
-                ssh -S "$control_dir/ssh" nixvm "rm -rf -- $staging_dir" || true
-            fi
-            ssh -S "$control_dir/ssh" -O exit nixvm 2>/dev/null || true
-            rm -rf -- "$control_dir"
-        }
-        trap cleanup EXIT
-        staging_dir=$(ssh -S "$control_dir/ssh" -o ControlMaster=auto -o ControlPersist=60 nixvm 'mktemp -d')
-        scp -o ControlPath="$control_dir/ssh" nixvm/*.nix "nixvm:$staging_dir/"
-        ssh -S "$control_dir/ssh" -t nixvm "sudo sh -c 'install -m 0644 $staging_dir/*.nix /etc/nixos/ && nixos-rebuild switch'"
-
   # Darwin --------------------------------------------------------------------
 
   darwin:install:
@@ -111,11 +91,3 @@ tasks:
     aliases: [mac, darwin]
     desc: Compile and activate nix-darwin config
     cmd: sudo /run/current-system/sw/bin/darwin-rebuild switch --flake .#$HOSTNAME_HACK
-
-  # Docker Sandboxes ----------------------------------------------------------
-
-  sbx:
-    desc: Build and load the Home Manager Docker Sandbox template
-    cmds:
-      - nix build .#sbx
-      - sbx template load result

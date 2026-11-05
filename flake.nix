@@ -56,22 +56,9 @@
 
       formatter = eachSystem (system: (pkgsFor system).nixfmt-tree);
 
-      packages = eachSystem (
-        system:
-        {
-          nvim-pbar = (pkgsFor system).nvim-pbar;
-        }
-        // nixpkgs.lib.optionalAttrs (system == "aarch64-darwin") {
-          sbx = import ./pkgs/sbx.nix {
-            inherit inputs;
-            pkgs = import nixpkgs {
-              system = "aarch64-linux";
-              inherit overlays;
-              config.allowUnfree = true;
-            };
-          };
-        }
-      );
+      packages = eachSystem (system: {
+        nvim-pbar = (pkgsFor system).nvim-pbar;
+      });
 
       # Apply with: `task mac`
       darwinConfigurations."bobbery" = darwin.lib.darwinSystem {

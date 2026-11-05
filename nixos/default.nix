@@ -82,7 +82,6 @@
     "wheel"
     "networkmanager"
     "libvirtd"
-    "docker"
   ];
   users.users.root.hashedPassword = "!"; # Disable root user
 
@@ -105,7 +104,6 @@
   networking.firewall.allowedTCPPorts = [ 2022 ];
   networking.firewall.checkReversePath = "loose";
 
-  virtualisation.docker.enable = true;
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.onBoot = "ignore";
   virtualisation.libvirtd.qemu.ovmf.enable = true;

@@ -7,10 +7,6 @@
 
   homebrew.taps = [
     "cormacrelf/tap"
-    {
-      name = "docker/tap";
-      trusted = true;
-    }
   ];
 
   homebrew.brews = [
@@ -29,8 +25,6 @@
     "chatgpt"
     "cyberduck"
     "discord"
-    "docker-desktop"
-    "docker/tap/sbx"
     "font-iosevka-nerd-font"
     "font-monaspace-nf"
     "ghostty"
