@@ -3,6 +3,7 @@
 {
   imports = [
     ./agents
+    ./containers.nix
     ./env.nix
     ./fish.nix
     ./fzf.nix
