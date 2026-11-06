@@ -1,7 +1,10 @@
 { pkgs, ... }:
 
 {
-  home.packages = [ pkgs.podman-compose ];
+  home.packages = with pkgs; [
+    nono
+    podman-compose
+  ];
 
   services.podman.enable = true;
   services.podman.useDefaultMachine = false;
