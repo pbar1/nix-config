@@ -51,14 +51,30 @@
 
       # Instantiate Nixpkgs for a given system including our overlay packages
       pkgsFor = system: import nixpkgs { inherit system overlays; };
+
+      container = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./nixos-container ];
+      };
     in
     {
 
       formatter = eachSystem (system: (pkgsFor system).nixfmt-tree);
 
-      packages = eachSystem (system: {
-        nvim-pbar = (pkgsFor system).nvim-pbar;
-      });
+      packages = eachSystem (
+        system:
+        {
+          nvim-pbar = (pkgsFor system).nvim-pbar;
+        }
+        // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") {
+          nixos-container = import ./nixos-container/image.nix {
+            pkgs = container.pkgs;
+            nixos = container.config.system.build.toplevel;
+          };
+        }
+      );
+
+      nixosConfigurations.nixos-container = container;
 
       # Apply with: `task mac`
       darwinConfigurations."bobbery" = darwin.lib.darwinSystem {

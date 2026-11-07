@@ -1,0 +1,52 @@
+name: NixOS container
+
+on:
+  pull_request:
+    paths:
+      - nixos-container/**
+      - flake.nix
+      - flake.lock
+      - .github/workflows/nixos-container.yml
+  push:
+    branches: [main]
+    paths:
+      - nixos-container/**
+      - flake.nix
+      - flake.lock
+      - .github/workflows/nixos-container.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31.11.3
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image
+        run: nix build --no-write-lock-file .#nixos-container
+      - name: Check image
+        run: |
+          docker load --input=result
+          docker image inspect --format='{{.Size}} bytes' ghcr.io/pbar1/nixos-container:latest
+          docker run --rm --network=none --env=USER=root --entrypoint=/sw/bin/bash ghcr.io/pbar1/nixos-container:latest -ec '
+            test -x /init
+            test -x /nix/var/nix/profiles/system/init
+            /sw/bin/nix-store --verify --check-contents
+          '
+      - name: Publish image
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        shell: nix shell --inputs-from . nixpkgs#skopeo --command bash -e {0}
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+        run: |
+          printf '%s' "$GHCR_TOKEN" | skopeo login --username="$GHCR_USER" --password-stdin ghcr.io
+          for tag in "$GITHUB_SHA" latest; do
+            skopeo copy --format=oci docker-archive:result "docker://ghcr.io/pbar1/nixos-container:$tag"
+          done
