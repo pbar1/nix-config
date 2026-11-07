@@ -41,7 +41,10 @@ jobs:
           '
       - name: Publish image
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        shell: nix shell --inputs-from . nixpkgs#skopeo --command bash -e {0}
+        shell: >-
+          nix shell --impure
+          --expr "(builtins.getFlake (toString ./.)).inputs.nixpkgs.legacyPackages.x86_64-linux.skopeo"
+          --command bash -e {0}
         env:
           GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GHCR_USER: ${{ github.actor }}
