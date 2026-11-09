@@ -71,13 +71,16 @@ in
 
   time.timeZone = "America/Los_Angeles";
 
+  users.mutableUsers = false;
   users.users.nixos.isNormalUser = true;
   users.users.nixos.extraGroups = [ "wheel" ];
-  users.users.nixos.hashedPassword = "$6$ouPdfmFbwMP/0uf7$qHv26BknhOYNzoZPMJZ6Ic5uR6Rw3K/CLSYEDWr5djV9UJKkzcGB4b3ZRqHawJ5pt.dKr3ySK7JDUyTnXEl2k1";
+  users.users.nixos.hashedPasswordFile = "/var/lib/secrets/nixos-password";
 
   users.users.root.hashedPassword = "!"; # Disable root user
 
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = true;
+  security.pam.rssh.enable = true;
+  security.pam.services.sudo.rssh = true;
 
   environment.systemPackages = with pkgs; [
     bpftrace

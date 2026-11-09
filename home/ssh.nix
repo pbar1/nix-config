@@ -38,7 +38,8 @@ in
     };
     "tec" = {
       user = "nixos";
-      hostname = "10.0.0.54";
+      hostname = "tec";
+      forwardAgent = true;
     };
     "ha" = {
       user = "root";
