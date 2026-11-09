@@ -65,24 +65,9 @@ in
     2022 # Eternal Terminal
     6443 # Kubernetes - API
     10250 # Kubernetes - Metrics Server
-    30443 # Contour - Envoy HTTPS
     30180 # WebDAV
     32400 # Plex
   ];
-  networking.firewall.logReversePathDrops = true;
-  networking.firewall.extraCommands = ''
-    ${pkgs.iptables}/bin/iptables -t mangle -C nixos-fw-rpfilter -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN 2>/dev/null \
-      || ${pkgs.iptables}/bin/iptables -t mangle -I nixos-fw-rpfilter 1 -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN
-    ${pkgs.iptables}/bin/iptables -C nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept 2>/dev/null \
-      || ${pkgs.iptables}/bin/iptables -I nixos-fw 3 -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept
-    ${pkgs.iptables}/bin/iptables -C nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 9100 -m comment --comment "Prometheus scrape node-exporter from pods" -j nixos-fw-accept 2>/dev/null \
-      || ${pkgs.iptables}/bin/iptables -I nixos-fw 4 -i lxc+ -s 10.42.0.0/16 -p tcp --dport 9100 -m comment --comment "Prometheus scrape node-exporter from pods" -j nixos-fw-accept
-  '';
-  networking.firewall.extraStopCommands = ''
-    ${pkgs.iptables}/bin/iptables -t mangle -D nixos-fw-rpfilter -i lxc+ -s 10.42.0.0/16 -m comment --comment "Cilium pod veth rpfilter bypass" -j RETURN 2>/dev/null || true
-    ${pkgs.iptables}/bin/iptables -D nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 4244 -m comment --comment "Cilium Hubble peer from pods" -j nixos-fw-accept 2>/dev/null || true
-    ${pkgs.iptables}/bin/iptables -D nixos-fw -i lxc+ -s 10.42.0.0/16 -p tcp --dport 9100 -m comment --comment "Prometheus scrape node-exporter from pods" -j nixos-fw-accept 2>/dev/null || true
-  '';
 
   time.timeZone = "America/Los_Angeles";
 
@@ -128,58 +113,16 @@ in
   services.k3s.enable = true;
   services.k3s.role = "server";
   services.k3s.extraFlags = toString [
-    # IPv4-only because ISP has trouble keeping an IPv6 address, which crashes
-    # the cluster when lost
-    "--cluster-cidr=10.42.0.0/16"
-    "--service-cidr=10.43.0.0/16"
+    # Keep IPv4 primary while using k3s's default IPv6 ranges.
+    "--cluster-cidr=10.42.0.0/16,fd00:42::/56"
+    "--service-cidr=10.43.0.0/16,fd00:43::/112"
+    "--advertise-address=${apiServerHost}"
+    "--flannel-ipv6-masq"
     "--default-local-storage-path=/zssd/general/local-path-provisioner"
     "--secrets-encryption"
     "--disable=traefik"
-    "--disable=servicelb"
     "--disable=runtimes"
-    "--disable-kube-proxy"
-    "--disable-network-policy"
-    "--flannel-backend=none"
   ];
-  services.k3s.manifests.cilium.content = {
-    apiVersion = "helm.cattle.io/v1";
-    kind = "HelmChart";
-    metadata.name = "cilium";
-    metadata.namespace = "kube-system";
-    spec.chart = "oci://quay.io/cilium/charts/cilium";
-    spec.version = "1.19.4";
-    spec.targetNamespace = "kube-system";
-    spec.bootstrap = true;
-    spec.valuesContent = ''
-      operator:
-        replicas: 1
-
-      kubeProxyReplacement: true
-      k8sServiceHost: "${apiServerHost}"
-      k8sServicePort: 6443
-
-      # Exclude Tailscale's smaller tunnel MTU from device detection.
-      devices: enp4s0
-
-      ipam:
-        operator:
-          clusterPoolIPv4PodCIDRList:
-            - 10.42.0.0/16
-
-      routingMode: tunnel
-      tunnelProtocol: vxlan
-
-      socketLB:
-        hostNamespaceOnly: true
-
-      hubble:
-        enabled: true
-        relay:
-          enabled: true
-        ui:
-          enabled: true
-    '';
-  };
   services.k3s.manifests.gvisor-runtimeclass.content = {
     apiVersion = "node.k8s.io/v1";
     kind = "RuntimeClass";
