@@ -6,6 +6,7 @@
 }:
 
 let
+  sshKeys = import ../data/ssh-keys.nix;
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
   inherit (config.home) homeDirectory;
 
@@ -13,8 +14,6 @@ let
   sshConfigEscape = s: lib.replaceStrings [ " " ] [ "\\ " ] s;
   secretiveData = "${homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data";
   sshAgentSecretive = "${secretiveData}/socket.ssh";
-
-  keyMain = "${secretiveData}/PublicKeys/f147e7312171443c2e0557320e1ce2a9.pub";
 in
 
 {
@@ -33,7 +32,7 @@ in
   programs.ssh.settings = {
     "*" = {
       identityAgent = lib.mkIf isDarwin (sshConfigEscape sshAgentSecretive);
-      identityFile = keyMain;
+      identityFile = toString (pkgs.writeText "bobbery.pub" "${sshKeys.bobbery}\n");
       identitiesOnly = true;
     };
     "tec" = {

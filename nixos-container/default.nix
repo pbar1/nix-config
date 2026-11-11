@@ -1,4 +1,9 @@
 { modulesPath, pkgs, ... }:
+
+let
+  sshKeys = import ../data/ssh-keys.nix;
+in
+
 {
   imports = [ (modulesPath + "/profiles/docker-container.nix") ];
 
@@ -35,7 +40,7 @@
   users.users.nixos.isNormalUser = true;
   users.users.nixos.extraGroups = [ "wheel" ];
   users.users.nixos.openssh.authorizedKeys.keys = [
-    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLkffON6Kk0FS/6PkC7VINKFiQuJuxiHKwFXRBFBgUjMCvKJ+cAv1rutMSLYdqtaSOhMdfaQDv23oeSzAoPZF8Y= bobbery@secretive"
+    sshKeys.bobbery
   ];
   security.sudo.wheelNeedsPassword = false;
 }

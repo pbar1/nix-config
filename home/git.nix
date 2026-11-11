@@ -4,7 +4,7 @@ let
 
   userName = "Pierce Bartine";
   userEmail = "26949935+pbar1@users.noreply.github.com";
-  signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDim41ofReCgbmijkayBsFg5TlO9qqV8b6Y8Xcwnr49m git";
+  signingKey = (import ../data/ssh-keys.nix).opGit;
 
   credentialHelper = if isDarwin then "osxkeychain" else "libsecret";
   sshSignProgram = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";

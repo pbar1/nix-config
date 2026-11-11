@@ -6,6 +6,7 @@
 }:
 
 let
+  sshKeys = import ../data/ssh-keys.nix;
   user = config.system.primaryUser;
   kanataConfig = ../keyboard/kanata.kbd;
 in
@@ -87,7 +88,7 @@ in
   users.users."${user}" = {
     home = "/Users/${user}";
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGvmdvrrgYY3Q+Wp/SyQm2a2OWL82S2Z+e+FoJ/vmS/D personal@1password"
+      sshKeys.opPersonal
     ];
   };
 
