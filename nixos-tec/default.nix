@@ -78,6 +78,7 @@ in
 
   users.users.root.hashedPassword = "!"; # Disable root user
 
+  security.sudo-rs.enable = true;
   security.sudo.wheelNeedsPassword = true;
   security.pam.rssh.enable = true;
   security.pam.services.sudo.rssh = true;
