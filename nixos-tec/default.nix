@@ -40,7 +40,8 @@ in
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     "pbar1.cachix.org-1:DsBqAi4CnR7TaABRn59sUBBK+lofYhQaV8lK8nl2gow="
   ];
-  nix.settings.trusted-users = [
+  nix.settings.trusted-users = [ "root" ];
+  nix.settings.allowed-users = [
     "root"
     "nixos"
   ];
@@ -79,9 +80,11 @@ in
   users.users.root.hashedPassword = "!"; # Disable root user
 
   security.sudo-rs.enable = true;
-  security.sudo.wheelNeedsPassword = true;
+  security.sudo-rs.wheelNeedsPassword = true;
+  security.sudo-rs.execWheelOnly = true;
   security.pam.rssh.enable = true;
   security.pam.services.sudo.rssh = true;
+  security.pam.services.sudo-i.rssh = true;
 
   environment.systemPackages = with pkgs; [
     bpftrace
