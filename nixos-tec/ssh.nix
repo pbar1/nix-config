@@ -19,8 +19,8 @@ in
     "chacha20-poly1305@openssh.com"
     "aes256-gcm@openssh.com"
   ];
-  # Must enable at least one MAC, even though none will be used due to only
-  # AEAD ciphers being enabled
+  # Must enable at least one MAC. It will not be used since only AEAD ciphers
+  # are enabled, and they skip MAC.
   services.openssh.settings.Macs = [
     "hmac-sha2-256-etm@openssh.com"
   ];
@@ -29,17 +29,19 @@ in
     PubkeyAcceptedAlgorithms +ssh-mldsa44-ed25519
   '';
 
-  security.pam.rssh.settings.auth_key_file = "/etc/ssh/sudo_authorized_keys";
-  # pam_rssh ignores authorized_keys options; verification depends on the key and agent.
-  environment.etc."ssh/sudo_authorized_keys".text = ''
-    ${sshKeys.yubikey}
-    ${sshKeys.bobbery}
-  '';
-
   users.users."nixos".openssh.authorizedKeys.keys = [
     "verify-required ${sshKeys.yubikey}"
     sshKeys.bobbery
     sshKeys.goombella
     sshKeys.koops
   ];
+
+  # TODO: Delete this when pam_rssh supports options like `verify-required`
+  security.pam.rssh.settings.auth_key_file = "/etc/ssh/sudo_authorized_keys";
+  environment.etc."ssh/sudo_authorized_keys".text = ''
+    ${sshKeys.yubikey}
+    ${sshKeys.bobbery}
+    ${sshKeys.goombella}
+    ${sshKeys.koops}
+  '';
 }
