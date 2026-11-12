@@ -3,6 +3,22 @@
 let
   apiServerHost = "10.0.0.54";
   zfsMount = [ "zfs-mount.service" ];
+  podSecurityAdmissionConfig = pkgs.writeText "pod-security-admission.json" (
+    builtins.toJSON {
+      apiVersion = "apiserver.config.k8s.io/v1";
+      kind = "AdmissionConfiguration";
+      plugins = [
+        {
+          name = "PodSecurity";
+          configuration = {
+            apiVersion = "pod-security.admission.config.k8s.io/v1";
+            kind = "PodSecurityConfiguration";
+            exemptions.runtimeClasses = [ "kata" ];
+          };
+        }
+      ];
+    }
+  );
   runscConfig = pkgs.writeText "runsc.toml" ''
     [runsc_config]
       platform = "kvm"
@@ -127,6 +143,7 @@ in
     "--flannel-ipv6-masq"
     "--default-local-storage-path=/zssd/general/local-path-provisioner"
     "--secrets-encryption"
+    "--kube-apiserver-arg=admission-control-config-file=${podSecurityAdmissionConfig}"
     "--disable=traefik"
     "--disable=runtimes"
   ];
