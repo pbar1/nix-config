@@ -1,0 +1,43 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: envoy-protect-proxy-config.static.k8s.io
+spec:
+  failurePolicy: Fail
+  matchConditions:
+  - name: envoy-namespace
+    expression: request.namespace == 'envoy-gateway-system'
+  - name: envoy-proxy
+    expression: request.name == 'envoy' || (request.operation == 'DELETE' && request.name == '')
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [ gateway.envoyproxy.io ]
+      apiVersions: [ "*" ]
+      operations: [ CREATE, UPDATE, DELETE ]
+      resources: [ envoyproxies ]
+  variables:
+  - name: deployment
+    expression: object.spec.provider.kubernetes.envoyDeployment
+  validations:
+  - expression: >-
+      request.operation != 'DELETE' &&
+      !has(object.spec.bootstrap) && (!has(object.spec.extraArgs) || object.spec.extraArgs.size() == 0) &&
+      object.spec.mergeGateways == false && (!has(object.spec.mergeType) || object.spec.mergeType == 'Replace') &&
+      !has(object.spec.dynamicModules) && !has(object.spec.wasmModules) &&
+      object.spec.provider.type == 'Kubernetes' && !has(object.spec.provider.kubernetes.envoyDaemonSet) &&
+      (!has(variables.deployment.patch.type) || variables.deployment.patch.type in ['StrategicMerge', 'JSONMerge']) &&
+      variables.deployment.patch.value == {'spec': {'template': {'spec': {'runtimeClassName': 'gvisor'}}}} &&
+      (!has(variables.deployment.initContainers) || variables.deployment.initContainers.size() == 0) &&
+      !has(variables.deployment.container.image) && !has(variables.deployment.container.imageRepository) &&
+      (!has(variables.deployment.container.env) || variables.deployment.container.env.size() == 0) &&
+      (!has(variables.deployment.container.volumeMounts) || variables.deployment.container.volumeMounts.size() == 0) &&
+      (!has(variables.deployment.pod) || !has(variables.deployment.pod.volumes) || variables.deployment.pod.volumes.size() == 0)
+    message: Envoy must disable Gateway merging and use only the gVisor Deployment patch; bootstrap, command, module, image and filesystem overrides and deletion are forbidden.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: envoy-protect-proxy-config.static.k8s.io
+spec:
+  policyName: envoy-protect-proxy-config.static.k8s.io
+  validationActions: [ Deny ]

@@ -1,0 +1,23 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: envoy-deny-patch-policy.static.k8s.io
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [ gateway.envoyproxy.io ]
+      apiVersions: [ "*" ]
+      operations: [ CREATE, UPDATE ]
+      resources: [ envoypatchpolicies ]
+  validations:
+  - expression: "false"
+    message: EnvoyPatchPolicy creation and updates are forbidden.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: envoy-deny-patch-policy.static.k8s.io
+spec:
+  policyName: envoy-deny-patch-policy.static.k8s.io
+  validationActions: [ Deny ]

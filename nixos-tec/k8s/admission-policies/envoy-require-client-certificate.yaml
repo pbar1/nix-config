@@ -1,0 +1,44 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: envoy-require-client-certificate.static.k8s.io
+spec:
+  failurePolicy: Fail
+  matchConditions:
+  - name: envoy-namespace
+    expression: request.namespace == 'envoy-gateway-system'
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [ gateway.envoyproxy.io ]
+      apiVersions: [ "*" ]
+      operations: [ CREATE, UPDATE, DELETE ]
+      resources: [ clienttrafficpolicies ]
+  variables:
+  - name: validation
+    expression: object.spec.tls.clientValidation
+  validations:
+  - expression: >-
+      request.operation != 'DELETE' &&
+      object.metadata.name in ['require-mtls', 'require-mtls-proxy-protocol'] &&
+      !has(object.spec.targetRef) && !has(object.spec.targetSelectors) && object.spec.targetRefs.size() == 1 &&
+      object.spec.targetRefs.all(ref,
+        ref.group == 'gateway.networking.k8s.io' && ref.kind == 'Gateway' && ref.name == 'envoy' &&
+        (object.metadata.name == 'require-mtls' ? !has(ref.sectionName) : ref.sectionName == 'https-proxy-protocol')) &&
+      object.spec.tls.minVersion == '1.3' && !has(object.spec.http3) &&
+      (!has(variables.validation.optional) || !variables.validation.optional) &&
+      (!has(variables.validation.mode) || variables.validation.mode == 'RequireAndVerify') &&
+      (!has(variables.validation.allowExpiredCertificate) || !variables.validation.allowExpiredCertificate) &&
+      variables.validation.caCertificateRefs.size() == 1 && variables.validation.caCertificateRefs.all(ref,
+        ref.group == '' && ref.kind == 'Secret' && ref.name == 'gateway-client-ca' &&
+        (!has(ref.namespace) || ref.namespace == 'envoy-gateway-system')) &&
+      (object.metadata.name != 'require-mtls-proxy-protocol' ||
+        (has(object.spec.proxyProtocol) && (!has(object.spec.proxyProtocol.optional) || !object.spec.proxyProtocol.optional)))
+    message: The two Envoy policies must target their intended Gateway scopes and require verified, unexpired client certificates from gateway-client-ca over TLS 1.3; deletion is forbidden.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: envoy-require-client-certificate.static.k8s.io
+spec:
+  policyName: envoy-require-client-certificate.static.k8s.io
+  validationActions: [ Deny ]

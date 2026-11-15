@@ -1,0 +1,32 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: envoy-require-client-ca.static.k8s.io
+spec:
+  failurePolicy: Fail
+  matchConditions:
+  - name: envoy-namespace
+    expression: request.namespace == 'envoy-gateway-system'
+  - name: application-client-ca
+    expression: request.name == 'gateway-client-ca' || (request.operation == 'DELETE' && request.name == '')
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [ "" ]
+      apiVersions: [ "*" ]
+      operations: [ CREATE, UPDATE, DELETE ]
+      resources: [ secrets ]
+  variables:
+  - name: approvedCA
+    expression: "'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJzRENDQVZhZ0F3SUJBZ0lVTW4rdStqWktJaG9PMTNlVFZKTHFpbFFxdTNZd0NnWUlLb1pJemowRUF3SXcKRnpFVk1CTUdBMVVFQXd3TWNHSmhjaUJTYjI5MElFTkJNQjRYRFRJMk1Ea3lNREEyTXprd05sb1hEVE0yTURreQpNREEyTXprd05sb3dHVEVYTUJVR0ExVUVBd3dPY0dKaGNpQkRiR2xsYm5RZ1EwRXdXVEFUQmdjcWhrak9QUUlCCkJnZ3Foa2pPUFFNQkJ3TkNBQVRndXJPeFdna1plM1FPcmVmNThrVWRlM0I4L3hja3gyY1JQZXVOMTJxb0Y3R2wKbTdnb0JJTVF5aU9jQUlBU0U1eWFrMmpFRyt6ZnJzclRSMTVaOHZibW8zNHdmREFTQmdOVkhSTUJBZjhFQ0RBRwpBUUgvQWdFQU1BNEdBMVVkRHdFQi93UUVBd0lCQmpBV0JnTlZIU1VCQWY4RUREQUtCZ2dyQmdFRkJRY0RBakFkCkJnTlZIUTRFRmdRVWd1M0ozMmtIb2VaRVdKSkdubCtTd0VkOWhBNHdId1lEVlIwakJCZ3dGb0FVUWRQMnV5SWcKSWsyTXh2UHZvZjBQZXptODlid3dDZ1lJS29aSXpqMEVBd0lEU0FBd1JRSWdIbmIxUko4R1d2dVFrb0dQK0hCKwo2V2llOXpVMWR6RFVBdUcxQmpreXY2Z0NJUURwOHVJZ1R1YkRCM0Y4UE1tTHdJMENlbVZNbHF0T2FTMFpjZzRmCkIyd045UT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0KLS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJrVENDQVRpZ0F3SUJBZ0lRSGhiZ1Zpa3BMRUZ0bGpNaWJOZUV0ekFLQmdncWhrak9QUVFEQWpBWE1SVXcKRXdZRFZRUUREQXh3WW1GeUlGSnZiM1FnUTBFd0hoY05Nall3T1RJd01EWXpPVEExV2hjTk5EWXdPVEl3TURZegpPVEEyV2pBWE1SVXdFd1lEVlFRRERBeHdZbUZ5SUZKdmIzUWdRMEV3V1RBVEJnY3Foa2pPUFFJQkJnZ3Foa2pPClBRTUJCd05DQUFUVm1BbmZrNXlmSU01Snk4c0wxODdNN2dUaVB5N2xJSWVrbUs0ZVN3WDkvVDBEUUxtRlcxQ28KN3RSRDBIeTlzQkhtYTNJbjZJaVA1dWNmUEZjZkdjdFlvMll3WkRBU0JnTlZIUk1CQWY4RUNEQUdBUUgvQWdFQgpNQTRHQTFVZER3RUIvd1FFQXdJQkJqQWRCZ05WSFE0RUZnUVVRZFAydXlJZ0lrMk14dlB2b2YwUGV6bTg5Ynd3Ckh3WURWUjBqQkJnd0ZvQVVRZFAydXlJZ0lrMk14dlB2b2YwUGV6bTg5Ynd3Q2dZSUtvWkl6ajBFQXdJRFJ3QXcKUkFJZ1JoWEVTcmwrWXEvSVJoVDZZVjYvQjZ4WUJSbm01bzdBT1AvOHF5TXk0Y2tDSUEyRnpPSlFYVkpQRjVLNwpuVkhXcFFnNjh0TXJjOS9ZMHBrU3g4T1FDbEE0Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K'"
+  validations:
+  - expression: >-
+      request.operation != 'DELETE' && object.type == 'Opaque' && object.data == {'ca.crt': variables.approvedCA}
+    message: gateway-client-ca must contain only the approved public application CA bundle; deletion is forbidden.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: envoy-require-client-ca.static.k8s.io
+spec:
+  policyName: envoy-require-client-ca.static.k8s.io
+  validationActions: [ Deny ]

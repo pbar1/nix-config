@@ -1,0 +1,42 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: envoy-protect-gateway-listeners.static.k8s.io
+spec:
+  failurePolicy: Fail
+  matchConditions:
+  - name: envoy-namespace
+    expression: request.namespace == 'envoy-gateway-system'
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [ gateway.networking.k8s.io ]
+      apiVersions: [ "*" ]
+      operations: [ CREATE, UPDATE, DELETE ]
+      resources: [ gateways ]
+  variables:
+  - name: frontend
+    expression: object.spec.tls.frontend
+  validations:
+  - expression: >-
+      request.operation != 'DELETE' && object.metadata.name == 'envoy' && object.spec.gatewayClassName == 'envoy' &&
+      object.spec.listeners.size() == 2 && object.spec.listeners.all(listener,
+        listener.protocol == 'HTTPS' && has(listener.tls) && listener.tls.mode == 'Terminate' &&
+        (!has(listener.tls.options) || listener.tls.options.size() == 0) &&
+        ((listener.name == 'https-lan' && listener.port == 443) || (listener.name == 'https-proxy-protocol' && listener.port == 20443))) &&
+      (!has(object.spec.allowedListeners) || object.spec.allowedListeners.namespaces.from == 'None') &&
+      variables.frontend.default.validation.mode == 'AllowValidOnly' &&
+      variables.frontend.default.validation.caCertificateRefs.size() == 1 &&
+      variables.frontend.default.validation.caCertificateRefs.all(ref,
+        ref.group == '' && ref.kind == 'Secret' && ref.name == 'gateway-client-ca' &&
+        (!has(ref.namespace) || ref.namespace == 'envoy-gateway-system')) &&
+      (!has(variables.frontend.perPort) || variables.frontend.perPort.size() == 0) &&
+      (!has(object.spec.infrastructure) || !has(object.spec.infrastructure.parametersRef))
+    message: envoy must terminate HTTPS on https-lan:443 and https-proxy-protocol:20443 and require verified client certificates from gateway-client-ca on the Gateway itself; delegation, overrides and deletion are forbidden.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: envoy-protect-gateway-listeners.static.k8s.io
+spec:
+  policyName: envoy-protect-gateway-listeners.static.k8s.io
+  validationActions: [ Deny ]

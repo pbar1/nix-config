@@ -1,0 +1,29 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: envoy-require-gateway-class.static.k8s.io
+spec:
+  failurePolicy: Fail
+  matchConditions:
+  - name: envoy-class
+    expression: request.name == 'envoy' || (request.operation == 'DELETE' && request.name == '')
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [ gateway.networking.k8s.io ]
+      apiVersions: [ "*" ]
+      operations: [ CREATE, UPDATE, DELETE ]
+      resources: [ gatewayclasses ]
+  validations:
+  - expression: >-
+      request.operation != 'DELETE' &&
+      object.spec.controllerName == 'gateway.envoyproxy.io/gatewayclass-controller' &&
+      object.spec.parametersRef == {'group': 'gateway.envoyproxy.io', 'kind': 'EnvoyProxy', 'name': 'envoy', 'namespace': 'envoy-gateway-system'}
+    message: The Envoy GatewayClass must use the Envoy controller and envoy-gateway-system/envoy EnvoyProxy; deletion is forbidden.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: envoy-require-gateway-class.static.k8s.io
+spec:
+  policyName: envoy-require-gateway-class.static.k8s.io
+  validationActions: [ Deny ]
