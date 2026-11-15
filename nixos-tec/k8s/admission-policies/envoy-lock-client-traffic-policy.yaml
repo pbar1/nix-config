@@ -1,0 +1,26 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: envoy-lock-client-traffic-policy.static.k8s.io
+spec:
+  failurePolicy: Fail
+  matchConditions:
+  - name: envoy-namespace
+    expression: request.namespace == 'envoy-gateway-system'
+  matchConstraints:
+    resourceRules:
+    - apiGroups: [ gateway.envoyproxy.io ]
+      apiVersions: [ "*" ]
+      operations: [ CREATE, UPDATE, DELETE ]
+      resources: [ clienttrafficpolicies ]
+  validations:
+  - expression: request.operation == 'UPDATE' && object.spec == oldObject.spec
+    message: ClientTrafficPolicy specs are immutable; creation and deletion are forbidden.
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: envoy-lock-client-traffic-policy.static.k8s.io
+spec:
+  policyName: envoy-lock-client-traffic-policy.static.k8s.io
+  validationActions: [ Deny ]

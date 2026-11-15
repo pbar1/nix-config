@@ -2,23 +2,16 @@
 
 let
   apiServerHost = "10.0.0.54";
+
   zfsMount = [ "zfs-mount.service" ];
-  podSecurityAdmissionConfig = pkgs.writeText "pod-security-admission.json" (
-    builtins.toJSON {
-      apiVersion = "apiserver.config.k8s.io/v1";
-      kind = "AdmissionConfiguration";
-      plugins = [
-        {
-          name = "PodSecurity";
-          configuration = {
-            apiVersion = "pod-security.admission.config.k8s.io/v1";
-            kind = "PodSecurityConfiguration";
-            exemptions.runtimeClasses = [ "kata" ];
-          };
-        }
-      ];
-    }
+
+  admissionPolicies = builtins.path { path = ./admission-policies; };
+  admissionConfig = pkgs.writeText "admission.yaml" (
+    builtins.replaceStrings [ "@policies@" ] [ "${admissionPolicies}" ] (
+      builtins.readFile ./admission.yaml
+    )
   );
+
   runscConfig = pkgs.writeText "runsc.toml" ''
     [runsc_config]
       platform = "kvm"
@@ -26,6 +19,7 @@ let
       oci-seccomp = "true"
       systemd-cgroup = "true"
   '';
+
   kataKernel = pkgs.runCommand "kata-kernel" { nativeBuildInputs = [ pkgs.zstd ]; } ''
     tar --zstd -xf ${inputs.kata-kernel} --wildcards './opt/kata/share/kata-containers/vmlinux*'
     cp -L opt/kata/share/kata-containers/vmlinux.container "$out"
@@ -51,7 +45,8 @@ in
     "--flannel-ipv6-masq"
     "--default-local-storage-path=/zssd/general/local-path-provisioner"
     "--secrets-encryption"
-    "--kube-apiserver-arg=admission-control-config-file=${podSecurityAdmissionConfig}"
+    "--kube-apiserver-arg=feature-gates=ManifestBasedAdmissionControlConfig=true"
+    "--kube-apiserver-arg=admission-control-config-file=${admissionConfig}"
     "--disable=traefik"
     "--disable=runtimes"
   ];
@@ -88,7 +83,11 @@ in
     [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.kata.options]
       ConfigPath = "${kataConfig}"
   '';
-  systemd.services.k3s.restartTriggers = [ kataConfig ];
+  systemd.services.k3s.restartTriggers = [
+    kataConfig
+    admissionConfig
+    admissionPolicies
+  ];
   systemd.services.k3s.path = with pkgs; [
     apparmor-parser
     apparmor-utils
