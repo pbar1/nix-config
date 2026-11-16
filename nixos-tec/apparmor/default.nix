@@ -77,6 +77,10 @@ in
   # which removes confinement on live processes. killUnconfinedConfinables does
   # NOT mitigate this.
   security.apparmor.policies = {
+    smartctl-exporter = {
+      state = "enforce";
+      profile = builtins.readFile ./smartctl-exporter.apparmor.d;
+    };
     "cri-containerd.apparmor.d" = {
       state = "enforce";
       profile = builtins.readFile ./cri-containerd.apparmor.d;

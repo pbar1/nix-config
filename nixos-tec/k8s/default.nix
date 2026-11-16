@@ -35,6 +35,12 @@ let
 in
 
 {
+  # SYS_RAWIO must not enable hardware-port access in the SMART exporter.
+  systemd.tmpfiles.rules = [
+    "d /var/lib/kubelet/seccomp 0755 root root -"
+    "L+ /var/lib/kubelet/seccomp/smartctl-exporter.json - - - - ${./smartctl-seccomp.json}"
+  ];
+
   services.k3s.enable = true;
   services.k3s.role = "server";
   services.k3s.extraFlags = toString [
@@ -100,6 +106,15 @@ in
     "/dev/vhost-vsock rwm"
     "/dev/vhost-net rwm"
     "/dev/net/tun rwm"
+  ]
+  ++ [
+    # These devices are all needed for SMART monitoring by smartctl-exporter
+    "/dev/loop-control rw"
+    "block-loop rw"
+    "/dev/disk/by-id/wwn-0x50014ee2bec4207c rw"
+    "/dev/disk/by-id/wwn-0x50014ee2be7b716f rw"
+    "/dev/disk/by-id/wwn-0x50014ee2696e30d3 rw"
+    "/dev/disk/by-id/wwn-0x5002538870004962 rw"
   ];
   systemd.services.k3s.serviceConfig.Delegate = "yes";
   # Ensure K3s starts with proper ZFS datasets mounted
