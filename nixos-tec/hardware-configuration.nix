@@ -28,7 +28,10 @@ in
     "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [
+    "kvm-amd"
+    "it87"
+  ];
   # TODO: If ZFS breaks, change to `pkgs.linuxPackages.packages.linux_<latest supported>`
   # https://discourse.nixos.org/t/zfs-latestcompatiblelinuxpackages-is-deprecated/52540/7
   boot.kernelPackages = pkgs.linuxPackages;
@@ -41,7 +44,14 @@ in
   boot.extraModprobeConfig = ''
     options zfs zfs_txg_timeout=30
   '';
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = [
+    # depmod gives updates/ priority over the kernel's bundled it87 module.
+    (config.boot.kernelPackages.it87.overrideAttrs {
+      installFlags = [
+        "MODDESTDIR=$(out)/lib/modules/${config.boot.kernelPackages.kernel.modDirVersion}/updates"
+      ];
+    })
+  ];
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = [
