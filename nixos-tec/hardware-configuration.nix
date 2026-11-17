@@ -59,6 +59,13 @@ in
     "zssd"
   ];
 
+  services.zfs.autoScrub.enable = true;
+  services.zfs.autoScrub.interval = "monthly";
+  services.zfs.autoScrub.pools = [
+    "data"
+    "zssd"
+  ];
+
   # `/keys` must be mounted for ZFS native encryption to work when importing
   systemd.services.zfs-import-data.after = keysMount;
   systemd.services.zfs-import-data.requires = keysMount;
