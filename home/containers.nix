@@ -34,6 +34,36 @@ in
     };
   };
 
+  xdg.configFile."nono/profiles/tec-admin.json".source = toJson {
+    meta.name = "tec-admin";
+    network.credentials = [ "tec_admin" ];
+    network.custom_credentials.tec_admin = {
+      upstream = "https://tec:6443";
+      credential_key = "tec_admin_token";
+      env_var = "TEC_ADMIN_TOKEN";
+      inject_header = "Authorization";
+      credential_format = "Bearer {}";
+      tls_ca = "~/.kube/tec-ca.crt";
+      proxy.inject_mode = "url_path";
+      proxy.path_pattern = "/{}/";
+    };
+  };
+
+  xdg.configFile."nono/profiles/tec-view.json".source = toJson {
+    meta.name = "tec-view";
+    network.credentials = [ "tec_view" ];
+    network.custom_credentials.tec_view = {
+      upstream = "https://tec:6443";
+      credential_key = "tec_view_token";
+      env_var = "TEC_VIEW_TOKEN";
+      inject_header = "Authorization";
+      credential_format = "Bearer {}";
+      tls_ca = "~/.kube/tec-ca.crt";
+      proxy.inject_mode = "url_path";
+      proxy.path_pattern = "/{}/";
+    };
+  };
+
   services.podman.enable = true;
   services.podman.useDefaultMachine = false;
   services.podman.machines."podman-machine-default".cpus = 4;
