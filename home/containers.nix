@@ -22,6 +22,18 @@ in
     };
   };
 
+  xdg.configFile."nono/profiles/cloudflare.json".source = toJson {
+    meta.name = "cloudflare";
+    network.credentials = [ "cloudflare" ];
+    network.custom_credentials.cloudflare = {
+      upstream = "https://api.cloudflare.com";
+      credential_key = "cloudflare_api_token";
+      env_var = "CLOUDFLARE_API_TOKEN";
+      inject_header = "Authorization";
+      credential_format = "Bearer {}";
+    };
+  };
+
   services.podman.enable = true;
   services.podman.useDefaultMachine = false;
   services.podman.machines."podman-machine-default".cpus = 4;
